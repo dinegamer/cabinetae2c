@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import OriginalSpline from '@splinetool/react-spline';
 
-const Spline = ({ scene, ...props }) => {
+const Spline = ({ scene: string;, ...props }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   return (

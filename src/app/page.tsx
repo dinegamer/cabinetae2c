@@ -4,10 +4,9 @@ import { useEffect, useRef, useState } from "react"
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import { ArrowRight, Menu, X, Sun, Moon, Globe, MapPin, QrCode, Brain, MessageSquare } from 'lucide-react'
 import Image from "next/image"
-import Link from "next/link"
 import { useTheme } from "next-themes"
 import Spline from '@splinetool/react-spline'
-import { log } from "console"
+
 
 const translations = {
   en: {
@@ -167,7 +166,7 @@ function LiquidCursor() {
 function Navigation({ language, setLanguage, t, handleThemeChange, currentTheme }) {
   const [activeSection, setActiveSection] = useState("")
   const [isOpen, setIsOpen] = useState(false)
-  const { scrollY } = useScroll()
+  // const { scrollY } = useScroll()
   const [hasScrolled, setHasScrolled] = useState(false)
 
   useEffect(() => {
@@ -292,34 +291,34 @@ function Navigation({ language, setLanguage, t, handleThemeChange, currentTheme 
   )
 }
 
-function PartnerSlider() {
-  return (
-    <div className="relative overflow-hidden py-10">
-      <motion.div
-        className="flex gap-8"
-        animate={{
-          x: [0, -1920],
-        }}
-        transition={{
-          duration: 20,
-          repeat: Infinity,
-          ease: "linear",
-        }}
-      >
-        {[...Array(10)].map((_, i) => (
-          <Image
-            key={i}
-            src="/placeholder.svg"
-            alt="Logo partenaire"
-            width={120}
-            height={40}
-            className="object-contain"
-          />
-        ))}
-      </motion.div>
-    </div>
-  )
-}
+// function PartnerSlider() {
+//   return (
+//     <div className="relative overflow-hidden py-10">
+//       <motion.div
+//         className="flex gap-8"
+//         animate={{
+//           x: [0, -1920],
+//         }}
+//         transition={{
+//           duration: 20,
+//           repeat: Infinity,
+//           ease: "linear",
+//         }}
+//       >
+//         {[...Array(10)].map((_, i) => (
+//           <Image
+//             key={i}
+//             src="/placeholder.svg"
+//             alt="Logo partenaire"
+//             width={120}
+//             height={40}
+//             className="object-contain"
+//           />
+//         ))}
+//       </motion.div>
+//     </div>
+//   )
+// }
 
 const CreditCard3D = () => (
   <div className="w-full h-full relative z-10">
@@ -492,11 +491,12 @@ function ClientsSection({ t }) {
 
 function CertificationsSection({ t }) {
   const certifications = [
-    { name: 'ONECCAM', description: 'Ordre National des Experts Comptables et Comptables Agréés du Mali' },
-    { name: 'Certification 2', description: 'Description de la certification 2' },
-    { name: 'Certification 3', description: 'Description de la certification 3' },
-    { name: 'Certification 4', description: 'Description de la certification 4' },
+    { name: "ONECCAM", description: "Ordre National des Experts Comptables et Comptables Agréés du Mali" },
+    { name: "Certification 2", description: "Description de la certification 2" },
+    { name: "Certification 3", description: "Description de la certification 3" },
+    { name: "Certification 4", description: "Description de la certification 4" },
   ]
+  
 
   return (
     <section id="certifications" className="py-20 bg-gray-50 dark:bg-gray-800">
@@ -541,7 +541,7 @@ function CertificationsSection({ t }) {
         <div className="mt-12 text-center">
           <p className="text-lg font-semibold mb-2">Nos accréditations</p>
           <p className="text-gray-600 dark:text-gray-300">
-            AE2C est fier d'être reconnu par les principales organisations professionnelles du secteur.
+            AE2C est fier d&apos;être reconnu par les principales organisations professionnelles du secteur.
           </p>
         </div>
       </div>
@@ -676,7 +676,7 @@ function InternationalPresenceSection({ t }) {
         </div>
         <div className="mt-12 text-center">
           <p className="text-lg text-gray-600 dark:text-gray-300">
-            Notre présence internationale nous permet d'offrir des services adaptés aux besoins locaux tout en bénéficiant d'une expertise globale.
+            Notre présence internationale nous permet d&apos;offrir des services adaptés aux besoins locaux tout en bénéficiant d&apos;une expertise globale.
           </p>
         </div>
       </div>

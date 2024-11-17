@@ -1,9 +1,12 @@
-'use client';
-
 import React, { useState } from 'react';
 import OriginalSpline from '@splinetool/react-spline';
 
-const Spline = ({ scene, ...props }) => {
+interface SplineProps {
+  scene: string;
+  [key: string]: any;  // Pour permettre d'autres props
+}
+
+const Spline: React.FC<SplineProps> = ({ scene, ...props }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   return (

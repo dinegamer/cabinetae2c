@@ -3,11 +3,18 @@ import OriginalSpline from '@splinetool/react-spline';
 
 interface SplineProps {
   scene: string;
-  [key: string]: any;  // Pour permettre d'autres props
+  onLoad?: () => void;
+  className?: string;
+  style?: React.CSSProperties;
 }
 
-const Spline: React.FC<SplineProps> = ({ scene, ...props }) => {
+const Spline: React.FC<SplineProps> = ({ scene, onLoad, ...props }) => {
   const [isLoading, setIsLoading] = useState(true);
+
+  const handleLoad = () => {
+    setIsLoading(false);
+    onLoad?.();
+  };
 
   return (
     <div className="relative w-full h-full">
@@ -20,7 +27,7 @@ const Spline: React.FC<SplineProps> = ({ scene, ...props }) => {
       <div className={`w-full h-full ${isLoading ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`}>
         <OriginalSpline 
           scene={scene}
-          onLoad={() => setIsLoading(false)}
+          onLoad={handleLoad}
           {...props}
         />
       </div>

@@ -6,6 +6,17 @@ const nextConfig = {
   },
   eslint: {
     ignoreDuringBuilds: true
+  },
+  images: {
+    domains: ['maps.googleapis.com'],
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/api/maps/:path*',
+        destination: 'https://maps.googleapis.com/maps/api/:path*',
+      },
+    ]
   }
 }
 

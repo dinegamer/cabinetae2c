@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
-import { ArrowRight, Menu, X, Sun, Moon, Globe, MapPin, QrCode, Brain, MessageSquare, Phone, Mail, Facebook, Twitter, Instagram, Linkedin, Send, MessageCircle, Code  } from 'lucide-react'
+import { ArrowRight, Menu, X, Sun, Moon, Globe, MapPin, QrCode, Brain, MessageSquare, Phone, Mail, Facebook, Twitter, Instagram, Linkedin, Send, MessageCircle, Code } from 'lucide-react'
 import Image from "next/image"
 import Link from "next/link"
 import { useTheme } from "next-themes"
@@ -12,7 +12,7 @@ import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api'
 const translations = {
  en: {
    nav: { services: "Services", expertise: "Expertise", team: "Team", contact: "Contact", about: "About Us", partners: "Partners", certifications: "Certifications", international: "International", careers: "Careers & Training" },
-   hero: { title: "OUR EXPERTISE AT YOUR SERVICE FOR SUCCESS", subtitle: "Accounting Expertise Firm" },
+   hero: { title: "OUR EXPERTISE AT YOUR SERVICE FOR ", subtitle: "Accounting Expertise Firm" },
    services: { title: "Our Services" },
    expertise: { title: "Our Expertise" },
    team: { title: "Our Team" },
@@ -46,7 +46,7 @@ const translations = {
  },
  fr: {
    nav: { services: "Services", expertise: "Expertise", team: "Équipe", contact: "Contact", about: "À Propos", partners: "Partenaires", certifications: "Certifications", international: "International", careers: "Carrières & Formation" },
-   hero: { title: "NOTRE EXPERTISE AU SERVICE DE VOTRE RÉUSSITE", subtitle: "Cabinet d'Expertise Comptable" },
+   hero: { title: "NOTRE EXPERTISE AU SERVICE DE VOTRE ", subtitle: "Cabinet d'Expertise Comptable" },
    services: { title: "Nos Services" },
    expertise: { title: "Notre Expertise" },
    team: { title: "Notre Équipe" },
@@ -271,88 +271,94 @@ function Navigation({ language, setLanguage, t, handleThemeChange, currentTheme 
  }
 
  return (
-   <header className={`fixed top-0 z-40 w-full transition-all duration-300 ${hasScrolled ? "backdrop-blur-lg bg-white/80 dark:bg-gray-900/80" : ""}`}>
-     <nav className="mx-auto flex max-w-7xl items-center justify-between p-5">
-       <motion.div 
-         className="flex items-center gap-2"
-         initial={{ y: -20, opacity: 0 }}
-         animate={{ y: 0, opacity: 1 }}
-         transition={{ delay: 0.2 }}
-       >
-         <Image
-           src="/logo/svg/ae2c.svg"
-           alt="AE2C Logo"
-           width={100}
-           height={40}
-           className="dark:invert"
-         />
-       </motion.div>
+  <motion.header 
+      className={`fixed top-0 z-40 w-full transition-all duration-300 ${hasScrolled ? "backdrop-blur-lg bg-white/80 dark:bg-gray-900/80" : ""}`}
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+    >
+    <nav className="mx-auto flex max-w-7xl items-center justify-between p-5">
+      <motion.div 
+        className="flex items-center gap-2"
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.2 }}
+      >
+        <Image
+          src="/logo/svg/ae2c.svg"
+          alt="AE2C Logo"
+          width={100}
+          height={40}
+          className="transition-opacity"
+          style={{ filter: 'none' }}
+        />
+      </motion.div>
 
-       <motion.div 
-         className="hidden md:flex items-center space-x-8"
-         initial={{ y: -20, opacity: 0 }}
-         animate={{ y: 0, opacity: 1 }}
-         transition={{ delay: 0.4 }}
-       >
-         {["about", "services", "expertise", "team", "partners", "certifications", "careers", "international", "contact"].map((section) => (
-           <button
-             key={section}
-             onClick={() => scrollToSection(section)}
-             className={`text-gray-600 dark:text-gray-300 hover:text-[#1B998B] dark:hover:text-[#3CDFFF] transition-colors capitalize ${
-               activeSection === section ? "text-[#1B998B] dark:text-[#3CDFFF]" : ""
-             }`}
-           >
-             {t.nav[section]}
-           </button>
-         ))}
-       </motion.div>
+      <motion.div 
+        className="hidden md:flex items-center space-x-8"
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.4 }}
+      >
+        {["about", "services", "expertise", "team", "partners", "certifications", "careers", "international", "contact"].map((section) => (
+          <button
+            key={section}
+            onClick={() => scrollToSection(section)}
+            className={`text-gray-600 dark:text-gray-300 hover:text-[#1B998B] dark:hover:text-[#3CDFFF] transition-colors capitalize ${
+              activeSection === section ? "text-[#1B998B] dark:text-[#3CDFFF]" : ""
+            }`}
+          >
+            {t.nav[section]}
+          </button>
+        ))}
+      </motion.div>
 
-       <div className="flex items-center space-x-4">
-         <button
-           onClick={handleThemeChange}
-           className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
-         >
-           {currentTheme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
-         </button>
-         <button
-           onClick={() => setLanguage(language === "en" ? "fr" : "en")}
-           className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
-         >
-           <Globe size={20} />
-         </button>
-       </div>
+      <div className="flex items-center space-x-4">
+        <button
+          onClick={handleThemeChange}
+          className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
+        >
+          {currentTheme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
+        </button>
+        <button
+          onClick={() => setLanguage(language === "en" ? "fr" : "en")}
+          className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
+        >
+          <Globe size={20} />
+        </button>
+      </div>
 
-       <button
-         className="z-50 md:hidden"
-         onClick={() => setIsOpen(!isOpen)}
-       >
-         {isOpen ? <X className="text-gray-900 dark:text-white" /> : <Menu className="text-gray-900 dark:text-white" />}
-       </button>
-     </nav>
+      <button
+        className="z-50 md:hidden"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        {isOpen ? <X className="text-gray-900 dark:text-white" /> : <Menu className="text-gray-900 dark:text-white" />}
+      </button>
+    </nav>
 
-     <AnimatePresence>
-       {isOpen && (
-         <motion.div
-           initial={{ opacity: 0, y: -20 }}
-           animate={{ opacity: 1, y: 0 }}
-           exit={{ opacity: 0, y: -20 }}
-           className="absolute inset-x-0 top-full bg-white dark:bg-gray-900 p-5 md:hidden"
-         >
-           {["about", "services", "expertise", "team", "partners", "certifications", "careers", "international", "contact"].map((section) => (
-             <button
-               key={section}
-               onClick={() => scrollToSection(section)}
-               className={`block w-full py-2 text-left text-gray-600 dark:text-gray-300 hover:text-[#1B998B] dark:hover:text-[#3CDFFF] capitalize ${
-                 activeSection === section ? "text-[#1B998B] dark:text-[#3CDFFF]" : ""
-               }`}
-             >
-               {t.nav[section]}
-             </button>
-           ))}
-         </motion.div>
-       )}
-     </AnimatePresence>
-   </header>
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          className="absolute inset-x-0 top-full bg-white dark:bg-gray-900 p-5 md:hidden"
+        >
+          {["about", "services", "expertise", "team", "partners", "certifications", "careers", "international", "contact"].map((section) => (
+            <button
+              key={section}
+              onClick={() => scrollToSection(section)}
+              className={`block w-full py-2 text-left text-gray-600 dark:text-gray-300 hover:text-[#1B998B] dark:hover:text-[#3CDFFF] capitalize ${
+                activeSection === section ? "text-[#1B998B] dark:text-[#3CDFFF]" : ""
+              }`}
+            >
+              {t.nav[section]}
+            </button>
+          ))}
+        </motion.div>
+      )}
+    </AnimatePresence>
+  </motion.header>
  )
 }
 
@@ -782,51 +788,6 @@ function InternationalPresenceSection({ t }) {
  )
 }
 
-// function MapSection() {
-//  const mapCenter = { lat: 12.6392, lng: -8.0029 } // Mali coordinates
-//  const mapStyles = {
-//    height: "400px",
-//    width: "100%"
-//  }
-
-//  return (
-//    <section id="map" className="py-20 bg-white dark:bg-gray-900">
-//      <div className="container mx-auto px-4">
-//        <h2 className="mb-12 text-4xl font-bold text-center dark:text-white">Our Location</h2>
-//        <div className="rounded-xl overflow-hidden shadow-xl">
-//          <LoadScript googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}>
-//            <GoogleMap
-//              mapContainerStyle={mapStyles}
-//              zoom={13}
-//              center={mapCenter}
-//              options={{
-//                styles: [
-//                  {
-//                    featureType: "all",
-//                    elementType: "geometry",
-//                    stylers: [{ color: "#242f3e" }]
-//                  },
-//                  {
-//                    featureType: "all",
-//                    elementType: "labels.text.stroke",
-//                    stylers: [{ color: "#242f3e" }]
-//                  },
-//                  {
-//                    featureType: "all",
-//                    elementType: "labels.text.fill",
-//                    stylers: [{ color: "#746855" }]
-//                  }
-//                ]
-//              }}
-//            >
-//              <Marker position={mapCenter} />
-//            </GoogleMap>
-//          </LoadScript>
-//        </div>
-//      </div>
-//    </section>
-//  )
-// }
 function MapSection() {
   const handleOpenMaps = () => {
     // Encoder l'adresse complète pour la recherche
@@ -1056,18 +1017,35 @@ export default function Component() {
  const [mounted, setMounted] = useState(false)
  const scrollButtonOpacity = useTransform(scrollYProgress, [0, 0.1], [0, 1])
  const videoRef = useRef<HTMLVideoElement>(null)
-
+ const [videoEnded, setVideoEnded] = useState(false)
+ const [showContent, setShowContent] = useState(false)
  
+
+
  useEffect(() => {
-   const timer = setTimeout(() => setIsLoading(false), 4000)
-   return () => clearTimeout(timer)
- }, [])
+  setMounted(true)
+  const timer = setTimeout(() => {
+    setIsLoading(false)
+    // Ajouter un délai plus long avant d'afficher le contenu
+    setTimeout(() => setShowContent(true), 500)
+  }, 4500) // 4 secondes pour la vidéo + 0.5 secondes pour la transition
+
+  return () => clearTimeout(timer)
+}, [])
+
+
+const handleVideoEnd = () => {
+  setVideoEnded(true)
+  setTimeout(() => {
+    setIsLoading(false)
+  }, 500)
+}
 
  useEffect(() => {
   setMounted(true)
 }, [])
 
-if (!mounted) return null
+
 
 const handleThemeChange = () => {
   setTheme(theme === 'dark' ? 'light' : 'dark')
@@ -1106,105 +1084,105 @@ const handleThemeChange = () => {
 
 const teamMembers = [
   { 
-    name: "M. DOUMBIA Mamadou",
-    role: "Directeur Général", 
+    name: "M. Boubacar KANTE",
+    role: "Gérant-Associé AE2C SARL", 
     image: "/membres/membre1.jpg" 
   },
   { 
-    name: "M. DIALLO Modibo",
-    role: "Directeur des Opérations", 
+    name: "M. Hammadoun TAMBOURA",
+    role: "Directeur-Associé AE2C SARL", 
     image: "/membres/membre2.jpg" 
   },
   { 
-    name: "M. KEITA Ibrahim",
-    role: "Directeur Financier", 
+    name: "M. Iliassa Cissé",
+    role: "Directeur du Département Audit-Organisations et Système d’Information", 
     image: "/membres/membre3.jpg" 
   },
   { 
-    name: "Mme. COULIBALY Aminata",
-    role: "Directrice des Ressources Humaines", 
+    name: "M. Djibril Doucoure",
+    role: "Directeur du Département Étude-Développement et Suivi Évaluation", 
     image: "/membres/membre4.jpeg" 
   },
-  { 
-    name: "M. TRAORE Seydou",
-    role: "Chef de Projet Senior", 
-    image: "/membres/membre5.jpg" 
-  },
-  { 
-    name: "Mme. SIDIBE Fatoumata",
-    role: "Responsable Marketing", 
-    image: "/membres/membre6.jpg" 
-  },
-  { 
-    name: "M. SANGARE Oumar",
-    role: "Expert Technique", 
-    image: "/membres/membre7.jpg" 
-  },
-  { 
-    name: "Mme. TOURE Kadiatou",
-    role: "Responsable Qualité", 
-    image: "/membres/membre8.jpg" 
-  },
-  { 
-    name: "M. KONE Bakary",
-    role: "Analyste Senior", 
-    image: "/membres/membre9.jpg" 
-  },
-  { 
-    name: "Mme. DIARRA Mariam",
-    role: "Chargée de Communication", 
-    image: "/membres/membre10.jpg" 
-  },
-  { 
-    name: "M. CISSE Souleymane",
-    role: "Responsable Logistique", 
-    image: "/membres/membre11.jpg" 
-  },
-  { 
-    name: "Mme. BAH Aissata",
-    role: "Coordinatrice de Projets", 
-    image: "/membres/membre12.jpg" 
-  },
-  { 
-    name: "M. DEMBELE Moussa",
-    role: "Expert Financier", 
-    image: "/membres/membre13.jpg" 
-  },
-  { 
-    name: "Mme. MAIGA Oumou",
-    role: "Responsable Administrative", 
-    image: "/membres/membre14.jpg" 
-  },
-  { 
-    name: "M. SISSOKO Amadou",
-    role: "Chargé de Suivi-Évaluation", 
-    image: "/membres/membre15.jpg" 
-  },
-  { 
-    name: "Mme. CAMARA Rokia",
-    role: "Analyste de Données", 
-    image: "/membres/membre16.jpg" 
-  },
-  { 
-    name: "M. TOUNKARA Mamadou",
-    role: "Responsable Technique", 
-    image: "/membres/membre17.jpg" 
-  },
-  { 
-    name: "Mme. KANE Fanta",
-    role: "Chargée de Formation", 
-    image: "/membres/membre18.jpg" 
-  },
-  { 
-    name: "M. BAGAYOKO Sékou",
-    role: "Expert en Développement", 
-    image: "/membres/membre19.jpg" 
-  },
-  { 
-    name: "Mme. GUINDO Awa",
-    role: "Responsable Partenariats", 
-    image: "/membres/membre20.jpg" 
-  }
+  // { 
+  //   name: "M. TRAORE Seydou",
+  //   role: "Chef de Projet Senior", 
+  //   image: "/membres/membre5.jpg" 
+  // },
+  // { 
+  //   name: "Mme. SIDIBE Fatoumata",
+  //   role: "Responsable Marketing", 
+  //   image: "/membres/membre6.jpg" 
+  // },
+  // { 
+  //   name: "M. SANGARE Oumar",
+  //   role: "Expert Technique", 
+  //   image: "/membres/membre7.jpg" 
+  // },
+  // { 
+  //   name: "Mme. TOURE Kadiatou",
+  //   role: "Responsable Qualité", 
+  //   image: "/membres/membre8.jpg" 
+  // },
+  // { 
+  //   name: "M. KONE Bakary",
+  //   role: "Analyste Senior", 
+  //   image: "/membres/membre9.jpg" 
+  // },
+  // { 
+  //   name: "Mme. DIARRA Mariam",
+  //   role: "Chargée de Communication", 
+  //   image: "/membres/membre10.jpg" 
+  // },
+  // { 
+  //   name: "M. CISSE Souleymane",
+  //   role: "Responsable Logistique", 
+  //   image: "/membres/membre11.jpg" 
+  // },
+  // { 
+  //   name: "Mme. BAH Aissata",
+  //   role: "Coordinatrice de Projets", 
+  //   image: "/membres/membre12.jpg" 
+  // },
+  // { 
+  //   name: "M. DEMBELE Moussa",
+  //   role: "Expert Financier", 
+  //   image: "/membres/membre13.jpg" 
+  // },
+  // { 
+  //   name: "Mme. MAIGA Oumou",
+  //   role: "Responsable Administrative", 
+  //   image: "/membres/membre14.jpg" 
+  // },
+  // { 
+  //   name: "M. SISSOKO Amadou",
+  //   role: "Chargé de Suivi-Évaluation", 
+  //   image: "/membres/membre15.jpg" 
+  // },
+  // { 
+  //   name: "Mme. CAMARA Rokia",
+  //   role: "Analyste de Données", 
+  //   image: "/membres/membre16.jpg" 
+  // },
+  // { 
+  //   name: "M. TOUNKARA Mamadou",
+  //   role: "Responsable Technique", 
+  //   image: "/membres/membre17.jpg" 
+  // },
+  // { 
+  //   name: "Mme. KANE Fanta",
+  //   role: "Chargée de Formation", 
+  //   image: "/membres/membre18.jpg" 
+  // },
+  // { 
+  //   name: "M. BAGAYOKO Sékou",
+  //   role: "Expert en Développement", 
+  //   image: "/membres/membre19.jpg" 
+  // },
+  // { 
+  //   name: "Mme. GUINDO Awa",
+  //   role: "Responsable Partenariats", 
+  //   image: "/membres/membre20.jpg" 
+  // }
 ];
 
  if (!mounted) return null
@@ -1212,7 +1190,7 @@ const teamMembers = [
 
  return (
   <div className={`${theme} transition-colors duration-300`}>
-  <LiquidCursor />
+  {/* <LiquidCursor /> */}
   <TouchEffect />
   
 
@@ -1226,7 +1204,7 @@ const teamMembers = [
             transition={{ duration: 1, ease: "easeInOut" }}
           >
             <motion.div
-              className="relative w-full h-screen"
+              className="relative w-full h-full"
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 1.1, opacity: 0 }}
@@ -1237,97 +1215,122 @@ const teamMembers = [
                 autoPlay
                 playsInline
                 muted
-                className="w-full h-full object-cover"
-                onEnded={() => {
-                  setTimeout(() => {
-                    setIsLoading(false)
-                  }, 500)
-                }}
+                className="w-full h-full object-cover md:object-contain"
+                onEnded={handleVideoEnd}
               >
                 <source src="/logo/logo_video.mp4" type="video/mp4" />
                 Your browser does not support video playback.
               </video>
+              {videoEnded && (
+                <motion.div
+                  className="absolute inset-0 bg-black"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.5 }}
+                />
+              )}
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
 
-     <Navigation 
-        language={language} 
-        setLanguage={setLanguage} 
-        t={t}
-        handleThemeChange={handleThemeChange}
-        currentTheme={theme}
-      />
-
-
-     <motion.div
-       initial={{ opacity: 0 }}
-       animate={{ opacity: 1 }}
-       transition={{ duration: 1, delay: 4.5 }}
-     >
-      <main className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
-      <section id="hero" className="relative min-h-screen">
-      <div className="absolute inset-0 bg-gradient-to-br from-[#E6F4F1] to-white dark:from-gray-800 dark:to-gray-900" />
-      <div className="relative mx-auto max-w-6xl px-6 pt-32">
-        <div className="grid gap-24 lg:grid-cols-2">
+      {showContent && (
+        <>
           <motion.div
-            className="relative"
-            style={{ opacity, scale }}
+            initial={{ y: -100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
           >
-            <motion.h1
-              className="mb-12 text-6xl font-bold leading-tight"
-              initial={{ y: 50, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 1, delay: 0.7 }}
-            >
-              {t.hero.title}{" "}
-              <span className="text-[#1B998B] dark:text-[#3CDFFF]">RÉUSSITE</span>
-            </motion.h1>
-
-            <motion.div 
-              className="relative h-[400px] w-full"
-              style={{ y: yOffset }}
-            >
-              <div className="absolute inset-0 rounded-3xl bg-[#1B998B]/20 dark:bg-[#3CDFFF]/20" />
-              <div className="absolute inset-0">
-                <CreditCard3D />
-              </div>
-            </motion.div>
+            <Navigation 
+              language={language} 
+              setLanguage={setLanguage} 
+              t={t}
+              handleThemeChange={handleThemeChange}
+              currentTheme={theme}
+            />
           </motion.div>
 
           <motion.div
-            className="space-y-8"
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1, delay: 0.9 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, delay: 1 }}
           >
-            <h2 className="text-7xl font-bold leading-tight">
-              {t.hero.subtitle}
-            </h2>
+            <main className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
+              <section id="hero" className="relative min-h-screen">
+                <div className="absolute inset-0 bg-gradient-to-br from-[#E6F4F1] to-white dark:from-gray-800 dark:to-gray-900" />
+                <div className="relative mx-auto max-w-6xl px-6 pt-32">
+                  <div className="grid gap-24 lg:grid-cols-2">
+                    <motion.div
+                      className="relative"
+                      initial={{ x: -100, opacity: 0 }}
+                      animate={{ x: 0, opacity: 1 }}
+                      transition={{ duration: 1.2, delay: 1.5, ease: "easeOut" }}
+                    >
+                      <motion.h1
+                        className="mb-12 text-6xl font-bold leading-tight"
+                        initial={{ y: 50, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        transition={{ duration: 1.2, delay: 1.8, ease: "easeOut" }}
+                      >
+                        {t.hero.title}{" "}
+                        <span className="text-[#1B998B] dark:text-[#3CDFFF]">SUCCES</span>
+                      </motion.h1>
 
-            <motion.div 
-              className="relative mt-12"
-              style={{ y: yOffset }}
-            >
-              <div className="relative mx-auto max-w-md rounded-2xl bg-gray-900 p-8 text-white dark:bg-white dark:text-gray-900">
-                <div className="absolute -top-16 left-1/2 -translate-x-1/2 w-full h-32 overflow-hidden">
-                  <Sphere3D />
+                      <motion.div 
+                        className="relative h-[400px] w-full"
+                        style={{ y: yOffset }}
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 1, delay: 2.1, ease: "easeOut" }}
+                      >
+                        <div className="absolute inset-0 rounded-3xl bg-[#1B998B]/20 dark:bg-[#3CDFFF]/20" />
+                        <div className="absolute inset-0">
+                          <CreditCard3D />
+                        </div>
+                      </motion.div>
+                    </motion.div>
+
+                    <motion.div
+                      className="space-y-8"
+                      initial={{ x: 100, opacity: 0 }}
+                      animate={{ x: 0, opacity: 1 }}
+                      transition={{ duration: 1.2, delay: 1.5, ease: "easeOut" }}
+                    >
+                      <motion.h2 
+                        className="text-7xl font-bold leading-tight"
+                        initial={{ y: 50, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        transition={{ duration: 1.2, delay: 1.8, ease: "easeOut" }}
+                      >
+                        {t.hero.subtitle}
+                      </motion.h2>
+
+                      <motion.div 
+                        className="relative mt-12"
+                        style={{ y: yOffset }}
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 1, delay: 2.1, ease: "easeOut" }}
+                      >
+                        <div className="relative mx-auto max-w-md rounded-2xl bg-gray-900 p-8 text-white dark:bg-white dark:text-gray-900">
+                          <div className="absolute -top-16 left-1/2 -translate-x-1/2 w-full h-32 overflow-hidden">
+                            <Sphere3D />
+                          </div>
+                          <div className="mt-16 text-center">
+                            <div className="text-3xl font-bold">1000+</div>
+                            <div className="mt-2 text-gray-400 dark:text-gray-600">entreprises nous font confiance !</div>
+                            <button className="mt-6 flex w-full items-center justify-between rounded-lg bg-gray-800 p-4 text-gray-300 hover:bg-gray-700 dark:bg-gray-100 dark:text-gray-800 dark:hover:bg-gray-200">
+                              <span>En savoir plus</span>
+                              <ArrowRight className="h-5 w-5" />
+                            </button>
+                          </div>
+                        </div>
+                      </motion.div>
+                    </motion.div>
+                  </div>
                 </div>
-                <div className="mt-16 text-center">
-                  <div className="text-3xl font-bold">1000+</div>
-                  <div className="mt-2 text-gray-400 dark:text-gray-600">entreprises nous font confiance !</div>
-                  <button className="mt-6 flex w-full items-center justify-between rounded-lg bg-gray-800 p-4 text-gray-300 hover:bg-gray-700 dark:bg-gray-100 dark:text-gray-800 dark:hover:bg-gray-200">
-                    <span>En savoir plus</span>
-                    <ArrowRight className="h-5 w-5" />
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        </div>
-      </div>
-    </section>
+              </section>
+
 
          <section id="expertise" className="py-20 bg-white dark:bg-gray-900">
            <div className="container mx-auto px-4">
@@ -1467,15 +1470,17 @@ const teamMembers = [
        <Footer t={t} />
 
        <motion.div
-         className="fixed bottom-4 right-4 w-16 h-16 bg-[#1B998B] dark:bg-[#3CDFFF] rounded-full flex items-center justify-center cursor-pointer"
-         style={{ opacity: scrollButtonOpacity }}
-         whileHover={{ scale: 1.1 }}
-         whileTap={{ scale: 0.9 }}
-         onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-       >
-         <ArrowRight className="text-white dark:text-gray-900 transform rotate-[-90deg]" />
-       </motion.div>
-     </motion.div>
-   </div>
+              className="fixed bottom-4 right-4 w-16 h-16 bg-[#1B998B] dark:bg-[#3CDFFF] rounded-full flex items-center justify-center cursor-pointer"
+              style={{ opacity: scrollButtonOpacity }}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            >
+              <ArrowRight className="text-white dark:text-gray-900 transform rotate-[-90deg]" />
+            </motion.div>
+          </motion.div>
+        </>
+      )}
+    </div>
  )
 }

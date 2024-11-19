@@ -1024,6 +1024,7 @@ export default function Component() {
 
  useEffect(() => {
   setMounted(true)
+  setTheme('light')
   const timer = setTimeout(() => {
     setIsLoading(false)
     // Ajouter un délai plus long avant d'afficher le contenu
@@ -1204,23 +1205,25 @@ const teamMembers = [
             transition={{ duration: 1, ease: "easeInOut" }}
           >
             <motion.div
-              className="relative w-full h-full"
+              className="w-full h-full flex items-center justify-center"
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 1.1, opacity: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <video
-                ref={videoRef}
-                autoPlay
-                playsInline
-                muted
-                className="w-full h-full object-cover md:object-contain"
-                onEnded={handleVideoEnd}
-              >
-                <source src="/logo/logo_video.mp4" type="video/mp4" />
-                Your browser does not support video playback.
-              </video>
+              <div className="relative w-full h-0 pb-[56.25%] md:pb-[42.86%] lg:pb-[36%]">
+                <video
+                  ref={videoRef}
+                  autoPlay
+                  playsInline
+                  muted
+                  className="absolute top-0 left-0 w-full h-full object-contain"
+                  onEnded={handleVideoEnd}
+                >
+                  <source src="/logo/logo_video.mp4" type="video/mp4" />
+                  Votre navigateur ne prend pas en charge la lecture vidéo.
+                </video>
+              </div>
               {videoEnded && (
                 <motion.div
                   className="absolute inset-0 bg-black"
@@ -1470,14 +1473,14 @@ const teamMembers = [
        <Footer t={t} />
 
        <motion.div
-              className="fixed bottom-4 right-4 w-16 h-16 bg-[#1B998B] dark:bg-[#3CDFFF] rounded-full flex items-center justify-center cursor-pointer"
-              style={{ opacity: scrollButtonOpacity }}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            >
-              <ArrowRight className="text-white dark:text-gray-900 transform rotate-[-90deg]" />
-            </motion.div>
+            className="fixed bottom-4 right-4 w-16 h-16 bg-[#1B998B] dark:bg-[#3CDFFF] rounded-full flex items-center justify-center cursor-pointer"
+            style={{ opacity: scrollButtonOpacity }}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          >
+            <ArrowRight className="text-white dark:text-gray-900 transform rotate-[-90deg]" />
+          </motion.div>
           </motion.div>
         </>
       )}

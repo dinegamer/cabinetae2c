@@ -7,8 +7,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { useTheme } from "next-themes"
 import Spline from '@splinetool/react-spline'
-import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api'
-
+import OptimizedSpline from './components/OptimizedSpline'
 const translations = {
   en: {
     nav: { 
@@ -283,124 +282,6 @@ const translations = {
   }
 }
 
-
-
-
-
-// const expertiseData = [
-//   {
-//     title: "Expertise Comptable",
-//     icon: "📊",
-//     content: "Mise en place d'un plan comptable adapté, tenue de la comptabilité, établissement des documents de synthèse et comptes annuels, assistance et supervision comptables."
-//   },
-//   {
-//     title: "Audit et commissariat aux comptes",
-//     icon: "🔍",
-//     content: "Audit des sociétés industrielles et commerciales, des institutions de micro-finances, des banques, des projets de développement, audit organisationnel et du contrôle interne."
-//   },
-//   {
-//     title: "Etudes et Conseils",
-//     icon: "💼",
-//     content: "Aide à la création d'entreprises, études de faisabilité, élaboration de business plans, mise en place de SIG et des outils de gestion, suivi-évaluation des programmes et projets de développement."
-//   },
-//   {
-//     title: "Système d'information",
-//     icon: "💻",
-//     content: "Mise en place de systèmes d'information, adaptation des processus aux nouvelles contraintes réglementaires, accompagnement dans le choix et la mise en œuvre de solutions informatiques."
-//   },
-//   {
-//     title: "Renforcement de capacités et formation",
-//     icon: "🎓",
-//     content: "Modules de formation adaptés dans les domaines de la banque, microfinance, techniques comptables, conseil en gestion, conseil juridique et fiscal, informatique appliquée et organisation."
-//   }
-// ]
-
-// function ExpertiseSection({ t }) {
-//   const [openCard, setOpenCard] = useState(null)
-
-//   const toggleCard = (index) => {
-//     setOpenCard(openCard === index ? null : index)
-//   }
-
-//   return (
-//     <section id="expertise" className="py-20 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
-//       <div className="container mx-auto px-4">
-//         <motion.h2 
-//           className="mb-12 text-center text-5xl font-bold tracking-tight bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent dark:from-white dark:to-gray-300"
-//           initial={{ opacity: 0, y: 20 }}
-//           whileInView={{ opacity: 1, y: 0 }}
-//           transition={{ duration: 0.6 }}
-//         >
-//           {t.expertise.title}
-//         </motion.h2>
-//         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-//           {expertiseData.map((item, index) => (
-//             <ExpertiseCard
-//               key={index}
-//               {...item}
-//               index={index}
-//               isOpen={openCard === index}
-//               toggleCard={() => toggleCard(index)}
-//             />
-//           ))}
-//         </div>
-//       </div>
-//     </section>
-//   )
-// }
-
-
-function ExpertiseCard({ title, icon, content, isOpen, toggleCard, index }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="group relative"
-    >
-      <div className="absolute -inset-0.5 rounded-2xl bg-gradient-to-r from-[#1B998B] to-[#3CDFFF] opacity-30 blur transition duration-1000 group-hover:opacity-100" />
-      <div className="relative rounded-2xl bg-white p-0.5 shadow-xl dark:bg-gray-900">
-        <div className="rounded-[14px] bg-white dark:bg-gray-900">
-          <div
-            className="flex cursor-pointer items-center justify-between p-6"
-            onClick={toggleCard}
-          >
-            <div className="flex items-center space-x-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-r from-[#1B998B] to-[#3CDFFF] text-2xl text-white">
-                {icon}
-              </div>
-              <h3 className="text-xl font-semibold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent dark:from-white dark:to-gray-300">
-                {title}
-              </h3>
-            </div>
-            <div className="rounded-full bg-gray-100 p-2 dark:bg-gray-800">
-              {isOpen ? (
-                <ChevronUp className="h-5 w-5 text-[#1B998B]" />
-              ) : (
-                <ChevronDown className="h-5 w-5 text-[#3CDFFF]" />
-              )}
-            </div>
-          </div>
-          <AnimatePresence>
-            {isOpen && (
-              <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: "auto", opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.3 }}
-              >
-                <div className="border-t border-gray-100 bg-gray-50 p-6 dark:border-gray-800 dark:bg-gray-800/50">
-                  <p className="text-gray-600 dark:text-gray-400">{content}</p>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-      </div>
-    </motion.div>
-  )
-}
-
  function ExpertiseSection({ t }) {
   const [openCard, setOpenCard] = useState(null)
   const expertiseData = [
@@ -479,9 +360,6 @@ function ExpertiseCard({ title, icon, content, isOpen, toggleCard, index }) {
   )
 }
 
-
-
-
 function TouchRipple({ x, y }) {
  return (
    <motion.div
@@ -529,103 +407,6 @@ function TouchEffect() {
          <TouchRipple key={ripple.id} x={ripple.x} y={ripple.y} />
        ))}
      </AnimatePresence>
-   </div>
- )
-}
-
-function LiquidCursor() {
- const cursorRef = useRef(null)
- const [position, setPosition] = useState({ x: 0, y: 0 })
- const [isPointer, setIsPointer] = useState(false)
- const [velocity, setVelocity] = useState({ x: 0, y: 0 })
- const prevPosition = useRef({ x: 0, y: 0 })
- const isMobile = useRef(typeof window !== 'undefined' && /iPhone|iPad|iPod|Android/i.test(navigator.userAgent))
-
- useEffect(() => {
-   if (isMobile.current) return
-
-   const html = document.documentElement
-   html.style.cursor = 'none'
-
-   let frameId
-
-   const updatePosition = (e) => {
-     if (!cursorRef.current) return
-     
-     const target = e.target
-     setIsPointer(window.getComputedStyle(target).cursor === "pointer")
-     
-     const newVelocity = {
-       x: (e.clientX - prevPosition.current.x) * 0.1,
-       y: (e.clientY - prevPosition.current.y) * 0.1
-     }
-     
-     setVelocity(newVelocity)
-     prevPosition.current = { x: e.clientX, y: e.clientY }
-     
-     setPosition({ x: e.clientX, y: e.clientY })
-   }
-   
-   const animate = () => {
-     if (cursorRef.current) {
-       const deformX = velocity.x * 2
-       const deformY = velocity.y * 2
-       
-       cursorRef.current.style.transform = `translate(${position.x - 16}px, ${position.y - 16}px) 
-                                          scale(${1 + Math.abs(deformX) * 0.1}, ${1 + Math.abs(deformY) * 0.1})`
-     }
-     frameId = requestAnimationFrame(animate)
-   }
-
-   window.addEventListener("mousemove", updatePosition)
-   frameId = requestAnimationFrame(animate)
-
-   return () => {
-     html.style.cursor = 'auto'
-     window.removeEventListener("mousemove", updatePosition)
-     cancelAnimationFrame(frameId)
-   }
- }, [position, velocity])
-
- if (isMobile.current) {
-   return null
- }
-
- return (
-   <div 
-     ref={cursorRef}
-     className="pointer-events-none fixed left-0 top-0 z-[100] mix-blend-difference"
-   >
-     {[...Array(8)].map((_, i) => (
-       <motion.div
-         key={i}
-         className="absolute h-8 w-8 rounded-full bg-white/20"
-         animate={{
-           scale: [1, 1.2, 1.5, 1.2, 1],
-           opacity: [0.3, 0.5, 0.3],
-           borderRadius: ["50%", "40%", "50%", "40%", "50%"],
-         }}
-         transition={{
-           duration: 3,
-           repeat: Infinity,
-           delay: i * 0.1,
-           ease: "easeInOut",
-         }}
-         style={{
-           filter: "blur(4px)",
-           transform: `rotate(${i * 45}deg) translateX(${i * 2}px)`,
-         }}
-       />
-     ))}
-     <motion.div 
-       className="h-8 w-8 rounded-full bg-white"
-       animate={{
-         scale: isPointer ? 1.5 : 1,
-         borderRadius: isPointer ? "40%" : "50%",
-       }}
-       transition={{ duration: 0.3 }}
-       style={{ filter: "blur(2px)" }}
-     />
    </div>
  )
 }
@@ -766,38 +547,39 @@ function Navigation({ language, setLanguage, t, handleThemeChange, currentTheme 
   }
   
 
-const CreditCard3D = () => (
-  <div className="w-full h-full relative z-10">
-    <Spline
-      scene="https://prod.spline.design/HLDqtijbAOIur2J6/scene.splinecode" 
-    />
-  </div>
-)
+  const CreditCard3D = () => (
+    <div className="w-full h-full relative z-10">
+      <OptimizedSpline
+        scene="https://prod.spline.design/HLDqtijbAOIur2J6/scene.splinecode"
+        className="w-full h-full"
+      />
+    </div>
+  );
+  const Scene3D = () => (
+    <div className="w-[400px] h-[400px]">
+      <OptimizedSpline
+        scene="https://prod.spline.design/Xcmdx3H8HZub3SnB/scene.splinecode"
+        className="w-full h-full"
+      />
+    </div>
+  );
+  const LargeScene3D = () => (
+    <div className="relative h-[600px]">
+      <OptimizedSpline
+        scene="https://prod.spline.design/DgY0ZSx5iybpShE2/scene.splinecode"
+        className="w-full h-full"
+      />
+    </div>
+  );
 
-const Wave3D = () => (
- <div className="w-full h-full relative z-0">
-   <Spline
-     scene="https://prod.spline.design/2ZVMFIVOT4JiqV0Z/scene.splinecode" 
-   />
- </div>
-)
-
-const Sphere3D = () => (
-  <div className="absolute w-full h-full pointer-events-none">
-    <Spline
-      scene="https://prod.spline.design/m39dZ10VxmWw2zYH/scene.splinecode"
-      className="transform scale-75 md:scale-100"
-    />
-  </div>
-)
-
-const About3D = () => (
- <div className="w-full h-full relative z-10">
-   <Spline
-     scene="https://prod.spline.design/J1eQlyRpL7LaXzvs/scene.splinecode" 
-   />
- </div>
-)
+  const Wave3D = () => (
+    <div className="w-full h-full relative z-0">
+      <OptimizedSpline
+        scene="https://prod.spline.design/2ZVMFIVOT4JiqV0Z/scene.splinecode"
+        className="w-full h-full"
+      />
+    </div>
+  );
 
 function ServiceCard({ title, description, index, active, onClick }) {
   const baseClasses = "relative h-[300px] w-[300px] overflow-hidden cursor-pointer";
@@ -910,11 +692,9 @@ function AboutUsSection({ t }) {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <Spline
-              scene="https://prod.spline.design/Xcmdx3H8HZub3SnB/scene.splinecode"
-              width={400}
-              height={400}
-            />
+            <div className="md:w-1/2 mb-8 md:mb-0">
+                    <Scene3D />
+                  </div>
           </motion.div>
         </div>
       </div>
@@ -952,11 +732,9 @@ function ServicesSection({ t }) {
             transition={{ duration: 0.6 }}
           >
             <div className="relative h-[600px]">
-              <Spline
-                scene="https://prod.spline.design/DgY0ZSx5iybpShE2/scene.splinecode" 
-                width={600}
-                height={600}
-              />
+            <div className="absolute inset-0">
+                <LargeScene3D  />
+              </div>
             </div>
           </motion.div>
           <motion.div 
@@ -983,30 +761,6 @@ function ServicesSection({ t }) {
     </section>
   )
 }
-
-
-// function AboutUsSection({ t }) {
-//  return (
-//    <section id="about" className="py-20 bg-gray-50 dark:bg-gray-800">
-//      <div className="container mx-auto px-4">
-//        <h2 className="mb-12 text-4xl font-bold text-center">{t.about.title}</h2>
-//        <div className="grid md:grid-cols-2 gap-8 items-center">
-//          <div>
-//            <p className="text-lg mb-4">{t.about.description}</p>
-//            <ul className="list-disc list-inside space-y-2">
-//              <li>{t.about.point1}</li>
-//              <li>{t.about.point2}</li>
-//              <li>{t.about.point3}</li>
-//            </ul>
-//          </div>
-//          <div className="relative h-[400px]">
-//            <About3D />
-//          </div>
-//        </div>
-//      </div>
-//    </section>
-//  )
-// }
 
 function PartnersSection({ t }) {
   const partners = [
@@ -1520,10 +1274,7 @@ function Footer({ t }) {
 export default function Component() {
   const [isLoading, setIsLoading] = useState(true)
   const { scrollYProgress } = useScroll()
-  const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
-  const scale = useTransform(scrollYProgress, [0, 0.2], [1, 0.8])
   const yOffset = useTransform(scrollYProgress, [0, 1], [0, 300])
-  const [activeServiceCard, setActiveServiceCard] = useState(0)
   const [language, setLanguage] = useState("fr")
   const { theme, setTheme } = useTheme()
   const t = translations[language]
@@ -1580,20 +1331,6 @@ export default function Component() {
      window.open(whatsappLink, '_blank');
    };
   
-   
-
-
- 
-
- const services = [
-   { title: "Audit & Conseil", description: "Expertise approfondie pour optimiser vos processus" },
-   { title: "Comptabilité", description: "Gestion précise de vos comptes" },
-   { title: "Fiscalité", description: "Optimisation de votre situation fiscale" },
-   { title: "Juridique", description: "Assistance juridique pour votre entreprise" },
-   { title: "Social", description: "Gestion des ressources humaines" },
-   { title: "Digital", description: "Solutions numériques pour votre entreprise" }
- ]
-
 
 
 const teamMembers = [
@@ -1617,86 +1354,7 @@ const teamMembers = [
     role: "Directeur du Département Étude-Développement et Suivi Évaluation", 
     image: "/membres/membre4.jpg" 
   },
-  // { 
-  //   name: "M. TRAORE Seydou",
-  //   role: "Chef de Projet Senior", 
-  //   image: "/membres/membre5.jpg" 
-  // },
-  // { 
-  //   name: "Mme. SIDIBE Fatoumata",
-  //   role: "Responsable Marketing", 
-  //   image: "/membres/membre6.jpg" 
-  // },
-  // { 
-  //   name: "M. SANGARE Oumar",
-  //   role: "Expert Technique", 
-  //   image: "/membres/membre7.jpg" 
-  // },
-  // { 
-  //   name: "Mme. TOURE Kadiatou",
-  //   role: "Responsable Qualité", 
-  //   image: "/membres/membre8.jpg" 
-  // },
-  // { 
-  //   name: "M. KONE Bakary",
-  //   role: "Analyste Senior", 
-  //   image: "/membres/membre9.jpg" 
-  // },
-  // { 
-  //   name: "Mme. DIARRA Mariam",
-  //   role: "Chargée de Communication", 
-  //   image: "/membres/membre10.jpg" 
-  // },
-  // { 
-  //   name: "M. CISSE Souleymane",
-  //   role: "Responsable Logistique", 
-  //   image: "/membres/membre11.jpg" 
-  // },
-  // { 
-  //   name: "Mme. BAH Aissata",
-  //   role: "Coordinatrice de Projets", 
-  //   image: "/membres/membre12.jpg" 
-  // },
-  // { 
-  //   name: "M. DEMBELE Moussa",
-  //   role: "Expert Financier", 
-  //   image: "/membres/membre13.jpg" 
-  // },
-  // { 
-  //   name: "Mme. MAIGA Oumou",
-  //   role: "Responsable Administrative", 
-  //   image: "/membres/membre14.jpg" 
-  // },
-  // { 
-  //   name: "M. SISSOKO Amadou",
-  //   role: "Chargé de Suivi-Évaluation", 
-  //   image: "/membres/membre15.jpg" 
-  // },
-  // { 
-  //   name: "Mme. CAMARA Rokia",
-  //   role: "Analyste de Données", 
-  //   image: "/membres/membre16.jpg" 
-  // },
-  // { 
-  //   name: "M. TOUNKARA Mamadou",
-  //   role: "Responsable Technique", 
-  //   image: "/membres/membre17.jpg" 
-  // },
-  // { 
-  //   name: "Mme. KANE Fanta",
-  //   role: "Chargée de Formation", 
-  //   image: "/membres/membre18.jpg" 
-  // },
-  // { 
-  //   name: "M. BAGAYOKO Sékou",
-  //   role: "Expert en Développement", 
-  //   image: "/membres/membre19.jpg" 
-  // },
-  // { 
-  //   name: "Mme. GUINDO Awa",
-  //   role: "Responsable Partenariats", 
-  //   image: "/membres/membre20.jpg" 
-  // }
+  
 ];
 
  if (!mounted) return null
@@ -1845,26 +1503,6 @@ const teamMembers = [
           </div>
         </section>
 
-        
-
-
-         {/* <section id="expertise" className="py-20 bg-white dark:bg-gray-900">
-           <div className="container mx-auto px-4">
-             <h2 className="mb-12 text-4xl font-bold text-center">{t.expertise.title}</h2>
-             <div className="grid gap-8 md:grid-cols-2">
-               {[
-                 { title: "Expertise comptable", icon: "📊" },
-                 { title: "Audit financier", icon: "🔍" },
-                 { title: "Conseil fiscal", icon: "💼" },
-                 { title: "Gestion de patrimoine", icon: "💰" },
-                 { title: "Restructuration d'entreprise", icon: "🏗️" },
-                 { title: "Transformation digitale", icon: "💻" },
-               ].map((item, index) => (
-                 <ExpertiseItem key={index} title={item.title} icon={item.icon} index={index} />
-               ))}
-             </div>
-           </div>
-         </section> */}
 
          <section id="team" className="py-20 bg-gray-100 dark:bg-gray-800">
       <div className="container mx-auto px-4">

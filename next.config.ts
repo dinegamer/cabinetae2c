@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  transpilePackages: ['@splinetool/react-spline'],
   output: 'standalone',
   typescript: {
     ignoreBuildErrors: true

@@ -8,7 +8,11 @@ import Link from "next/link"
 import { useTheme } from "next-themes"
 import Spline from '@splinetool/react-spline'
 import OptimizedSpline from './components/OptimizedSpline'
-const translations = {
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
+import { ScrollArea } from "@/components/ui/scroll-area"
+
+ const translations = {
   en: {
     nav: { 
       services: "Services", 
@@ -52,7 +56,38 @@ const translations = {
       information: "Information Systems",
       training: "Capacity Building and Training"
     },
-    team: { title: "Our Team" },
+    team: { 
+      title: "Our Team",
+      role: "Role",
+      email: "Email",
+      phone: "Phone",
+      teamMembers: [
+        {
+          name: "Mr. Boubacar KANTE",
+          role: "Partner – Managing Partner - Head of Quality Control\n\nChartered Accountant and Statutory Auditor qualified under the French Regime\n\nFinancial expert and former senior bank executive",
+          email: "bkante@ae2cmali.com",
+          phone: "66 71 57 97 / 20 28 23 81"
+        },
+        {
+          name: "Mr. Hammadoun TAMBOURA",
+          role: "Partner – Managing Director\n\nChartered Accountant and Statutory Auditor qualified under the French Regime\n\nDirector of the Expertise, Financial Engineering and Consulting department",
+          email: "htamboura@ae2cmali.com",
+          phone: "77 24 17 17 / 20 28 23 81"
+        },
+        {
+          name: "Mr. Iliassa Cissé",
+          role: "Technical and Operations Director\n\nCertified TechExpert\n\nDirector of the Audit, Information Systems and Organization department",
+          email: "icisse@ae2cmali.com",
+          phone: "20 28 23 81"
+        },
+        {
+          name: "Mr. Djibril Doucoure",
+          role: "Project Evaluation Expert\n\nDirector of the Studies-Development, Technical Assistance and Monitoring-Evaluation department",
+          email: "ddoucoure@ae2cmali.com",
+          phone: "20 28 23 81"
+        }
+      ]
+    },
     contact: { 
       title: "Contact Us", 
       name: "Name", 
@@ -95,7 +130,6 @@ const translations = {
         "Mali", "Senegal", "Ivory Coast", "Burkina Faso", "Niger", "Guinea"
       ]
     },
-   
     careers: { 
       title: "Careers and Training",
       subtitle: "Join our team and develop your professional skills",
@@ -188,7 +222,38 @@ const translations = {
       information: "Système d'information",
       training: "Renforcement de capacités et formation"
     },
-    team: { title: "Notre Équipe" },
+    team: { 
+      title: "Notre Équipe",
+      role: "Rôle",
+      email: "Email",
+      phone: "Téléphone",
+      teamMembers: [
+        {
+          name: "M. Boubacar KANTE",
+          role: "Associé – Managing Partner - Responsable du Contrôle qualité\n\nExpert-comptable et Commissaire aux comptes diplômé Régime Français\n\nExpert financier et ancien cadre supérieur de Banque",
+          email: "bkante@ae2cmali.com",
+          phone: "66 71 57 97 / 20 28 23 81"
+        },
+        {
+          name: "M. Hammadoun TAMBOURA",
+          role: "Associé – Managing Director\n\nExpert-comptable et Commissaire aux comptes diplômé Régime Français\n\nDirecteur du département, Expertise, ingénierie financière et Conseils",
+          email: "htamboura@ae2cmali.com",
+          phone: "77 24 17 17 / 20 28 23 81"
+        },
+        {
+          name: "M. Iliassa Cissé",
+          role: "Directeur Technique et des Opérations\n\nTechExpert Certifié\n\nDirecteur du département Audit, Système d'information et Organisation",
+          email: "icisse@ae2cmali.com",
+          phone: "20 28 23 81"
+        },
+        {
+          name: "M. Djibril Doucoure",
+          role: "Expert en Evaluation de projet\n\nDirecteur du département Etudes-Développement, Assistance Technique et Suivi-Evaluation",
+          email: "ddoucoure@ae2cmali.com",
+          phone: "20 28 23 81"
+        }
+      ]
+    },
     contact: { 
       title: "Contactez-nous", 
       name: "Nom", 
@@ -280,7 +345,8 @@ const translations = {
       openInMaps: "Ouvrir dans Google Maps"
     }
   }
-}
+};
+
 
  function ExpertiseSection({ t }) {
   const [openCard, setOpenCard] = useState(null)
@@ -555,6 +621,7 @@ function Navigation({ language, setLanguage, t, handleThemeChange, currentTheme 
       />
     </div>
   );
+  
   const Scene3D = () => (
     <div className="w-[400px] h-[400px]">
       <OptimizedSpline
@@ -563,6 +630,7 @@ function Navigation({ language, setLanguage, t, handleThemeChange, currentTheme 
       />
     </div>
   );
+  
   const LargeScene3D = () => (
     <div className="relative h-[600px]">
       <OptimizedSpline
@@ -571,7 +639,7 @@ function Navigation({ language, setLanguage, t, handleThemeChange, currentTheme 
       />
     </div>
   );
-
+  
   const Wave3D = () => (
     <div className="w-full h-full relative z-0">
       <OptimizedSpline
@@ -580,6 +648,7 @@ function Navigation({ language, setLanguage, t, handleThemeChange, currentTheme 
       />
     </div>
   );
+  
 
 function ServiceCard({ title, description, index, active, onClick }) {
   const baseClasses = "relative h-[300px] w-[300px] overflow-hidden cursor-pointer";
@@ -638,29 +707,81 @@ function ExpertiseItem({ title, icon, index }) {
  )
 }
 
-function TeamMember({ name, role, image, index }) {
+function TeamMember({ name, role, email, phone, image, index, teamTranslations }) {
+  const [isExpanded, setIsExpanded] = useState(false)
+  const { theme } = useTheme()
+
   return (
     <motion.div
       className="flex flex-col items-center"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: index * 0.1 }}
-      whileHover={{ scale: 1.05 }}
     >
-      <div className="mb-4 h-32 w-32 overflow-hidden rounded-full shadow-lg">
-        <Image
-          src={image}
-          alt={name}
-          width={128}
-          height={128}
-          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
-        />
+      <div 
+        className="w-full bg-white dark:bg-gray-700 rounded-lg shadow-lg overflow-hidden cursor-pointer"
+        onClick={() => setIsExpanded(!isExpanded)}
+      >
+        <div className="p-6 flex flex-col items-center">
+          <div className="mb-4 h-32 w-32 overflow-hidden rounded-full shadow-lg">
+            <Image
+              src={image}
+              alt={name}
+              width={128}
+              height={128}
+              className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
+            />
+          </div>
+          <h3 className="text-xl font-bold text-center text-gray-900 dark:text-white">{name}</h3>
+          <p className="text-sm text-center text-gray-600 dark:text-gray-400">{role.split('\n')[0]}</p>
+          <motion.div
+            animate={{ rotate: isExpanded ? 180 : 0 }}
+            transition={{ duration: 0.3 }}
+            className="mt-4"
+          >
+            {isExpanded ? <ChevronUp className="h-6 w-6" /> : <ChevronDown className="h-6 w-6" />}
+          </motion.div>
+        </div>
+        
+        <AnimatePresence>
+          {isExpanded && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
+              className="px-6 pb-6"
+            >
+              <div className="space-y-4">
+                <div>
+                  <h5 className="font-semibold">{teamTranslations.role}</h5>
+                  <p className="text-sm whitespace-pre-line">{role}</p>
+                </div>
+                <div>
+                  <h5 className="font-semibold">{teamTranslations.email}</h5>
+                  <div className="flex items-center space-x-2">
+                    <Mail className="w-4 h-4" />
+                    <a href={`mailto:${email}`} className="text-sm text-blue-600 dark:text-blue-400 hover:underline">{email}</a>
+                  </div>
+                </div>
+                <div>
+                  <h5 className="font-semibold">{teamTranslations.phone}</h5>
+                  <div className="flex items-center space-x-2">
+                    <Phone className="w-4 h-4" />
+                    <p className="text-sm">{phone}</p>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
-      <h3 className="text-xl font-bold text-center text-gray-900 dark:text-white">{name}</h3>
-      <p className="text-sm text-center text-gray-600 dark:text-gray-400">{role}</p>
     </motion.div>
-  );
+  )
 }
+
+
+
 function AboutUsSection({ t }) {
   return (
     <section id="about" className="py-20 bg-gray-50 dark:bg-gray-800">
@@ -692,9 +813,9 @@ function AboutUsSection({ t }) {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <div className="md:w-1/2 mb-8 md:mb-0">
+           
                     <Scene3D />
-                  </div>
+                  
           </motion.div>
         </div>
       </div>
@@ -732,9 +853,9 @@ function ServicesSection({ t }) {
             transition={{ duration: 0.6 }}
           >
             <div className="relative h-[600px]">
-            <div className="absolute inset-0">
+          
                 <LargeScene3D  />
-              </div>
+              
             </div>
           </motion.div>
           <motion.div 
@@ -1185,16 +1306,16 @@ function Footer({ t }) {
               {t.footer.description}
             </p>
             <div className="flex space-x-4">
-              <Link href="#" className="text-gray-400 hover:text-[#1B998B] transition-colors">
+              <Link href="https://www.linkedin.com/company/cabinetae2c-mali/?viewAsMember=true" className="text-gray-400 hover:text-[#1B998B] transition-colors">
                 <Facebook size={20} />
               </Link>
-              <Link href="#" className="text-gray-400 hover:text-[#1B998B] transition-colors">
+              <Link href="https://www.linkedin.com/company/cabinetae2c-mali/?viewAsMember=true" className="text-gray-400 hover:text-[#1B998B] transition-colors">
                 <Twitter size={20} />
               </Link>
-              <Link href="#" className="text-gray-400 hover:text-[#1B998B] transition-colors">
+              <Link href="https://www.linkedin.com/company/cabinetae2c-mali/?viewAsMember=true" className="text-gray-400 hover:text-[#1B998B] transition-colors">
                 <Instagram size={20} />
               </Link>
-              <Link href="#" className="text-gray-400 hover:text-[#1B998B] transition-colors">
+              <Link href="https://www.linkedin.com/company/cabinetae2c-mali/?viewAsMember=true" className="text-gray-400 hover:text-[#1B998B] transition-colors">
                 <Linkedin size={20} />
               </Link>
             </div>
@@ -1333,30 +1454,7 @@ export default function Component() {
   
 
 
-const teamMembers = [
-  { 
-    name: "M. Boubacar KANTE",
-    role: "Gérant-Associé AE2C SARL", 
-    image: "/membres/membre1.jpg" 
-  },
-  { 
-    name: "M. Hammadoun TAMBOURA",
-    role: "Directeur-Associé AE2C SARL", 
-    image: "/membres/membre2.jpg" 
-  },
-  { 
-    name: "M. Iliassa Cissé",
-    role: "Directeur du Département Audit-Organisations et Système d’Information", 
-    image: "/membres/membre3.jpg" 
-  },
-  { 
-    name: "M. Djibril Doucoure",
-    role: "Directeur du Département Étude-Développement et Suivi Évaluation", 
-    image: "/membres/membre4.jpg" 
-  },
-  
-];
-
+   
  if (!mounted) return null
  
 
@@ -1459,9 +1557,9 @@ const teamMembers = [
                   transition={{ duration: 1, delay: 2.1, ease: "easeOut" }}
                 >
                   <div className="absolute inset-0 rounded-3xl bg-[#1B998B]/20 dark:bg-[#3CDFFF]/20" />
-                  <div className="absolute inset-0">
+                  
                     <CreditCard3D />
-                  </div>
+                  
                 </motion.div>
               </motion.div>
 
@@ -1504,23 +1602,31 @@ const teamMembers = [
         </section>
 
 
-         <section id="team" className="py-20 bg-gray-100 dark:bg-gray-800">
-      <div className="container mx-auto px-4">
-        <motion.h2 
-          className="mb-12 text-4xl font-bold text-center"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          {t.team.title}
-        </motion.h2>
-        <div className="grid gap-8 md:grid-cols-3 lg:grid-cols-4">
-          {teamMembers.map((member, index) => (
-            <TeamMember key={member.name} {...member} index={index} />
-          ))}
+        
+      <section id="team" className="py-20 bg-gray-100 dark:bg-gray-800">
+        <div className="container mx-auto px-4">
+          <motion.h2 
+            className="mb-12 text-4xl font-bold text-center"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            {t.team.title}
+          </motion.h2>
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+            {t.team.teamMembers.map((member, index) => (
+              <TeamMember 
+                key={member.name} 
+                {...member} 
+                image={`/membres/membre${index + 1}.jpg`}
+                index={index} 
+                teamTranslations={t.team}
+              />
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+
          <ServicesSection t={t} />
          <AboutUsSection t={t} />
          <PartnersSection t={t} />
@@ -1531,10 +1637,9 @@ const teamMembers = [
          <ExpertiseSection t={t} />
          
 
-      <section id="contact" className="relative min-h-screen py-20">
-      <div className="absolute inset-0">
+         <section id="contact" className="relative min-h-screen py-20">
+
         <Wave3D />
-      </div>
       
       <div className="relative container mx-auto px-4 z-10">
         <h2 className="mb-12 text-4xl font-bold text-center text-white dark:text-gray-900">{t.contact.title}</h2>

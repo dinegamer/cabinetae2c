@@ -1,15 +1,24 @@
-import React from 'react';
+"use client";
+
+import { memo } from 'react';
+import { motion } from 'framer-motion';
 import OptimizedSpline from './OptimizedSpline';
 
-const Wave3D: React.FC = () => {
+const Wave3D = () => {
   return (
-    <div className="w-full h-full relative z-0">
-      <OptimizedSpline
+    <motion.div 
+      className="absolute inset-0 bg-gradient-to-br from-[#1B998B] to-[#3CDFFF] opacity-50"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 0.5 }}
+      transition={{ duration: 0.5 }}
+      
+    >
+    <OptimizedSpline
         scene="https://prod.spline.design/2ZVMFIVOT4JiqV0Z/scene.splinecode"
         className="w-full h-full"
       />
-    </div>
+      </motion.div>
   );
 };
 
-export default Wave3D;
+export default memo(Wave3D);

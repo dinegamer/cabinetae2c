@@ -1,15 +1,24 @@
-import React from 'react';
+"use client";
+
+import { memo } from 'react';
+import { motion } from 'framer-motion';
 import OptimizedSpline from './OptimizedSpline';
 
-const LargeScene3D: React.FC = () => {
+const LargeScene3D = () => {
   return (
-    <div className="relative h-[600px]">
+    <motion.div 
+      className="w-full h-full bg-gradient-to-br from-[#1B998B]/10 to-[#3CDFFF]/10 rounded-xl"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
+      {/* Placeholder for large 3D scene */}
       <OptimizedSpline
         scene="https://prod.spline.design/DgY0ZSx5iybpShE2/scene.splinecode"
         className="w-full h-full"
       />
-    </div>
+    </motion.div>
   );
 };
 
-export default LargeScene3D;
+export default memo(LargeScene3D);

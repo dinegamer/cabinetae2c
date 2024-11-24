@@ -484,47 +484,44 @@ function TouchEffect() {
 }
 
 function Navigation({ language, setLanguage, t, handleThemeChange, currentTheme }) {
-  const [activeSection, setActiveSection] = useState("")
-  const [isOpen, setIsOpen] = useState(false)
-  const { scrollY } = useScroll()
-  const [hasScrolled, setHasScrolled] = useState(false)
- 
+  const [activeSection, setActiveSection] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  const { scrollY } = useScroll();
+  const [hasScrolled, setHasScrolled] = useState(false);
+
   useEffect(() => {
     const handleScroll = () => {
-      setHasScrolled(window.scrollY > 0)
-      
-      const sections = ["hero", "about", "services", "expertise", "team", "partners", "certifications", "careers", "international", "contact"]
-      const scrollPosition = window.scrollY + window.innerHeight / 2
- 
+      setHasScrolled(window.scrollY > 0);
+      const sections = ["hero", "about", "services", "expertise", "team", "partners", "certifications", "careers", "international", "contact"];
+      const scrollPosition = window.scrollY + window.innerHeight / 2;
+
       for (const section of sections) {
-        const element = document.getElementById(section)
+        const element = document.getElementById(section);
         if (element) {
-          const { offsetTop, offsetHeight } = element
+          const { offsetTop, offsetHeight } = element;
           if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-            setActiveSection(section)
-            break
+            setActiveSection(section);
+            break;
           }
         }
       }
-    }
- 
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+    };
 
-  
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const scrollToSection = (sectionId) => {
-    const element = document.getElementById(sectionId)
+    const element = document.getElementById(sectionId);
     if (element) {
-      const offset = 80 // Height of fixed header
-      const elementPosition = element.offsetTop - offset
+      const offset = 80;
+      const elementPosition = element.offsetTop - offset;
       window.scrollTo({
         top: elementPosition,
         behavior: "smooth"
-      })
+      });
     }
-    setIsOpen(false)
+    setIsOpen(false);
   }
   return (
     <motion.header 
@@ -619,22 +616,33 @@ function Navigation({ language, setLanguage, t, handleThemeChange, currentTheme 
   }
   
 
-  const CreditCard3D = dynamic(() => import('./components/CreditCard3D'), {
-    loading: () => <div className="animate-pulse bg-muted h-full w-full rounded-3xl" />
-  })
-  
   const Scene3D = dynamic(() => import('./components/Scene3D'), {
-    loading: () => <div className="animate-pulse bg-muted h-[400px] w-[400px]" />
-  })
+    ssr: false,
+    loading: () => <div className="animate-pulse bg-gray-200 dark:bg-gray-700 rounded-lg w-full h-full" />
+  });
   
   const LargeScene3D = dynamic(() => import('./components/LargeScene3D'), {
-    loading: () => <div className="animate-pulse bg-muted h-[600px] w-full" />
-  })
+    ssr: false,
+    loading: () => <div className="animate-pulse bg-gray-200 dark:bg-gray-700 rounded-lg w-full h-full" />
+  });
   
   const Wave3D = dynamic(() => import('./components/Wave3D'), {
-    loading: () => <div className="animate-pulse bg-muted h-full w-full" />
-  })
+    ssr: false,
+    loading: () => <div className="animate-pulse bg-gray-200 dark:bg-gray-700 rounded-lg w-full h-full" />
+  });
   
+  const CreditCard3D = dynamic(() => import('./components/CreditCard3D'), {
+    ssr: false,
+    loading: () => <div className="animate-pulse bg-gray-200 dark:bg-gray-700 rounded-3xl w-full h-full" />
+  });
+  
+  // Optimized loading component
+  // Optimized loading component
+const LoadingSpinner = () => (
+  <div className="flex items-center justify-center w-full h-full">
+    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#1B998B]" />
+  </div>
+);
 
 function ServiceCard({ title, description, index, active, onClick }) {
   const baseClasses = "relative h-[300px] w-[300px] overflow-hidden cursor-pointer";

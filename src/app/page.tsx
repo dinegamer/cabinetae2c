@@ -6,11 +6,7 @@ import { ArrowRight, ChevronDown, ChevronUp, Menu, X, Sun, Moon, Globe, MapPin, 
 import Image from "next/image"
 import Link from "next/link"
 import { useTheme } from "next-themes"
-import Spline from '@splinetool/react-spline'
-import OptimizedSpline from './components/OptimizedSpline'
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
-import { ScrollArea } from "@/components/ui/scroll-area"
+import dynamic from 'next/dynamic'
 
  const translations = {
   en: {
@@ -54,7 +50,12 @@ import { ScrollArea } from "@/components/ui/scroll-area"
       audit: "Audit and Statutory Auditing",
       studies: "Studies and Consulting",
       information: "Information Systems",
-      training: "Capacity Building and Training"
+      training: "Capacity Building and Training",
+      accountingDesc: "Comprehensive accounting management and financial expertise for your business",
+      auditDesc: "Specialized audit services and in-depth organizational performance assessment",
+      studiesDesc: "Strategic studies and personalized support for SMEs",
+      informationDesc: "Information systems solutions and digital transformation",
+      trainingDesc: "Customized professional training in key management areas"
     },
     team: { 
       title: "Our Team",
@@ -220,7 +221,12 @@ import { ScrollArea } from "@/components/ui/scroll-area"
       audit: "Audit et commissariat aux comptes",
       studies: "Etudes et Conseils",
       information: "Système d'information",
-      training: "Renforcement de capacités et formation"
+      training: "Renforcement de capacités et formation",
+      accountingDesc: "Gestion comptable complète et expertise financière pour votre entreprise",
+      auditDesc: "Audit spécialisé et évaluation approfondie des performances organisationnelles",
+      studiesDesc: "Études stratégiques et accompagnement personnalisé des PME/PMI",
+      informationDesc: "Solutions de systèmes d'information et transformation digitale",
+      trainingDesc: "Formation professionnelle sur mesure dans les domaines clés de gestion"
     },
     team: { 
       title: "Notre Équipe",
@@ -613,41 +619,21 @@ function Navigation({ language, setLanguage, t, handleThemeChange, currentTheme 
   }
   
 
-  const CreditCard3D = () => (
-    <div className="w-full h-full relative z-10">
-      <OptimizedSpline
-        scene="https://prod.spline.design/HLDqtijbAOIur2J6/scene.splinecode"
-        className="w-full h-full"
-      />
-    </div>
-  );
+  const CreditCard3D = dynamic(() => import('./components/CreditCard3D'), {
+    loading: () => <div className="animate-pulse bg-muted h-full w-full rounded-3xl" />
+  })
   
-  const Scene3D = () => (
-    <div className="w-[400px] h-[400px]">
-      <OptimizedSpline
-        scene="https://prod.spline.design/Xcmdx3H8HZub3SnB/scene.splinecode"
-        className="w-full h-full"
-      />
-    </div>
-  );
+  const Scene3D = dynamic(() => import('./components/Scene3D'), {
+    loading: () => <div className="animate-pulse bg-muted h-[400px] w-[400px]" />
+  })
   
-  const LargeScene3D = () => (
-    <div className="relative h-[600px]">
-      <OptimizedSpline
-        scene="https://prod.spline.design/DgY0ZSx5iybpShE2/scene.splinecode"
-        className="w-full h-full"
-      />
-    </div>
-  );
+  const LargeScene3D = dynamic(() => import('./components/LargeScene3D'), {
+    loading: () => <div className="animate-pulse bg-muted h-[600px] w-full" />
+  })
   
-  const Wave3D = () => (
-    <div className="w-full h-full relative z-0">
-      <OptimizedSpline
-        scene="https://prod.spline.design/2ZVMFIVOT4JiqV0Z/scene.splinecode"
-        className="w-full h-full"
-      />
-    </div>
-  );
+  const Wave3D = dynamic(() => import('./components/Wave3D'), {
+    loading: () => <div className="animate-pulse bg-muted h-full w-full" />
+  })
   
 
 function ServiceCard({ title, description, index, active, onClick }) {
@@ -1406,34 +1392,35 @@ export default function Component() {
   const [showContent, setShowContent] = useState(false)
  
 
-
+  
   useEffect(() => {
     setMounted(true)
     const savedTheme = localStorage.getItem('theme') || 'light'
     setTheme(savedTheme)
     const timer = setTimeout(() => {
       setIsLoading(false)
-      setTimeout(() => setShowContent(true), 500)
-    }, 4500)
+      setTimeout(() => setShowContent(true), 300)
+    }, 3000) // Reduced from 4500ms
   
     return () => clearTimeout(timer)
   }, [setTheme])
 
-  
-
-  
-   const handleVideoEnd = () => {
-    setVideoEnded(true)
-    setTimeout(() => {
-      setIsLoading(false)
-    }, 500)
-   }
-  
-   const handleThemeChange = () => {
+  const handleThemeChange = () => {
     const newTheme = theme === 'dark' ? 'light' : 'dark'
     setTheme(newTheme)
     localStorage.setItem('theme', newTheme)
   }
+
+  
+
+  
+  const handleVideoEnd = () => {
+    setVideoEnded(true)
+    setTimeout(() => {
+      setIsLoading(false)
+    }, 300) // Reduced from 500ms
+  }
+  
   
    const handleSubmit = (e) => {
      e.preventDefault();
@@ -1459,291 +1446,283 @@ export default function Component() {
  
 
  return (
-  <div className={`${theme} transition-colors duration-300`}>
-     <TouchEffect />
+  <div className={`${theme} transition-colors duration-300 overflow-x-hidden`}>
+  <TouchEffect />
 
-     <AnimatePresence>
-       {isLoading && (
-         <motion.div
-           className="fixed inset-0 z-50 flex items-center justify-center bg-black"
-           initial={{ opacity: 1 }}
-           exit={{ opacity: 0 }}
-           transition={{ duration: 1, ease: "easeInOut" }}
-         >
-            <motion.div
-              className="w-full h-full flex items-center justify-center"
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 1.1, opacity: 0 }}
-              transition={{ duration: 0.5 }}
+  <AnimatePresence>
+    {isLoading && (
+      <motion.div
+        className="fixed inset-0 z-50 flex items-center justify-center bg-black"
+        initial={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 1, ease: "easeInOut" }}
+      >
+        <motion.div
+          className="w-full h-full flex items-center justify-center"
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          exit={{ scale: 1.1, opacity: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="relative w-full h-0 pb-[56.25%] md:pb-[42.86%] lg:pb-[36%]">
+            <video
+              ref={videoRef}
+              autoPlay
+              playsInline
+              muted
+              className="absolute top-0 left-0 w-full h-full object-contain"
+              onEnded={handleVideoEnd}
             >
-              <div className="relative w-full h-0 pb-[56.25%] md:pb-[42.86%] lg:pb-[36%]">
-                <video
-                  ref={videoRef}
-                  autoPlay
-                  playsInline
-                  muted
-                  className="absolute top-0 left-0 w-full h-full object-contain"
-                  onEnded={handleVideoEnd}
-                >
-                  <source src="/logo/logo_video.mp4" type="video/mp4" />
-                  Votre navigateur ne prend pas en charge la lecture vidéo.
-                </video>
-              </div>
-              {videoEnded && (
-                <motion.div
-                  className="absolute inset-0 bg-black"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.5 }}
-                />
-              )}
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {showContent && (
-        <>
-          <motion.div
-            initial={{ y: -100, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
-          >
-            <Navigation 
-              language={language} 
-              setLanguage={setLanguage} 
-              t={t}
-              handleThemeChange={handleThemeChange}
-              currentTheme={theme}
+              <source src="/logo/logo_video.mp4" type="video/mp4" />
+              Votre navigateur ne prend pas en charge la lecture vidéo.
+            </video>
+          </div>
+          {videoEnded && (
+            <motion.div
+              className="absolute inset-0 bg-black"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
             />
-          </motion.div>
+          )}
+        </motion.div>
+      </motion.div>
+    )}
+  </AnimatePresence>
 
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 1 }}
-          >
-            <main className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
-            <section id="hero" className="relative min-h-screen">
-          <div className="absolute inset-0 bg-gradient-to-br from-[#E6F4F1] to-white dark:from-gray-800 dark:to-gray-900" />
-          <div className="relative mx-auto max-w-6xl px-6 pt-32">
-            <div className="grid gap-24 lg:grid-cols-2">
-              <motion.div
-                className="relative"
-                initial={{ x: -100, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ duration: 1.2, delay: 1.5, ease: "easeOut" }}
-              >
-                <motion.h1
-                  className="mb-12 text-4xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white"
-                  initial={{ y: 50, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ duration: 1.2, delay: 1.8, ease: "easeOut" }}
-                >
-                  {t.hero.title.split(' ').map((word, index) => (
-                    <span key={index} className="inline-block mr-2">
-                      {word}
-                    </span>
-                  ))}
-                  <span className="text-[#1B998B] dark:text-[#3CDFFF]">SUCCES</span>
-                </motion.h1>
+  {showContent && (
+    <>
+      <motion.div
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
+      >
+        <Navigation 
+          language={language} 
+          setLanguage={setLanguage} 
+          t={t}
+          handleThemeChange={handleThemeChange}
+          currentTheme={theme}
+        />
+      </motion.div>
 
-                <motion.div 
-                  className="relative h-[400px] w-full"
-                  style={{ y: yOffset }}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 1, delay: 2.1, ease: "easeOut" }}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1, delay: 1 }}
+      >
+        <main className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
+          <section id="hero" className="relative min-h-screen">
+            <div className="absolute inset-0 bg-gradient-to-br from-[#E6F4F1] to-white dark:from-gray-800 dark:to-gray-900" />
+            <div className="relative w-full max-w-full px-4 sm:px-6 lg:px-8 pt-32">
+              <div className="grid gap-8 lg:gap-24 lg:grid-cols-2">
+                <motion.div
+                  className="relative"
+                  initial={{ x: -100, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ duration: 1.2, delay: 1.5, ease: "easeOut" }}
                 >
-                  <div className="absolute inset-0 rounded-3xl bg-[#1B998B]/20 dark:bg-[#3CDFFF]/20" />
-                  
+                  <motion.h1
+                    className="mb-6 lg:mb-12 text-3xl lg:text-4xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white"
+                    initial={{ y: 50, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ duration: 1.2, delay: 1.8, ease: "easeOut" }}
+                  >
+                    {t.hero.title.split(' ').map((word, index) => (
+                      <span key={index} className="inline-block mr-2">
+                        {word}
+                      </span>
+                    ))}
+                    <span className="text-[#1B998B] dark:text-[#3CDFFF]">SUCCES</span>
+                  </motion.h1>
+
+                  <motion.div 
+                    className="relative h-[300px] lg:h-[400px] w-full"
+                    style={{ y: yOffset }}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 1, delay: 2.1, ease: "easeOut" }}
+                  >
+                    <div className="absolute inset-0 rounded-3xl bg-[#1B998B]/20 dark:bg-[#3CDFFF]/20" />
                     <CreditCard3D />
-                  
+                  </motion.div>
                 </motion.div>
-              </motion.div>
 
-              <motion.div
-                className="space-y-8"
-                initial={{ x: 100, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ duration: 1.2, delay: 1.5, ease: "easeOut" }}
+                <motion.div
+                  className="space-y-8"
+                  initial={{ x: 100, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ duration: 1.2, delay: 1.5, ease: "easeOut" }}
+                >
+                  <motion.h2 
+                    className="mb-12 text-4xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white"
+                    initial={{ y: 50, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ duration: 1.2, delay: 1.8, ease: "easeOut" }}
+                  >
+                    {t.hero.subtitle}
+                  </motion.h2>
+
+                  <motion.div 
+                    className="relative mt-12"
+                    style={{ y: yOffset }}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 1, delay: 2.1, ease: "easeOut" }}
+                  >
+                    <div className="relative mx-auto max-w-md rounded-2xl bg-gray-900 p-8 text-white dark:bg-white dark:text-gray-900">
+                      <div className="mt-16 text-center">
+                        <div className="text-3xl font-bold">1000+</div>
+                        <div className="mt-2 text-gray-400 dark:text-gray-600">entreprises nous font confiance !</div>
+                        <button className="mt-6 flex w-full items-center justify-between rounded-lg bg-gray-800 p-4 text-gray-300 hover:bg-gray-700 dark:bg-gray-100 dark:text-gray-800 dark:hover:bg-gray-200">
+                          <span>En savoir plus</span>
+                          <ArrowRight className="h-5 w-5" />
+                        </button>
+                      </div>
+                    </div>
+                  </motion.div>
+                </motion.div>
+              </div>
+            </div>
+          </section>
+
+          <section id="team" className="py-20 bg-gray-100 dark:bg-gray-800">
+            <div className="container mx-auto px-4 overflow-hidden">
+              <motion.h2 
+                className="mb-12 text-4xl font-bold text-center"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
               >
-                <motion.h2 
-                  className="mb-12 text-4xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white"
-                  initial={{ y: 50, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ duration: 1.2, delay: 1.8, ease: "easeOut" }}
-                >
-                  {t.hero.subtitle}
-                </motion.h2>
+                {t.team.title}
+              </motion.h2>
+              <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+                {t.team.teamMembers.map((member, index) => (
+                  <TeamMember 
+                    key={member.name} 
+                    {...member} 
+                    image={`/membres/membre${index + 1}.jpg`}
+                    index={index} 
+                    teamTranslations={t.team}
+                  />
+                ))}
+              </div>
+            </div>
+          </section>
 
-                <motion.div 
-                  className="relative mt-12"
-                  style={{ y: yOffset }}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 1, delay: 2.1, ease: "easeOut" }}
-                >
-                  <div className="relative mx-auto max-w-md rounded-2xl bg-gray-900 p-8 text-white dark:bg-white dark:text-gray-900">
-                    <div className="mt-16 text-center">
-                      <div className="text-3xl font-bold">1000+</div>
-                      <div className="mt-2 text-gray-400 dark:text-gray-600">entreprises nous font confiance !</div>
-                      <button className="mt-6 flex w-full items-center justify-between rounded-lg bg-gray-800 p-4 text-gray-300 hover:bg-gray-700 dark:bg-gray-100 dark:text-gray-800 dark:hover:bg-gray-200">
-                        <span>En savoir plus</span>
-                        <ArrowRight className="h-5 w-5" />
-                      </button>
+          <ServicesSection t={t} />
+          <AboutUsSection t={t} />
+          <PartnersSection t={t} />
+          <CertificationsSection t={t} />
+          <CareersAndTrainingSection t={t} />
+          <InternationalPresenceSection t={t} />
+          <MapSection  t={t}/>
+          <ExpertiseSection t={t} />
+
+          <section id="contact" className="relative min-h-screen py-20">
+            <div className="absolute inset-0">
+              <Wave3D />
+            </div>
+            
+            <div className="relative container mx-auto px-4 z-10 overflow-hidden">
+              <h2 className="mb-12 text-4xl font-bold text-center text-white dark:text-gray-900">{t.contact.title}</h2>
+              
+              <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+                <form onSubmit={handleSubmit} className="space-y-4 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-8 rounded-lg shadow-xl">
+                  <div>
+                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">{t.contact.name}</label>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      required
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1B998B] focus:ring-[#1B998B] dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:focus:border-[#3CDFFF] dark:focus:ring-[#3CDFFF]"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">{t.contact.email}</label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      required
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1B998B] focus:ring-[#1B998B] dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:focus:border-[#3CDFFF] dark:focus:ring-[#3CDFFF]"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300">{t.contact.message}</label>
+                    <textarea
+                      id="message"
+                      name="message"
+                      rows={4}
+                      required
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1B998B] focus:ring-[#1B998B] dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:focus:border-[#3CDFFF] dark:focus:ring-[#3CDFFF]"
+                    ></textarea>
+                  </div>
+                  <div className="flex gap-4">
+                    <button
+                      type="submit"
+                      className="flex-1 flex items-center justify-center gap-2 py-2 px-4
+border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#1B998B] hover:bg-[#1B998B]/80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1B998B] dark:bg-[#3CDFFF] dark:hover:bg-[#3CDFFF]/80 dark:focus:ring-[#3CDFFF]"
+                    >
+                      <Send className="w-4 h-4" />
+                      {t.contact.send}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleWhatsAppClick}
+                      className="flex-1 flex items-center justify-center gap-2 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                    >
+                      <MessageCircle className="w-4 h-4" />
+                      WhatsApp
+                    </button>
+                  </div>
+                </form>
+
+                <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-8 rounded-lg shadow-xl space-y-6">
+                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">{t.contact.title}</h3>
+                  
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-4">
+                      <Phone className="w-5 h-5 text-[#1B998B] dark:text-[#3CDFFF]" />
+                      <div>
+                        <p className="text-gray-700 dark:text-gray-300">{t.contact.phone}</p>
+                        <p className="text-gray-900 dark:text-white">(+223) 20 28 23 81</p>
+                        <p className="text-gray-900 dark:text-white">(+223) 66 71 57 97</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-4">
+                      <Mail className="w-5 h-5 text-[#1B998B] dark:text-[#3CDFFF]" />
+                      <div>
+                        <p className="text-gray-700 dark:text-gray-300">{t.contact.email}</p>
+                        <a href="mailto:cae2c@ae2cmali.com" className="text-[#1B998B] dark:text-[#3CDFFF] hover:underline">
+                          cae2c@ae2cmali.com
+                        </a>
+                      </div>
                     </div>
                   </div>
-                </motion.div>
-              </motion.div>
-            </div>
-          </div>
-        </section>
-
-
-        
-      <section id="team" className="py-20 bg-gray-100 dark:bg-gray-800">
-        <div className="container mx-auto px-4">
-          <motion.h2 
-            className="mb-12 text-4xl font-bold text-center"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            {t.team.title}
-          </motion.h2>
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-            {t.team.teamMembers.map((member, index) => (
-              <TeamMember 
-                key={member.name} 
-                {...member} 
-                image={`/membres/membre${index + 1}.jpg`}
-                index={index} 
-                teamTranslations={t.team}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-
-         <ServicesSection t={t} />
-         <AboutUsSection t={t} />
-         <PartnersSection t={t} />
-         <CertificationsSection t={t} />
-         <CareersAndTrainingSection t={t} />
-         <InternationalPresenceSection t={t} />
-         <MapSection  t={t}/>
-         <ExpertiseSection t={t} />
-         
-
-         <section id="contact" className="relative min-h-screen py-20">
-
-        <Wave3D />
-      
-      <div className="relative container mx-auto px-4 z-10">
-        <h2 className="mb-12 text-4xl font-bold text-center text-white dark:text-gray-900">{t.contact.title}</h2>
-        
-        <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Formulaire de contact */}
-          <form onSubmit={handleSubmit} className="space-y-4 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-8 rounded-lg shadow-xl">
-            <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">{t.contact.name}</label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                required
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1B998B] focus:ring-[#1B998B] dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:focus:border-[#3CDFFF] dark:focus:ring-[#3CDFFF]"
-              />
-            </div>
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">{t.contact.email}</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                required
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1B998B] focus:ring-[#1B998B] dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:focus:border-[#3CDFFF] dark:focus:ring-[#3CDFFF]"
-              />
-            </div>
-            <div>
-              <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300">{t.contact.message}</label>
-              <textarea
-                id="message"
-                name="message"
-                rows={4}
-                required
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1B998B] focus:ring-[#1B998B] dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:focus:border-[#3CDFFF] dark:focus:ring-[#3CDFFF]"
-              ></textarea>
-            </div>
-            <div className="flex gap-4">
-              <button
-                type="submit"
-                className="flex-1 flex items-center justify-center gap-2 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#1B998B] hover:bg-[#1B998B]/80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1B998B] dark:bg-[#3CDFFF] dark:hover:bg-[#3CDFFF]/80 dark:focus:ring-[#3CDFFF]"
-              >
-                <Send className="w-4 h-4" />
-                {t.contact.send}
-              </button>
-              <button
-                type="button"
-                onClick={handleWhatsAppClick}
-                className="flex-1 flex items-center justify-center gap-2 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-              >
-                <MessageCircle className="w-4 h-4" />
-                WhatsApp
-              </button>
-            </div>
-          </form>
-
-          {/* Informations de contact */}
-          <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-8 rounded-lg shadow-xl space-y-6">
-      <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">{t.contact.title}</h3>
-      
-      <div className="space-y-4">
-        <div className="flex items-center gap-4">
-          <Phone className="w-5 h-5 text-[#1B998B] dark:text-[#3CDFFF]" />
-          <div>
-            <p className="text-gray-700 dark:text-gray-300">{t.contact.phone}</p>
-            <p className="text-gray-900 dark:text-white">(+223) 20 28 23 81</p>
-            <p className="text-gray-900 dark:text-white">(+223) 66 71 57 97</p>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-4">
-          <Mail className="w-5 h-5 text-[#1B998B] dark:text-[#3CDFFF]" />
-          <div>
-            <p className="text-gray-700 dark:text-gray-300">{t.contact.email}</p>
-            <a href="mailto:cae2c@ae2cmali.com" className="text-[#1B998B] dark:text-[#3CDFFF] hover:underline">
-              cae2c@ae2cmali.com
-            </a>
-          </div>
+                </div>
               </div>
-
-              
             </div>
-          </div>
-        </div>
-      </div>
-    </section>
-       </main>
+          </section>
+        </main>
 
+        <Footer t={t} />
 
-       <Footer t={t} />
-
-<motion.div
-  className="fixed bottom-4 right-4 w-16 h-16 bg-[#1B998B] dark:bg-[#3CDFFF] rounded-full flex items-center justify-center cursor-pointer"
-  style={{ opacity: scrollButtonOpacity }}
-  whileHover={{ scale: 1.1 }}
-  whileTap={{ scale: 0.9 }}
-  onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
->
-  <ArrowRight className="text-white dark:text-gray-900 transform rotate-[-90deg]" />
-</motion.div>
-</motion.div>
-</>
-)}
+        <motion.div
+          className="fixed bottom-4 right-4 w-16 h-16 bg-[#1B998B] dark:bg-[#3CDFFF] rounded-full flex items-center justify-center cursor-pointer"
+          style={{ opacity: scrollButtonOpacity }}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        >
+          <ArrowRight className="text-white dark:text-gray-900 transform rotate-[-90deg]" />
+        </motion.div>
+      </motion.div>
+    </>
+  )}
 </div>
-
- )
+)
 }
+

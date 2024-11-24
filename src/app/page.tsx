@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState, Suspense  } from "react"
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import { ArrowRight, ChevronDown, ChevronUp, Menu, X, Sun, Moon, Globe, MapPin, QrCode, Brain, MessageSquare, Phone, Mail, Facebook, Twitter, Instagram, Linkedin, Send, MessageCircle, Code } from 'lucide-react'
 import Image from "next/image"
@@ -483,6 +483,34 @@ function TouchEffect() {
  )
 }
 
+const Scene3D = dynamic(() => import('./components/Scene3D'), {
+  ssr: false,
+  loading: () => <div className="animate-pulse bg-gray-200 dark:bg-gray-700 rounded-lg w-full h-full" />
+});
+
+const LargeScene3D = dynamic(() => import('./components/LargeScene3D'), {
+  ssr: false,
+  loading: () => <div className="animate-pulse bg-gray-200 dark:bg-gray-700 rounded-lg w-full h-full" />
+});
+
+const Wave3D = dynamic(() => import('./components/Wave3D'), {
+  ssr: false,
+  loading: () => <div className="animate-pulse bg-gray-200 dark:bg-gray-700 rounded-lg w-full h-full" />
+});
+
+const CreditCard3D = dynamic(() => import('./components/CreditCard3D'), {
+  ssr: false,
+  loading: () => <div className="animate-pulse bg-gray-200 dark:bg-gray-700 rounded-3xl w-full h-full" />
+});
+
+// Optimized loading component
+// Optimized loading component
+const LoadingSpinner = () => (
+<div className="flex items-center justify-center w-full h-full">
+  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#1B998B]" />
+</div>
+);
+
 function Navigation({ language, setLanguage, t, handleThemeChange, currentTheme }) {
   const [activeSection, setActiveSection] = useState("");
   const [isOpen, setIsOpen] = useState(false);
@@ -525,11 +553,11 @@ function Navigation({ language, setLanguage, t, handleThemeChange, currentTheme 
   }
   return (
     <motion.header 
-        className={`fixed top-0 z-40 w-full transition-all duration-300 ${hasScrolled ? "backdrop-blur-lg bg-white/80 dark:bg-gray-900/80" : ""}`}
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-      >
+      className={`fixed top-0 z-40 w-full transition-all duration-300 ${hasScrolled ? "backdrop-blur-lg bg-white/80 dark:bg-gray-900/80" : ""}`}
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+    >
       <nav className="mx-auto flex max-w-7xl items-center justify-between p-5">
         <motion.div 
           className="flex items-center gap-2"
@@ -538,15 +566,15 @@ function Navigation({ language, setLanguage, t, handleThemeChange, currentTheme 
           transition={{ delay: 0.2 }}
         >
           <Image
-        src="/logo/svg/ae2c.svg"
-        alt="AE2C Logo"
-        width={120}
-        height={60}
-        className="transition-opacity"
-        style={{ filter: 'none' }}
-      />
+            src="/logo/svg/ae2c.svg"
+            alt="AE2C Logo"
+            width={120}
+            height={60}
+            className="transition-opacity"
+            style={{ filter: 'none' }}
+          />
         </motion.div>
-  
+
         <motion.div 
           className="hidden md:flex items-center space-x-8"
           initial={{ y: -20, opacity: 0 }}
@@ -565,7 +593,7 @@ function Navigation({ language, setLanguage, t, handleThemeChange, currentTheme 
             </button>
           ))}
         </motion.div>
-  
+
         <div className="flex items-center space-x-4">
           <button
             onClick={handleThemeChange}
@@ -580,7 +608,7 @@ function Navigation({ language, setLanguage, t, handleThemeChange, currentTheme 
             <Globe size={20} />
           </button>
         </div>
-  
+
         <button
           className="z-50 md:hidden"
           onClick={() => setIsOpen(!isOpen)}
@@ -588,7 +616,7 @@ function Navigation({ language, setLanguage, t, handleThemeChange, currentTheme 
           {isOpen ? <X className="text-gray-900 dark:text-white" /> : <Menu className="text-gray-900 dark:text-white" />}
         </button>
       </nav>
-  
+
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -612,37 +640,10 @@ function Navigation({ language, setLanguage, t, handleThemeChange, currentTheme 
         )}
       </AnimatePresence>
     </motion.header>
-   )
-  }
+  );
+}
   
 
-  const Scene3D = dynamic(() => import('./components/Scene3D'), {
-    ssr: false,
-    loading: () => <div className="animate-pulse bg-gray-200 dark:bg-gray-700 rounded-lg w-full h-full" />
-  });
-  
-  const LargeScene3D = dynamic(() => import('./components/LargeScene3D'), {
-    ssr: false,
-    loading: () => <div className="animate-pulse bg-gray-200 dark:bg-gray-700 rounded-lg w-full h-full" />
-  });
-  
-  const Wave3D = dynamic(() => import('./components/Wave3D'), {
-    ssr: false,
-    loading: () => <div className="animate-pulse bg-gray-200 dark:bg-gray-700 rounded-lg w-full h-full" />
-  });
-  
-  const CreditCard3D = dynamic(() => import('./components/CreditCard3D'), {
-    ssr: false,
-    loading: () => <div className="animate-pulse bg-gray-200 dark:bg-gray-700 rounded-3xl w-full h-full" />
-  });
-  
-  // Optimized loading component
-  // Optimized loading component
-const LoadingSpinner = () => (
-  <div className="flex items-center justify-center w-full h-full">
-    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#1B998B]" />
-  </div>
-);
 
 function ServiceCard({ title, description, index, active, onClick }) {
   const baseClasses = "relative h-[300px] w-[300px] overflow-hidden cursor-pointer";
@@ -816,251 +817,9 @@ function AboutUsSection({ t }) {
     </section>
   )
 }
-function ServicesSection({ t }) {
-  const [activeServiceCard, setActiveServiceCard] = useState(0)
 
-  const services = [
-    { title: t.services.audit, description: t.services.auditDesc },
-    { title: t.services.accounting, description: t.services.accountingDesc },
-    { title: t.services.tax, description: t.services.taxDesc },
-    { title: t.services.legal, description: t.services.legalDesc },
-    { title: t.services.social, description: t.services.socialDesc },
-    { title: t.services.digital, description: t.services.digitalDesc }
-  ]
 
-  return (
-    <section id="services" className="py-20 bg-white dark:bg-gray-900">
-      <div className="container mx-auto px-4">
-        <motion.h2 
-          className="mb-12 text-4xl font-bold text-center"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          {t.services.title}
-        </motion.h2>
-        <div className="flex flex-col md:flex-row items-center justify-between">
-          <motion.div 
-            className="w-full md:w-1/2 mb-8 md:mb-0"
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="relative h-[600px]">
-          
-                <LargeScene3D  />
-              
-            </div>
-          </motion.div>
-          <motion.div 
-            className="w-full md:w-1/2"
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="flex flex-wrap justify-center">
-              {services.map((service, index) => (
-                <ServiceCard
-                  key={index}
-                  title={service.title}
-                  description={service.description}
-                  index={index}
-                  active={index === activeServiceCard}
-                  onClick={() => setActiveServiceCard(index)}
-                />
-              ))}
-            </div>
-          </motion.div>
-        </div>
-      </div>
-    </section>
-  )
-}
 
-function PartnersSection({ t }) {
-  const partners = [
-    { 
-      name: "ACDI Voca", 
-      logo: "/partenaires/partenaire1.jpg", 
-      description: t.partners.acdiVoca
-    },
-    { 
-      name: "UNICEF", 
-      logo: "/partenaires/partenaire2.jpg", 
-      description: t.partners.unicef
-    },
-    { 
-      name: "USAID", 
-      logo: "/partenaires/partenaire3.jpg", 
-      description: t.partners.usaid
-    },
-    { 
-      name: t.partners.unWomen, 
-      logo: "/partenaires/partenaire4.jpg", 
-      description: t.partners.unWomenDesc
-    },
-    { 
-      name: "ICCO", 
-      logo: "/partenaires/partenaire5.jpg", 
-      description: t.partners.icco
-    },
-    { 
-      name: "Helen Keller", 
-      logo: "/partenaires/partenaire6.jpg", 
-      description: t.partners.helenKeller
-    },
-    { 
-      name: t.partners.africanDevBank, 
-      logo: "/partenaires/partenaire7.jpg", 
-      description: t.partners.africanDevBankDesc
-    },
-    { 
-      name: "BSIC", 
-      logo: "/partenaires/partenaire8.jpg", 
-      description: t.partners.bsic
-    },
-    { 
-      name: "BNDA", 
-      logo: "/partenaires/partenaire9.png", 
-      description: t.partners.bnda
-    }
-  ];
-
-  return (
-    <section id="partners" className="py-20 bg-gradient-to-br from-[#0A1A2F] to-[#0F2D4A] text-white">
-      <div className="container mx-auto px-4">
-        <motion.h2 
-          className="mb-12 text-4xl font-bold text-center"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          {t.partners.title}
-        </motion.h2>
-        <motion.p
-          className="text-center text-xl mb-12"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
-          {t.partners.subtitle}
-        </motion.p>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {partners.map((partner, index) => (
-            <motion.div
-              key={partner.name}
-              className="relative group"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-[#1B998B]/20 to-[#3CDFFF]/20 rounded-xl transform -rotate-6 group-hover:rotate-0 transition-transform duration-300" />
-              <div className="relative bg-white/10 backdrop-blur-sm p-6 rounded-xl hover:shadow-xl transition-all duration-300">
-                <div className="flex items-center justify-center mb-4">
-                  <div className="w-24 h-24 relative">
-                    <Image
-                      src={partner.logo}
-                      alt={partner.name}
-                      width={96}
-                      height={96}
-                      className="object-contain w-full h-full"
-                    />
-                  </div>
-                </div>
-                <h3 className="text-xl font-bold text-center mb-2">{partner.name}</h3>
-                <p className="text-sm text-center text-gray-300">{partner.description}</p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
- )
-}
-
-function CertificationsSection({ t }) {
- const certifications = [
-   { name: "ONECCAM", description: "Ordre National des Experts Comptables et Comptables Agréés du Mali",file: "certification2.jpg" },
-   { name: "TomPro", description: "Logiciel pour la gestion de nos tomates",file: "certification1.jpg" },
-   { name: "INES", description: "Certification Expert comptable de Paris",file: "certification4.png" },
-   { name: "IFAC", description: "Federation internationnale de comptables",file: "certification3.jpg" },
- ]
-
- return (
-  <section id="certifications" className="py-20 bg-gray-50 dark:bg-gray-800">
-  <div className="container mx-auto px-4">
-    <motion.h2 
-      className="mb-12 text-4xl font-bold text-center"
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
-    >
-      {t.certifications.title}
-    </motion.h2>
-    <div className="flex justify-center">
-      <div className="relative w-[300px] h-[300px]">
-        {certifications.map((cert, index) => {
-          const angle = (index / certifications.length) * 2 * Math.PI;
-          const x = Math.cos(angle) * 120;
-          const y = Math.sin(angle) * 120;
-
-          return (
-            <motion.div
-              key={cert.name}
-              className="absolute w-24 h-24 bg-white dark:bg-gray-700 rounded-full shadow-lg flex items-center justify-center cursor-pointer overflow-hidden p-2"
-              style={{ left: 'calc(50% - 3rem)', top: 'calc(50% - 3rem)' }}
-              initial={{ x, y }}
-              animate={{
-                x: [x, x + 10, x - 10, x],
-                y: [y, y - 10, y + 10, y],
-              }}
-              transition={{
-                duration: 20,
-                repeat: Infinity,
-                repeatType: 'reverse',
-              }}
-              whileHover={{ scale: 1.1 }}
-            >
-              <div className="relative w-full h-full">
-                <Image
-                  src={`/certification/${cert.file}`}
-                  alt={cert.name}
-                  width={96}
-                  height={96}
-                  className="rounded-full object-contain w-full h-full"
-                  style={{
-                    maxWidth: '100%',
-                    maxHeight: '100%'
-                  }}
-                />
-              </div>
-            </motion.div>
-          );
-        })}
-      </div>
-    </div>
-    <div className="mt-12 text-center">
-      <motion.h3
-        className="text-2xl font-semibold mb-2"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.2 }}
-      >
-        {t.certifications.subtitle}
-      </motion.h3>
-      <motion.p
-        className="text-gray-600 dark:text-gray-300"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.4 }}
-      >
-        {t.certifications.description}
-      </motion.p>
-    </div>
-  </div>
-</section>
- )
-}
 
 function CareersAndTrainingSection({ t }) {
   const features = [
@@ -1200,6 +959,546 @@ function InternationalPresenceSection({ t }) {
   }
   
 
+
+
+
+
+
+// Hero Section Component
+function HeroSection({ t, yOffset }) {
+  return (
+    <section id="hero" className="relative min-h-screen">
+      <div className="absolute inset-0 bg-gradient-to-br from-[#E6F4F1] to-white dark:from-gray-800 dark:to-gray-900" />
+      <div className="relative w-full max-w-full px-4 sm:px-6 lg:px-8 pt-32">
+        <div className="grid gap-8 lg:gap-24 lg:grid-cols-2">
+          <motion.div
+            className="relative"
+            initial={{ x: -100, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 1.2, delay: 1.5, ease: "easeOut" }}
+          >
+            <motion.h1
+              className="mb-6 lg:mb-12 text-3xl lg:text-4xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white"
+              initial={{ y: 50, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 1.2, delay: 1.8, ease: "easeOut" }}
+            >
+              {t.hero.title.split(' ').map((word, index) => (
+                <span key={index} className="inline-block mr-2">
+                  {word}
+                </span>
+              ))}
+              <span className="text-[#1B998B] dark:text-[#3CDFFF]">SUCCES</span>
+            </motion.h1>
+
+            <motion.div 
+              className="relative h-[300px] lg:h-[400px] w-full"
+              style={{ y: yOffset }}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1, delay: 2.1, ease: "easeOut" }}
+            >
+              <div className="absolute inset-0 rounded-3xl bg-[#1B998B]/20 dark:bg-[#3CDFFF]/20" />
+              <CreditCard3D />
+            </motion.div>
+          </motion.div>
+
+          <motion.div
+            className="space-y-8"
+            initial={{ x: 100, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 1.2, delay: 1.5, ease: "easeOut" }}
+          >
+            <motion.h2 
+              className="mb-12 text-4xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white"
+              initial={{ y: 50, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 1.2, delay: 1.8, ease: "easeOut" }}
+            >
+              {t.hero.subtitle}
+            </motion.h2>
+
+            <motion.div 
+              className="relative mt-12"
+              style={{ y: yOffset }}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1, delay: 2.1, ease: "easeOut" }}
+            >
+              <div className="relative mx-auto max-w-md rounded-2xl bg-gray-900 p-8 text-white dark:bg-white dark:text-gray-900">
+                <div className="mt-16 text-center">
+                  <div className="text-3xl font-bold">1000+</div>
+                  <div className="mt-2 text-gray-400 dark:text-gray-600">{t.hero.trustText}</div>
+                  <button className="mt-6 flex w-full items-center justify-between rounded-lg bg-gray-800 p-4 text-gray-300 hover:bg-gray-700 dark:bg-gray-100 dark:text-gray-800 dark:hover:bg-gray-200">
+                    <span>{t.hero.learnMore}</span>
+                    <ArrowRight className="h-5 w-5" />
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// Team Section Component
+function TeamSection({ t }) {
+  return (
+    <section id="team" className="py-20 bg-gray-100 dark:bg-gray-800">
+      <div className="container mx-auto px-4">
+        <motion.h2 
+          className="mb-12 text-4xl font-bold text-center"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          {t.team.title}
+        </motion.h2>
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+          {t.team.teamMembers.map((member, index) => (
+            <TeamMember 
+              key={member.name}
+              {...member}
+              image={`/membres/membre${index + 1}.jpg`}
+              index={index}
+              teamTranslations={t.team}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// Services Section Component
+function ServicesSection({ t }) {
+  const [activeServiceCard, setActiveServiceCard] = useState(0);
+
+  const services = [
+    { title: t.services.audit, description: t.services.auditDesc },
+    { title: t.services.accounting, description: t.services.accountingDesc },
+    { title: t.services.tax, description: t.services.taxDesc },
+    { title: t.services.legal, description: t.services.legalDesc },
+    { title: t.services.social, description: t.services.socialDesc },
+    { title: t.services.digital, description: t.services.digitalDesc }
+  ];
+
+  return (
+    <section id="services" className="py-20 bg-white dark:bg-gray-900">
+      <div className="container mx-auto px-4">
+        <motion.h2 
+          className="mb-12 text-4xl font-bold text-center"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          {t.services.title}
+        </motion.h2>
+        <div className="flex flex-col md:flex-row items-center justify-between">
+          <motion.div 
+            className="w-full md:w-1/2 mb-8 md:mb-0"
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="relative h-[600px]">
+              <LargeScene3D />
+            </div>
+          </motion.div>
+          <motion.div 
+            className="w-full md:w-1/2"
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="flex flex-wrap justify-center">
+              {services.map((service, index) => (
+                <ServiceCard
+                  key={index}
+                  title={service.title}
+                  description={service.description}
+                  index={index}
+                  active={index === activeServiceCard}
+                  onClick={() => setActiveServiceCard(index)}
+                />
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// About Section Component
+function AboutSection({ t }) {
+  return (
+    <section id="about" className="py-20 bg-gray-50 dark:bg-gray-800">
+      <div className="container mx-auto px-4">
+        <motion.h2 
+          className="mb-12 text-4xl font-bold text-center"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          {t.about.title}
+        </motion.h2>
+        <div className="grid md:grid-cols-2 gap-8 items-center">
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <p className="text-lg mb-4">{t.about.description}</p>
+            <ul className="list-disc list-inside space-y-2">
+              <li>{t.about.point1}</li>
+              <li>{t.about.point2}</li>
+              <li>{t.about.point3}</li>
+            </ul>
+          </motion.div>
+          <motion.div 
+            className="relative h-[400px]"
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <Scene3D />
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// Partners Section Component
+function PartnersSection({ t }) {
+  const partners = [
+    { 
+      name: "ACDI Voca", 
+      logo: "/partenaires/partenaire1.jpg", 
+      description: t.partners.acdiVoca
+    },
+    { 
+      name: "UNICEF", 
+      logo: "/partenaires/partenaire2.jpg", 
+      description: t.partners.unicef
+    },
+    { 
+      name: "USAID", 
+      logo: "/partenaires/partenaire3.jpg", 
+      description: t.partners.usaid
+    },
+    { 
+      name: t.partners.unWomen, 
+      logo: "/partenaires/partenaire4.jpg", 
+      description: t.partners.unWomenDesc
+    },
+    { 
+      name: "ICCO", 
+      logo: "/partenaires/partenaire5.jpg", 
+      description: t.partners.icco
+    },
+    { 
+      name: "Helen Keller", 
+      logo: "/partenaires/partenaire6.jpg", 
+      description: t.partners.helenKeller
+    },
+    { 
+      name: t.partners.africanDevBank, 
+      logo: "/partenaires/partenaire7.jpg", 
+      description: t.partners.africanDevBankDesc
+    },
+    { 
+      name: "BSIC", 
+      logo: "/partenaires/partenaire8.jpg", 
+      description: t.partners.bsic
+    },
+    { 
+      name: "BNDA", 
+      logo: "/partenaires/partenaire9.png", 
+      description: t.partners.bnda
+    }
+  ];
+
+  return (
+    <section id="partners" className="py-20 bg-gradient-to-br from-[#0A1A2F] to-[#0F2D4A] text-white">
+      <div className="container mx-auto px-4">
+        <motion.h2 
+          className="mb-12 text-4xl font-bold text-center"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          {t.partners.title}
+        </motion.h2>
+        <motion.p
+          className="text-center text-xl mb-12"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          {t.partners.subtitle}
+        </motion.p>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {partners.map((partner, index) => (
+            <motion.div
+              key={partner.name}
+              className="relative group"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: index * 0.1 }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-[#1B998B]/20 to-[#3CDFFF]/20 rounded-xl transform -rotate-6 group-hover:rotate-0 transition-transform duration-300" />
+              <div className="relative bg-white/10 backdrop-blur-sm p-6 rounded-xl hover:shadow-xl transition-all duration-300">
+                <div className="flex items-center justify-center mb-4">
+                  <div className="w-24 h-24 relative">
+                    <Image
+                      src={partner.logo}
+                      alt={partner.name}
+                      width={96}
+                      height={96}
+                      className="object-contain w-full h-full"
+                    />
+                  </div>
+                </div>
+                <h3 className="text-xl font-bold text-center mb-2">{partner.name}</h3>
+                <p className="text-sm text-center text-gray-300">{partner.description}</p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// Certifications Section Component
+function CertificationsSection({ t }) {
+  const certifications = [
+    { name: "ONECCAM", description: "Ordre National des Experts Comptables et Comptables Agréés du Mali", file: "certification2.jpg" },
+    { name: "TomPro", description: "Logiciel pour la gestion de nos tomates", file: "certification1.jpg" },
+    { name: "INES", description: "Certification Expert comptable de Paris", file: "certification4.png" },
+    { name: "IFAC", description: "Federation internationnale de comptables", file: "certification3.jpg" },
+  ];
+
+  return (
+    <section id="certifications" className="py-20 bg-gray-50 dark:bg-gray-800">
+      <div className="container mx-auto px-4">
+        <motion.h2 
+          className="mb-12 text-4xl font-bold text-center"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          {t.certifications.title}
+        </motion.h2>
+        <div className="flex justify-center">
+          <div className="relative w-[300px] h-[300px]">
+            {certifications.map((cert, index) => {
+              const angle = (index / certifications.length) * 2 * Math.PI;
+              const x = Math.cos(angle) * 120;
+              const y = Math.sin(angle) * 120;
+
+              return (
+                <motion.div
+                  key={cert.name}
+                  className="absolute w-24 h-24 bg-white dark:bg-gray-700 rounded-full shadow-lg flex items-center justify-center cursor-pointer overflow-hidden p-2"
+                  style={{ left: 'calc(50% - 3rem)', top: 'calc(50% - 3rem)' }}
+                  initial={{ x, y }}
+                  animate={{
+                    x: [x, x + 10, x - 10, x],
+                    y: [y, y - 10, y + 10, y],
+                  }}
+                  transition={{
+                    duration: 20,
+                    repeat: Infinity,
+                    repeatType: 'reverse',
+                  }}
+                  whileHover={{ scale: 1.1 }}
+                >
+                  <div className="relative w-full h-full">
+                    <Image
+                      src={`/certification/${cert.file}`}
+                      alt={cert.name}
+                      width={96}
+                      height={96}
+                      className="rounded-full object-contain w-full h-full"
+                      style={{
+                        maxWidth: '100%',
+                        maxHeight: '100%'
+                      }}
+                    />
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+        <div className="mt-12 text-center">
+          <motion.h3
+            className="text-2xl font-semibold mb-2"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            {t.certifications.subtitle}
+          </motion.h3>
+          <motion.p
+            className="text-gray-600 dark:text-gray-300"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
+            {t.certifications.description}
+          </motion.p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// Careers Section Component
+function CareersSection({ t }) {
+  const features = [
+    {
+      icon: <QrCode className="h-8 w-8" />,
+      title: t.careers.recruitment,
+      description: t.careers.recruitmentDesc
+    },
+    {
+      icon: <Brain className="h-8 w-8" />,
+      title: t.careers.training,
+      description: t.careers.trainingDesc
+    },
+    {
+      icon: <MessageSquare className="h-8 w-8" />,
+      title: t.careers.support,
+      description: t.careers.supportDesc
+    }
+  ];
+
+  return (
+    <section id="careers" className="relative overflow-hidden bg-gradient-to-br from-white to-[#E6F4F1] dark:from-gray-900 dark:to-gray-800 py-24">
+      <div className="absolute right-0 top-0 h-[600px] w-[600px] translate-x-1/2 -translate-y-1/2">
+        <div className="h-full w-full rounded-full bg-gradient-to-br from-[#1B998B] to-[#3CDFFF] opacity-20 blur-3xl" />
+      </div>
+      
+      <div className="container relative mx-auto px-4">
+        <div className="mx-auto max-w-4xl text-center">
+          <motion.h2 
+            className="mb-4 text-5xl font-bold tracking-tight text-[#1B998B] dark:text-[#3CDFFF]"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            {t.careers.title}
+          </motion.h2>
+          <motion.p 
+            className="mb-16 text-lg text-gray-600 dark:text-gray-300"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            {t.careers.subtitle}
+          </motion.p>
+        </div>
+
+        <div className="grid gap-8 md:grid-cols-3">
+          {features.map((feature, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: index * 0.2 }}
+            >
+              <div className="group relative overflow-hidden bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm transition-all hover:shadow-lg rounded-lg">
+                <div className="p-6">
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-[#1B998B]/10 dark:bg-[#3CDFFF]/10 text-[#1B998B] dark:text-[#3CDFFF]">
+                    {feature.icon}
+                  </div>
+                  <h3 className="mb-2 text-xl font-semibold">{feature.title}</h3>
+                  <p className="text-gray-600 dark:text-gray-300">{feature.description}</p>
+                  <button className="mt-4 flex items-center text-[#1B998B] dark:text-[#3CDFFF] transition-all group-hover:translate-x-1">
+                    {t.careers.learnMore} <ArrowRight className="ml-2 h-4 w-4" />
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        <motion.div 
+          className="mt-24 rounded-2xl bg-white/80 dark:bg-gray-800/80 p-8 backdrop-blur-sm"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.6 }}
+        >
+          <h3 className="mb-6 text-2xl font-semibold">{t.careers.programs}</h3>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {t.careers.programsList.map((program, index) => (
+              <div 
+                key={index}
+                className="flex items-center rounded-lg border border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-900 p-4 shadow-sm transition-all hover:shadow-md"
+              >
+                <div className="mr-4 flex h-10 w-10 items-center justify-center rounded-full bg-[#1B998B]/10 dark:bg-[#3CDFFF]/10 text-[#1B998B] dark:text-[#3CDFFF]">
+                  {index + 1}
+                </div>
+                <span className="font-medium">{program}</span>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+// International Section Component
+function InternationalSection({ t }) {
+  return (
+    <section id="international" className="py-20 bg-white dark:bg-gray-900">
+      <div className="container mx-auto px-4">
+        <motion.h2 
+          className="mb-12 text-4xl font-bold text-center"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          {t.international.title}
+        </motion.h2 >
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
+          {t.international.countries.map((country, index) => (
+            <motion.div
+              key={index}
+              className="flex items-center space-x-4 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg"
+              whileHover={{ scale: 1.05 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: index * 0.1 }}
+            >
+              <MapPin className="text-[#1B998B] dark:text-[#3CDFFF]" />
+              <span className="text-lg font-semibold">{country}</span>
+            </motion.div>
+          ))}
+        </div>
+        <motion.div 
+          className="mt-12 text-center"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+        >
+          <p className="text-lg text-gray-600 dark:text-gray-300">
+            {t.international.description}
+          </p>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+// Map Section Component
 function MapSection({ t }) {
   const handleOpenMaps = () => {
     const searchQuery = encodeURIComponent("AE2C Cabinet Hamdallaye ACI 2000 Bamako Mali");
@@ -1282,7 +1581,99 @@ function MapSection({ t }) {
   );
 }
 
+// Contact Section Component
+function ContactSection({ t, handleSubmit, handleWhatsAppClick }) {
+  return (
+    <section id="contact" className="relative min-h-screen py-20">
+      <div className="absolute inset-0">
+        <Wave3D />
+      </div>
+      
+      <div className="relative container mx-auto px-4 z-10">
+        <h2 className="mb-12 text-4xl font-bold text-center text-white dark:text-gray-900">{t.contact.title}</h2>
+        
+        <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+          <form onSubmit={handleSubmit} className="space-y-4 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-8 rounded-lg shadow-xl">
+            <div>
+              <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">{t.contact.name}</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                required
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1B998B] focus:ring-[#1B998B] dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+              />
+            </div>
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">{t.contact.email}</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                required
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1B998B] focus:ring-[#1B998B] dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+              />
+            </div>
+            <div>
+              <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300">{t.contact.message}</label>
+              <textarea
+                id="message"
+                name="message"
+                rows={4}
+                required
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1B998B] focus:ring-[#1B998B] dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+              ></textarea>
+            </div>
+            <div className="flex gap-4">
+              <button
+                type="submit"
+                className="flex-1 flex items-center justify-center gap-2 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#1B998B] hover:bg-[#1B998B]/80"
+              >
+                <Send className="w-4 h-4" />
+                {t.contact.send}
+              </button>
+              <button
+                type="button"
+                onClick={handleWhatsAppClick}
+                className="flex-1 flex items-center justify-center gap-2 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700"
+              >
+                <MessageCircle className="w-4 h-4" />
+                WhatsApp
+              </button>
+            </div>
+          </form>
 
+          <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-8 rounded-lg shadow-xl space-y-6">
+            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">{t.contact.title}</h3>
+            
+            <div className="space-y-4">
+              <div className="flex items-center gap-4">
+                <Phone className="w-5 h-5 text-[#1B998B] dark:text-[#3CDFFF]" />
+                <div>
+                  <p className="text-gray-700 dark:text-gray-300">{t.contact.phone}</p>
+                  <p className="text-gray-900 dark:text-white">(+223) 20 28 23 81</p>
+                  <p className="text-gray-900 dark:text-white">(+223) 66 71 57 97</p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-4">
+                <Mail className="w-5 h-5 text-[#1B998B] dark:text-[#3CDFFF]" />
+                <div>
+                  <p className="text-gray-700 dark:text-gray-300">{t.contact.email}</p>
+                  <a href="mailto:cae2c@ae2cmali.com" className="text-[#1B998B] dark:text-[#3CDFFF] hover:underline">
+                    cae2c@ae2cmali.com
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// Footer Component
 function Footer({ t }) {
   return (
     <footer className="bg-gray-900 text-white pt-20 pb-10">
@@ -1384,353 +1775,130 @@ function Footer({ t }) {
   );
 }
 
+// Scroll to Top Button Component
+function ScrollToTopButton({ scrollButtonOpacity }) {
+  return (
+    <motion.div
+      className="fixed bottom-4 right-4 w-16 h-16 bg-[#1B998B] dark:bg-[#3CDFFF] rounded-full flex items-center justify-center cursor-pointer"
+      style={{ opacity: scrollButtonOpacity }}
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.9 }}
+      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+    >
+      <ArrowRight className="text-white dark:text-gray-900 transform rotate-[-90deg]" />
+    </motion.div>
+  );
+}
+
 
 
 export default function Component() {
-  const [isLoading, setIsLoading] = useState(true)
-  const { scrollYProgress } = useScroll()
-  const yOffset = useTransform(scrollYProgress, [0, 1], [0, 300])
-  const [language, setLanguage] = useState("fr")
-  const { theme, setTheme } = useTheme()
-  const t = translations[language]
-  const [mounted, setMounted] = useState(false)
-  const scrollButtonOpacity = useTransform(scrollYProgress, [0, 0.1], [0, 1])
-  const videoRef = useRef(null)
-  const [videoEnded, setVideoEnded] = useState(false)
-  const [showContent, setShowContent] = useState(false)
- 
+  const [isLoading, setIsLoading] = useState(true);
+  const { scrollYProgress } = useScroll();
+  const yOffset = useTransform(scrollYProgress, [0, 1], [0, 300]);
+  const [language, setLanguage] = useState("fr");
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  const scrollButtonOpacity = useTransform(scrollYProgress, [0, 0.1], [0, 1]);
+  const videoRef = useRef(null);
+  const [videoEnded, setVideoEnded] = useState(false);
+  const [showContent, setShowContent] = useState(false);
 
-  
   useEffect(() => {
-    setMounted(true)
-    const savedTheme = localStorage.getItem('theme') || 'light'
-    setTheme(savedTheme)
+    setMounted(true);
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    setTheme(savedTheme);
+    
     const timer = setTimeout(() => {
-      setIsLoading(false)
-      setTimeout(() => setShowContent(true), 300)
-    }, 3000) // Reduced from 4500ms
-  
-    return () => clearTimeout(timer)
-  }, [setTheme])
+      setIsLoading(false);
+      requestAnimationFrame(() => setShowContent(true));
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, [setTheme]);
 
   const handleThemeChange = () => {
-    const newTheme = theme === 'dark' ? 'light' : 'dark'
-    setTheme(newTheme)
-    localStorage.setItem('theme', newTheme)
-  }
+    const newTheme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(newTheme);
+    localStorage.setItem('theme', newTheme);
+  };
 
-  
-
-  
   const handleVideoEnd = () => {
-    setVideoEnded(true)
-    setTimeout(() => {
-      setIsLoading(false)
-    }, 300) // Reduced from 500ms
-  }
-  
-  
-   const handleSubmit = (e) => {
-     e.preventDefault();
-     const formData = new FormData(e.target);
-     const name = formData.get('name');
-     const email = formData.get('email');
-     const message = formData.get('message');
-  
-     const mailtoLink = `mailto:cae2c@ae2cmali.com?subject=Contact de ${name}&body=Message de: ${name}%0D%0AEmail: ${email}%0D%0A%0D%0A${message}`;
-     window.location.href = mailtoLink;
-   }
-  
-   const handleWhatsAppClick = () => {
-     const whatsappNumber = "22366715797";
-     const whatsappLink = `https://wa.me/${whatsappNumber}`;
-     window.open(whatsappLink, '_blank');
-   };
-  
+    setVideoEnded(true);
+    requestAnimationFrame(() => setIsLoading(false));
+  };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const mailtoLink = `mailto:cae2c@ae2cmali.com?subject=Contact de ${formData.get('name')}&body=Message de: ${formData.get('name')}%0D%0AEmail: ${formData.get('email')}%0D%0A%0D%0A${formData.get('message')}`;
+    window.location.href = mailtoLink;
+  };
 
-   
- if (!mounted) return null
- 
+  const handleWhatsAppClick = () => {
+    window.open(`https://wa.me/22366715797`, '_blank');
+  };
 
- return (
-  <div className={`${theme} transition-colors duration-300 overflow-x-hidden`}>
-  <TouchEffect />
+  if (!mounted) return null;
 
-  <AnimatePresence>
-    {isLoading && (
-      <motion.div
-        className="fixed inset-0 z-50 flex items-center justify-center bg-black"
-        initial={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 1, ease: "easeInOut" }}
-      >
-        <motion.div
-          className="w-full h-full flex items-center justify-center"
-          initial={{ scale: 0.9, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          exit={{ scale: 1.1, opacity: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <div className="relative w-full h-0 pb-[56.25%] md:pb-[42.86%] lg:pb-[36%]">
-            <video
-              ref={videoRef}
-              autoPlay
-              playsInline
-              muted
-              className="absolute top-0 left-0 w-full h-full object-contain"
-              onEnded={handleVideoEnd}
-            >
-              <source src="/logo/logo_video.mp4" type="video/mp4" />
-              Votre navigateur ne prend pas en charge la lecture vidéo.
-            </video>
-          </div>
-          {videoEnded && (
-            <motion.div
-              className="absolute inset-0 bg-black"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5 }}
-            />
-          )}
-        </motion.div>
-      </motion.div>
-    )}
-  </AnimatePresence>
+  const t = translations[language];
 
-  {showContent && (
-    <>
-      <motion.div
-        initial={{ y: -100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
-      >
-        <Navigation 
-          language={language} 
-          setLanguage={setLanguage} 
-          t={t}
-          handleThemeChange={handleThemeChange}
-          currentTheme={theme}
-        />
-      </motion.div>
-
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 1 }}
-      >
-        <main className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
-          <section id="hero" className="relative min-h-screen">
-            <div className="absolute inset-0 bg-gradient-to-br from-[#E6F4F1] to-white dark:from-gray-800 dark:to-gray-900" />
-            <div className="relative w-full max-w-full px-4 sm:px-6 lg:px-8 pt-32">
-              <div className="grid gap-8 lg:gap-24 lg:grid-cols-2">
-                <motion.div
-                  className="relative"
-                  initial={{ x: -100, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  transition={{ duration: 1.2, delay: 1.5, ease: "easeOut" }}
-                >
-                  <motion.h1
-                    className="mb-6 lg:mb-12 text-3xl lg:text-4xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white"
-                    initial={{ y: 50, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ duration: 1.2, delay: 1.8, ease: "easeOut" }}
-                  >
-                    {t.hero.title.split(' ').map((word, index) => (
-                      <span key={index} className="inline-block mr-2">
-                        {word}
-                      </span>
-                    ))}
-                    <span className="text-[#1B998B] dark:text-[#3CDFFF]">SUCCES</span>
-                  </motion.h1>
-
-                  <motion.div 
-                    className="relative h-[300px] lg:h-[400px] w-full"
-                    style={{ y: yOffset }}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 1, delay: 2.1, ease: "easeOut" }}
-                  >
-                    <div className="absolute inset-0 rounded-3xl bg-[#1B998B]/20 dark:bg-[#3CDFFF]/20" />
-                    <CreditCard3D />
-                  </motion.div>
-                </motion.div>
-
-                <motion.div
-                  className="space-y-8"
-                  initial={{ x: 100, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  transition={{ duration: 1.2, delay: 1.5, ease: "easeOut" }}
-                >
-                  <motion.h2 
-                    className="mb-12 text-4xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white"
-                    initial={{ y: 50, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ duration: 1.2, delay: 1.8, ease: "easeOut" }}
-                  >
-                    {t.hero.subtitle}
-                  </motion.h2>
-
-                  <motion.div 
-                    className="relative mt-12"
-                    style={{ y: yOffset }}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 1, delay: 2.1, ease: "easeOut" }}
-                  >
-                    <div className="relative mx-auto max-w-md rounded-2xl bg-gray-900 p-8 text-white dark:bg-white dark:text-gray-900">
-                      <div className="mt-16 text-center">
-                        <div className="text-3xl font-bold">1000+</div>
-                        <div className="mt-2 text-gray-400 dark:text-gray-600">entreprises nous font confiance !</div>
-                        <button className="mt-6 flex w-full items-center justify-between rounded-lg bg-gray-800 p-4 text-gray-300 hover:bg-gray-700 dark:bg-gray-100 dark:text-gray-800 dark:hover:bg-gray-200">
-                          <span>En savoir plus</span>
-                          <ArrowRight className="h-5 w-5" />
-                        </button>
-                      </div>
-                    </div>
-                  </motion.div>
-                </motion.div>
-              </div>
-            </div>
-          </section>
-
-          <section id="team" className="py-20 bg-gray-100 dark:bg-gray-800">
-            <div className="container mx-auto px-4 overflow-hidden">
-              <motion.h2 
-                className="mb-12 text-4xl font-bold text-center"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
+  return (
+    <div className={`${theme} transition-colors duration-300 overflow-x-hidden`}>
+      <AnimatePresence>
+        {isLoading && (
+          <motion.div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black"
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <Suspense fallback={<LoadingSpinner />}>
+              <video
+                ref={videoRef}
+                autoPlay
+                playsInline
+                muted
+                onEnded={handleVideoEnd}
+                className="w-full h-full object-contain"
               >
-                {t.team.title}
-              </motion.h2>
-              <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-                {t.team.teamMembers.map((member, index) => (
-                  <TeamMember 
-                    key={member.name} 
-                    {...member} 
-                    image={`/membres/membre${index + 1}.jpg`}
-                    index={index} 
-                    teamTranslations={t.team}
-                  />
-                ))}
-              </div>
-            </div>
-          </section>
+                <source src="/logo/logo_video.mp4" type="video/mp4" />
+              </video>
+            </Suspense>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-          <ServicesSection t={t} />
-          <AboutUsSection t={t} />
-          <PartnersSection t={t} />
-          <CertificationsSection t={t} />
-          <CareersAndTrainingSection t={t} />
-          <InternationalPresenceSection t={t} />
-          <MapSection  t={t}/>
-          <ExpertiseSection t={t} />
+      {showContent && (
+        <main className="min-h-screen bg-white dark:bg-gray-900">
+          <Navigation 
+            language={language}
+            setLanguage={setLanguage}
+            t={t}
+            handleThemeChange={handleThemeChange}
+            currentTheme={theme}
+          />
 
-          <section id="contact" className="relative min-h-screen py-20">
-            <div className="absolute inset-0">
-              <Wave3D />
-            </div>
-            
-            <div className="relative container mx-auto px-4 z-10 overflow-hidden">
-              <h2 className="mb-12 text-4xl font-bold text-center text-white dark:text-gray-900">{t.contact.title}</h2>
-              
-              <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
-                <form onSubmit={handleSubmit} className="space-y-4 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-8 rounded-lg shadow-xl">
-                  <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">{t.contact.name}</label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      required
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1B998B] focus:ring-[#1B998B] dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:focus:border-[#3CDFFF] dark:focus:ring-[#3CDFFF]"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">{t.contact.email}</label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      required
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1B998B] focus:ring-[#1B998B] dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:focus:border-[#3CDFFF] dark:focus:ring-[#3CDFFF]"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300">{t.contact.message}</label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      rows={4}
-                      required
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1B998B] focus:ring-[#1B998B] dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:focus:border-[#3CDFFF] dark:focus:ring-[#3CDFFF]"
-                    ></textarea>
-                  </div>
-                  <div className="flex gap-4">
-                    <button
-                      type="submit"
-                      className="flex-1 flex items-center justify-center gap-2 py-2 px-4
-border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#1B998B] hover:bg-[#1B998B]/80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1B998B] dark:bg-[#3CDFFF] dark:hover:bg-[#3CDFFF]/80 dark:focus:ring-[#3CDFFF]"
-                    >
-                      <Send className="w-4 h-4" />
-                      {t.contact.send}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={handleWhatsAppClick}
-                      className="flex-1 flex items-center justify-center gap-2 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-                    >
-                      <MessageCircle className="w-4 h-4" />
-                      WhatsApp
-                    </button>
-                  </div>
-                </form>
+          <HeroSection t={t} yOffset={yOffset} />
 
-                <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-8 rounded-lg shadow-xl space-y-6">
-                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">{t.contact.title}</h3>
-                  
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-4">
-                      <Phone className="w-5 h-5 text-[#1B998B] dark:text-[#3CDFFF]" />
-                      <div>
-                        <p className="text-gray-700 dark:text-gray-300">{t.contact.phone}</p>
-                        <p className="text-gray-900 dark:text-white">(+223) 20 28 23 81</p>
-                        <p className="text-gray-900 dark:text-white">(+223) 66 71 57 97</p>
-                      </div>
-                    </div>
+          <Suspense fallback={<LoadingSpinner />}>
+            <TeamSection t={t} />
+            <ExpertiseSection t={t} />
+            <ServicesSection t={t} />
+            <AboutSection t={t} />
+            <PartnersSection t={t} />
+            <CertificationsSection t={t} />
+            <CareersSection t={t} />
+            <InternationalSection t={t} />
+            <MapSection t={t} />
+            <ContactSection t={t} handleSubmit={handleSubmit} handleWhatsAppClick={handleWhatsAppClick} />
+          </Suspense>
 
-                    <div className="flex items-center gap-4">
-                      <Mail className="w-5 h-5 text-[#1B998B] dark:text-[#3CDFFF]" />
-                      <div>
-                        <p className="text-gray-700 dark:text-gray-300">{t.contact.email}</p>
-                        <a href="mailto:cae2c@ae2cmali.com" className="text-[#1B998B] dark:text-[#3CDFFF] hover:underline">
-                          cae2c@ae2cmali.com
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
+          <Footer t={t} />
+
+          <ScrollToTopButton scrollButtonOpacity={scrollButtonOpacity} />
         </main>
-
-        <Footer t={t} />
-
-        <motion.div
-          className="fixed bottom-4 right-4 w-16 h-16 bg-[#1B998B] dark:bg-[#3CDFFF] rounded-full flex items-center justify-center cursor-pointer"
-          style={{ opacity: scrollButtonOpacity }}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-        >
-          <ArrowRight className="text-white dark:text-gray-900 transform rotate-[-90deg]" />
-        </motion.div>
-      </motion.div>
-    </>
-  )}
-</div>
-)
+      )}
+    </div>
+  );
 }
-

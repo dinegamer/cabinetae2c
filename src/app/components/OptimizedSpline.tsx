@@ -23,37 +23,80 @@ const OptimizedSpline: React.FC<OptimizedSplineProps> = ({ scene, className }) =
 
   const handleSplineLoad = (spline: any) => {
     splineRef.current = spline;
+    
+    // Performance optimizations for mobile
     if (isMobile) {
-      if (spline.setZoom) spline.setZoom(0.8);
-      if (spline.setQuality) spline.setQuality("low");
-      if (spline.setPixelRatio) spline.setPixelRatio(1);
+      // Reduce quality and zoom for mobile
+      spline.setZoom?.(0.8);
+      spline.setQuality?.("low");
+      spline.setPixelRatio?.(1);
+    } else {
+      // Desktop optimizations
+      spline.setQuality?.("medium");
+      spline.setPixelRatio?.(1.5);
     }
 
-    // Safely patch THREE.PropertyBinding if it exists
-    if (spline.runtime && spline.runtime.THREE && spline.runtime.THREE.PropertyBinding) {
-      const originalBind = spline.runtime.THREE.PropertyBinding.prototype.bind;
-      spline.runtime.THREE.PropertyBinding.prototype.bind = function() {
+    // Enable WebGL optimizations
+    if (spline.runtime?.renderer) {
+      const renderer = spline.runtime.renderer;
+      renderer.powerPreference = "high-performance";
+      renderer.antialias = false;
+      renderer.shadowMap.enabled = false;
+      renderer.physicallyCorrectLights = false;
+    }
+
+    // Optimize animations
+    if (spline.runtime?.scene) {
+      const scene = spline.runtime.scene;
+      scene.matrixAutoUpdate = false;
+      scene.autoUpdate = false;
+    }
+
+    // Handle errors gracefully
+    if (spline.runtime?.THREE?.PropertyBinding) {
+      const THREE = spline.runtime.THREE;
+      const originalBind = THREE.PropertyBinding.prototype.bind;
+      
+      THREE.PropertyBinding.prototype.bind = function() {
         try {
           return originalBind.apply(this, arguments);
-        } catch (error) {
+        } catch (error: any) {
           if (error.message.includes('morphTargetInfluences')) {
-            console.warn('Caught morphTargetInfluences error, returning no-op function');
-            return function() {};
+            return () => {};
           }
           throw error;
         }
       };
+
+      // Optimize getValue method
+      const originalGetValue = THREE.PropertyBinding.prototype.getValue;
+      THREE.PropertyBinding.prototype.getValue = function(...args: any[]) {
+        try {
+          return originalGetValue.apply(this, args);
+        } catch (error: any) {
+          return [];
+        }
+      };
     }
 
-    // Safely disable problematic animations if they exist
-    if (spline.animation && Array.isArray(spline.animation.animations)) {
-      spline.animation.animations.forEach((anim: any) => {
-        if (anim.tracks) {
-          anim.tracks = anim.tracks.filter((track: any) => 
-            !track.name.includes('morphTargetInfluences')
-          );
-        }
-      });
+    // Disable problematic animations and optimize existing ones
+    if (spline.animation?.animations) {
+      spline.animation.animations = spline.animation.animations
+        .filter((anim: any) => {
+          if (!anim.tracks) return false;
+          return anim.tracks.some((track: any) => !track.name.includes('morphTargetInfluences'));
+        })
+        .map((anim: any) => {
+          if (anim.tracks) {
+            anim.tracks = anim.tracks.filter((track: any) => !track.name.includes('morphTargetInfluences'));
+          }
+          return anim;
+        });
+    }
+
+    // Force a single render update
+    if (spline.runtime?.renderer && spline.runtime.scene && spline.runtime.camera) {
+      spline.runtime.renderer.render(spline.runtime.scene, spline.runtime.camera);
     }
   };
 
@@ -73,4 +116,3 @@ const OptimizedSpline: React.FC<OptimizedSplineProps> = ({ scene, className }) =
 };
 
 export default OptimizedSpline;
-

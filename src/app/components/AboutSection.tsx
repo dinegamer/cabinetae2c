@@ -1,11 +1,21 @@
-import React from 'react'
-import { motion } from 'framer-motion'
-import dynamic from 'next/dynamic'
+"use client"
 
-const Scene3D = dynamic(() => import('./Scene3D'), {
-  ssr: false,
-  loading: () => <div className="w-full h-full bg-gradient-to-br from-[#1B998B]/10 to-[#3CDFFF]/10 rounded-xl animate-pulse" />
-})
+import React, { Suspense, lazy } from 'react'
+import { motion } from 'framer-motion'
+
+const Scene3D = lazy(() => 
+  import('./Scene3D').then(mod => {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(mod)
+      }, 100)
+    })
+  })
+)
+
+const LoadingFallback = () => (
+  <div className="w-full h-full min-h-[400px] bg-gradient-to-br from-[#1B998B]/10 to-[#3CDFFF]/10 rounded-xl animate-pulse" />
+)
 
 interface AboutSectionProps {
   t: {
@@ -27,15 +37,17 @@ const AboutSection: React.FC<AboutSectionProps> = ({ t }) => {
           className="mb-12 text-4xl font-bold text-center"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4 }}
         >
           {t.about.title}
         </motion.h2>
         <div className="grid md:grid-cols-2 gap-8 items-center">
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
+            initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
           >
             <p className="text-lg mb-4">{t.about.description}</p>
             <ul className="list-disc list-inside space-y-2">
@@ -46,11 +58,14 @@ const AboutSection: React.FC<AboutSectionProps> = ({ t }) => {
           </motion.div>
           <motion.div 
             className="relative h-[400px]"
-            initial={{ opacity: 0, x: 50 }}
+            initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
           >
-            <Scene3D />
+            <Suspense fallback={<LoadingFallback />}>
+              <Scene3D />
+            </Suspense>
           </motion.div>
         </div>
       </div>
@@ -59,4 +74,3 @@ const AboutSection: React.FC<AboutSectionProps> = ({ t }) => {
 }
 
 export default AboutSection
-

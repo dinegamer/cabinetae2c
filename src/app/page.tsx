@@ -16,7 +16,7 @@ const CertificationsSection = dynamic(() => import('./components/CertificationsS
 const CareersSection = dynamic(() => import('./components/CareersSection'))
 const InternationalSection = dynamic(() => import('./components/InternationalSection'))
 const HeroSection = dynamic(() => import('./components/HeroSection'))
-
+const NavigationSection = dynamic(() => import('./components/NavigationSection'))
 const MapSection = dynamic(() => import('./components/MapSection'))
 const ContactSection = dynamic(() => import('./components/ContactSection'))
 
@@ -387,37 +387,6 @@ function TouchRipple({ x, y }) {
  )
 }
 
-function TouchEffect() {
- const [ripples, setRipples] = useState([])
-
- useEffect(() => {
-   const handleTouch = (e) => {
-     const touch = e.touches[0]
-     const newRipple = {
-       id: Date.now(),
-       x: touch.clientX,
-       y: touch.clientY,
-     }
-     setRipples(prev => [...prev, newRipple])
-     setTimeout(() => {
-       setRipples(prev => prev.filter(r => r.id !== newRipple.id))
-     }, 1000)
-   }
-
-   window.addEventListener('touchstart', handleTouch)
-   return () => window.removeEventListener('touchstart', handleTouch)
- }, [])
-
- return (
-   <div className="fixed inset-0 pointer-events-none z-50">
-     <AnimatePresence>
-       {ripples.map(ripple => (
-         <TouchRipple key={ripple.id} x={ripple.x} y={ripple.y} />
-       ))}
-     </AnimatePresence>
-   </div>
- )
-}
 
 
 // Optimized loading component
@@ -428,198 +397,10 @@ const LoadingSpinner = () => (
 </div>
 )
 
-function Navigation({ language, setLanguage, t, handleThemeChange, currentTheme }) {
-  const [activeSection, setActiveSection] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
-  const { scrollY } = useScroll();
-  const [hasScrolled, setHasScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setHasScrolled(window.scrollY > 0);
-      const sections = ["hero", "about", "services", "expertise", "team", "partners", "certifications", "careers", "international", "contact"];
-      const scrollPosition = window.scrollY + window.innerHeight / 2;
-
-      for (const section of sections) {
-        const element = document.getElementById(section);
-        if (element) {
-          const { offsetTop, offsetHeight } = element;
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-            setActiveSection(section);
-            break;
-          }
-        }
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const scrollToSection = (sectionId) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      const offset = 80;
-      const elementPosition = element.offsetTop - offset;
-      window.scrollTo({
-        top: elementPosition,
-        behavior: "smooth"
-      });
-    }
-    setIsOpen(false);
-  }
-  return (
-    <motion.header 
-      className={`fixed top-0 z-40 w-full transition-all duration-300 ${hasScrolled ? "backdrop-blur-lg bg-white/80 dark:bg-gray-900/80" : ""}`}
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
-    >
-      <nav className="mx-auto flex max-w-7xl items-center justify-between p-5">
-        <motion.div 
-          className="flex items-center gap-2"
-          initial={{ y: -20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.2 }}
-        >
-          <Image
-            src="/logo/svg/ae2c.svg"
-            alt="AE2C Logo"
-            width={120}
-            height={60}
-            className="transition-opacity"
-            style={{ filter: 'none' }}
-          />
-        </motion.div>
-
-        <motion.div 
-          className="hidden md:flex items-center space-x-8"
-          initial={{ y: -20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.4 }}
-        >
-          {["about", "services", "expertise", "team", "partners", "certifications", "careers", "international", "contact"].map((section) => (
-            <button
-              key={section}
-              onClick={() => scrollToSection(section)}
-              className={`text-gray-600 dark:text-gray-300 hover:text-[#1B998B] dark:hover:text-[#3CDFFF] transition-colors capitalize ${
-                activeSection === section ? "text-[#1B998B] dark:text-[#3CDFFF]" : ""
-              }`}
-            >
-              {t.nav[section]}
-            </button>
-          ))}
-        </motion.div>
-
-        <div className="flex items-center space-x-4">
-          <button
-            onClick={handleThemeChange}
-            className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
-          >
-            {currentTheme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
-          </button>
-          <button
-            onClick={() => setLanguage(language === "en" ? "fr" : "en")}
-            className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
-          >
-            <Globe size={20} />
-          </button>
-        </div>
-
-        <button
-          className="z-50 md:hidden"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          {isOpen ? <X className="text-gray-900 dark:text-white" /> : <Menu className="text-gray-900 dark:text-white" />}
-        </button>
-      </nav>
-
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="absolute inset-x-0 top-full bg-white dark:bg-gray-900 p-5 md:hidden"
-          >
-            {["about", "services", "expertise", "team", "partners", "certifications", "careers", "international", "contact"].map((section) => (
-              <button
-                key={section}
-                onClick={() => scrollToSection(section)}
-                className={`block w-full py-2 text-left text-gray-600 dark:text-gray-300 hover:text-[#1B998B] dark:hover:text-[#3CDFFF] capitalize ${
-                  activeSection === section ? "text-[#1B998B] dark:text-[#3CDFFF]" : ""
-                }`}
-              >
-                {t.nav[section]}
-              </button>
-            ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.header>
-  );
-}
-  
 
 
-function ServiceCard({ title, description, index, active, onClick }) {
-  const baseClasses = "relative h-[300px] w-[300px] overflow-hidden cursor-pointer";
-  const transformStyle = {
-    transform: `perspective(1000px) rotateY(${(index - active) * 15}deg) translateZ(${active ? 0 : -100}px)`,
-    borderRadius: '30px',
-    transition: 'all 0.5s ease-out',
-    opacity: active ? 1 : 0.7,
-  };
-
-  return (
-    <motion.div
-      className={baseClasses}
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.2 }}
-      style={transformStyle}
-      onClick={onClick}
-    >
-      <div className="absolute inset-0 bg-gradient-to-br from-[#1B998B] via-[#3CDFFF] to-[#1B998B] opacity-75" style={{ borderRadius: '30px' }} />
-      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" style={{ borderRadius: '30px' }} />
-      <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-white">
-        <motion.h3
-          className="mb-4 text-2xl font-bold"
-          animate={{ scale: [1, 1.1, 1] }}
-          transition={{ duration: 2, repeat: Infinity }}
-        >
-          {title}
-        </motion.h3>
-        <motion.p
-          className="text-center"
-          animate={{ opacity: [0.7, 1, 0.7] }}
-          transition={{ duration: 2, repeat: Infinity }}
-        >
-          {description}
-        </motion.p>
-      </div>
-    </motion.div>
-  );
-}
 
 
-function ExpertiseItem({ title, icon, index }) {
- return (
-   <motion.div
-     className="flex items-center space-x-4"
-     initial={{ opacity: 0, x: -50 }}
-     whileInView={{ opacity: 1, x: 0 }}
-     transition={{ delay: index * 0.1 }}
-   >
-     <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#1B998B] dark:bg-[#3CDFFF] text-2xl text-white">
-       {icon}
-     </div>
-     <span className="text-lg font-semibold">{title}</span>
-   </motion.div>
- )
-}
-
- 
 
 // Footer Component
 function Footer({ t }) {
@@ -819,7 +600,7 @@ export default function Component() {
 
       {showContent && (
         <main className="min-h-screen bg-white dark:bg-gray-900">
-          <Navigation 
+          <NavigationSection 
             language={language}
             setLanguage={setLanguage}
             t={t}

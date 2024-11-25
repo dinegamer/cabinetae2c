@@ -14,7 +14,8 @@ const LargeScene3D = () => {
       <div className="w-full h-full bg-gradient-to-br from-[#1B998B]/10 to-[#3CDFFF]/10 rounded-xl animate-pulse" />
     }>
       <SplineWrapper 
-        scene="https://prod.spline.design/DgY0ZSx5iybpShE2/scene.splinecode"
+         scene="https://prod.spline.design/v1I4LRIG2QFZ-2dn/scene.splinecode" 
+
         className="w-full h-full"
       />
     </Suspense>

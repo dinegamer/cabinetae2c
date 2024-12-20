@@ -1,81 +1,204 @@
 "use client"
 
-import React, { useState, Suspense, lazy } from 'react'
-import { motion } from 'framer-motion'
-import ServiceCard from './ServiceCard'
+import React, { useState, Suspense } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { ChevronRight, Plus, Minus } from 'lucide-react'
+import dynamic from 'next/dynamic'
 
-const LargeScene3D = lazy(() => 
-  import('./LargeScene3D').then(mod => {
-    return new Promise(resolve => {
-      setTimeout(() => resolve(mod), 100)
-    })
-  })
+const LargeScene3D = dynamic(() => import('./LargeScene3D'), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-full min-h-[400px] bg-gradient-to-br from-[#1B998B]/10 to-[#3CDFFF]/10 rounded-xl animate-pulse" />
+  )
+})
+
+interface SubsectionProps {
+  title: string;
+  services: string[];
+  isOpen: boolean;
+  onToggle: () => void;
+}
+
+const Subsection: React.FC<SubsectionProps> = ({ title, services, isOpen, onToggle }) => (
+  <div className="border-l-2 border-primary/20 pl-4 mt-4">
+    <button
+      onClick={onToggle}
+      className="flex items-center justify-between w-full text-left font-medium mb-2 hover:text-primary"
+    >
+      <span>{title}</span>
+      {isOpen ? <Minus size={16} /> : <Plus size={16} />}
+    </button>
+    <AnimatePresence>
+      {isOpen && (
+        <motion.ul
+          initial={{ height: 0, opacity: 0 }}
+          animate={{ height: "auto", opacity: 1 }}
+          exit={{ height: 0, opacity: 0 }}
+          transition={{ duration: 0.3 }}
+          className="space-y-2 overflow-hidden"
+        >
+          {services.map((service, index) => (
+            <motion.li
+              key={index}
+              initial={{ x: -20, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ delay: index * 0.1 }}
+              className="flex items-start gap-2 text-sm text-muted-foreground"
+            >
+              <ChevronRight className="h-5 w-5 flex-shrink-0 text-primary" />
+              <span>{service}</span>
+            </motion.li>
+          ))}
+        </motion.ul>
+      )}
+    </AnimatePresence>
+  </div>
 )
 
-const LoadingPlaceholder = () => (
-  <div className="w-full h-full min-h-[400px] bg-gradient-to-br from-[#1B998B]/10 to-[#3CDFFF]/10 rounded-xl animate-pulse" />
-)
+interface ServiceCardProps {
+  title: string;
+  description: string;
+  subsections?: {
+    [key: string]: {
+      title: string;
+      services: string[];
+    };
+  };
+  services?: string[];
+  isActive: boolean;
+  onClick: () => void;
+}
+
+const ServiceCard: React.FC<ServiceCardProps> = ({
+  title,
+  description,
+  subsections,
+  services,
+  isActive,
+  onClick,
+}) => {
+  const [openSubsections, setOpenSubsections] = useState<string[]>([])
+
+  const toggleSubsection = (key: string) => {
+    setOpenSubsections(prev =>
+      prev.includes(key)
+        ? prev.filter(k => k !== key)
+        : [...prev, key]
+    )
+  }
+
+  return (
+    <motion.div
+      className={`
+        relative overflow-hidden rounded-xl p-6
+        transition-all duration-300 ease-in-out
+        ${isActive
+          ? 'bg-card shadow-lg scale-100 border-primary/20 border-2'
+          : 'bg-card/50 hover:bg-card shadow hover:shadow-md scale-95 border-transparent border-2'
+        }
+      `}
+      onClick={onClick}
+      layout
+    >
+      <h3 className="text-lg font-semibold mb-3 text-primary">{title}</h3>
+      <p className="text-sm mb-4 text-muted-foreground">{description}</p>
+      
+      {isActive && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
+        >
+          {subsections ? (
+            Object.entries(subsections).map(([key, subsection]) => (
+              <Subsection
+                key={key}
+                title={subsection.title}
+                services={subsection.services}
+                isOpen={openSubsections.includes(key)}
+                onToggle={() => toggleSubsection(key)}
+              />
+            ))
+          ) : services ? (
+            <ul className="space-y-2">
+              {services.map((service, index) => (
+                <motion.li
+                  key={index}
+                  className="flex items-start gap-2 text-sm text-muted-foreground"
+                  initial={{ x: -20, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: index * 0.1 }}
+                >
+                  <ChevronRight className="h-5 w-5 flex-shrink-0 text-primary" />
+                  <span>{service}</span>
+                </motion.li>
+              ))}
+            </ul>
+          ) : null}
+        </motion.div>
+      )}
+    </motion.div>
+  )
+}
 
 interface ServicesSectionProps {
   t: {
     services: {
-      title: string
-      audit: string
-      accounting: string
-      tax: string
-      legal: string
-      social: string
-      digital: string
-      auditDesc: string
-      accountingDesc: string
-      taxDesc: string
-      legalDesc: string
-      socialDesc: string
-      digitalDesc: string
-    }
-  }
+      title: string;
+      sections: {
+        [key: string]: {
+          title: string;
+          description: string;
+          subsections?: {
+            [key: string]: {
+              title: string;
+              services: string[];
+            };
+          };
+          services?: string[];
+        };
+      };
+    };
+  };
 }
 
 const ServicesSection: React.FC<ServicesSectionProps> = ({ t }) => {
-  const [activeServiceCard, setActiveServiceCard] = useState(0)
-
-  const services = [
-    { title: t.services.audit, description: t.services.auditDesc },
-    { title: t.services.accounting, description: t.services.accountingDesc },
-    { title: t.services.tax, description: t.services.taxDesc },
-    { title: t.services.legal, description: t.services.legalDesc },
-    { title: t.services.social, description: t.services.socialDesc },
-    { title: t.services.digital, description: t.services.digitalDesc }
-  ]
+  const [activeSection, setActiveSection] = useState<string | null>(null)
+  const sections = t.services?.sections || {}
 
   return (
-    <section id="services" className="py-16 sm:py-20 bg-white dark:bg-gray-900">
-      <div className="container mx-auto px-4">
-        <motion.h2 
-          className="mb-12 text-3xl sm:text-4xl font-bold text-center"
+    <section id="services" className="py-20 bg-background">
+      <div className="container px-4 mx-auto">
+        <motion.div
+          className="text-center mb-16"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.4 }}
+          transition={{ duration: 0.5 }}
         >
-          {t.services.title}
-        </motion.h2>
-        
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
+          <h2 className="text-3xl font-bold mb-4">{t.services.title}</h2>
+          <div className="w-24 h-1 bg-primary mx-auto"></div>
+        </motion.div>
+
+        <div className="flex flex-col lg:flex-row items-start gap-12">
+          {/* 3D Scene */}
           <motion.div 
-            className="w-full lg:w-1/2"
+            className="w-full lg:w-1/2 lg:sticky lg:top-24"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.4 }}
           >
             <div className="relative h-[300px] sm:h-[400px] lg:h-[600px]">
-              <Suspense fallback={<LoadingPlaceholder />}>
+              <Suspense fallback={
+                <div className="w-full h-full bg-gradient-to-br from-[#1B998B]/10 to-[#3CDFFF]/10 rounded-xl animate-pulse" />
+              }>
                 <LargeScene3D />
               </Suspense>
             </div>
           </motion.div>
 
+          {/* Service Cards */}
           <motion.div 
             className="w-full lg:w-1/2"
             initial={{ opacity: 0 }}
@@ -83,15 +206,16 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ t }) => {
             viewport={{ once: true }}
             transition={{ duration: 0.4 }}
           >
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-              {services.map((service, index) => (
+            <div className="grid grid-cols-1 gap-6">
+              {Object.entries(sections).map(([key, section]) => (
                 <ServiceCard
-                  key={index}
-                  title={service.title}
-                  description={service.description}
-                  index={index}
-                  active={index === activeServiceCard}
-                  onClick={() => setActiveServiceCard(index)}
+                  key={key}
+                  title={section.title}
+                  description={section.description}
+                  subsections={section.subsections}
+                  services={section.services}
+                  isActive={key === activeSection}
+                  onClick={() => setActiveSection(key === activeSection ? null : key)}
                 />
               ))}
             </div>
@@ -103,3 +227,4 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ t }) => {
 }
 
 export default ServicesSection
+

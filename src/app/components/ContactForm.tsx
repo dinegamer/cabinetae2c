@@ -8,7 +8,12 @@ interface ContactFormProps {
   t: {
     contact: {
       name: string
+      firstName: string
       email: string
+      phone: string
+      postalCode: string
+      company: string
+      needs: string
       message: string
       send: string
     }
@@ -27,39 +32,95 @@ const ContactForm: React.FC<ContactFormProps> = ({ t, handleSubmit, handleWhatsA
       viewport={{ once: true }}
       transition={{ duration: 0.4 }}
     >
-      <div>
-        <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-          {t.contact.name}
-        </label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          required
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1B998B] focus:ring-[#1B998B] dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-        />
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            {t.contact.name}
+          </label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            required
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1B998B] focus:ring-[#1B998B] dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+          />
+        </div>
+        
+        <div>
+          <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            {t.contact.firstName}
+          </label>
+          <input
+            type="text"
+            id="firstName"
+            name="firstName"
+            required
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1B998B] focus:ring-[#1B998B] dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+          />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            {t.contact.email}
+          </label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            required
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1B998B] focus:ring-[#1B998B] dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+          />
+        </div>
+        
+        <div>
+          <label htmlFor="phone" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            {t.contact.phone}
+          </label>
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            required
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1B998B] focus:ring-[#1B998B] dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+          />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label htmlFor="postalCode" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            {t.contact.postalCode}
+          </label>
+          <input
+            type="text"
+            id="postalCode"
+            name="postalCode"
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1B998B] focus:ring-[#1B998B] dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+          />
+        </div>
+        
+        <div>
+          <label htmlFor="company" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            {t.contact.company}
+          </label>
+          <input
+            type="text"
+            id="company"
+            name="company"
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1B998B] focus:ring-[#1B998B] dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+          />
+        </div>
       </div>
       
       <div>
-        <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-          {t.contact.email}
-        </label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          required
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1B998B] focus:ring-[#1B998B] dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-        />
-      </div>
-      
-      <div>
-        <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-          {t.contact.message}
+        <label htmlFor="needs" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          {t.contact.needs}
         </label>
         <textarea
-          id="message"
-          name="message"
+          id="needs"
+          name="needs"
           rows={4}
           required
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1B998B] focus:ring-[#1B998B] dark:border-gray-600 dark:bg-gray-700 dark:text-white"
@@ -88,3 +149,4 @@ const ContactForm: React.FC<ContactFormProps> = ({ t, handleSubmit, handleWhatsA
 }
 
 export default ContactForm
+

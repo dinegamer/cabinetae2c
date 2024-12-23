@@ -8,8 +8,8 @@ import Image from 'next/image'
 interface NavigationSectionProps {
   language: string
   setLanguage: (lang: string) => void
-  t: {
-    nav: {
+  t?: {
+    nav?: {
       [key: string]: string
     }
   }
@@ -17,13 +17,30 @@ interface NavigationSectionProps {
   currentTheme: string
 }
 
-const NavigationSection: React.FC<NavigationSectionProps> = ({ language, setLanguage, t, handleThemeChange, currentTheme }) => {
+const NavigationSection: React.FC<NavigationSectionProps> = ({ 
+  language, 
+  setLanguage, 
+  t = { nav: {} }, 
+  handleThemeChange, 
+  currentTheme 
+}) => {
   const [activeSection, setActiveSection] = useState("")
   const [isOpen, setIsOpen] = useState(false)
   const { scrollY } = useScroll()
   const [hasScrolled, setHasScrolled] = useState(false)
 
-  const sections = ["hero", "about", "services", "expertise", "team", "partners", "certifications", "careers", "international", "contact"]
+  const sections = [
+    "hero",
+    "about",
+    "services",
+    "expertise",
+    "team",
+    "partners",
+    "certifications",
+    "careers",
+    "international",
+    "contact"
+  ]
 
   useEffect(() => {
     const handleScroll = () => {
@@ -64,7 +81,9 @@ const NavigationSection: React.FC<NavigationSectionProps> = ({ language, setLang
   return (
     <motion.header 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        hasScrolled ? "bg-white/95 dark:bg-gray-900/95 shadow-md backdrop-blur-sm" : "bg-transparent"
+        hasScrolled 
+          ? "bg-white/95 dark:bg-gray-900/95 shadow-md backdrop-blur-sm" 
+          : "bg-black/20 backdrop-blur-sm"
       }`}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
@@ -100,13 +119,17 @@ const NavigationSection: React.FC<NavigationSectionProps> = ({ language, setLang
             <button
               key={section}
               onClick={() => scrollToSection(section)}
-              className={`text-sm font-medium transition-colors hover:text-[#1B998B] dark:hover:text-[#3CDFFF] ${
-                activeSection === section 
-                  ? "text-[#1B998B] dark:text-[#3CDFFF]" 
-                  : "text-gray-600 dark:text-gray-300"
+              className={`text-sm font-medium transition-colors ${
+                hasScrolled
+                  ? `${
+                      activeSection === section 
+                        ? "text-[#1B998B] dark:text-[#3CDFFF]" 
+                        : "text-gray-600 dark:text-gray-300"
+                    } hover:text-[#1B998B] dark:hover:text-[#3CDFFF]`
+                  : "text-white hover:text-[#3CDFFF]"
               }`}
             >
-              {t.nav[section]}
+              {t.nav?.[section] || section}
             </button>
           ))}
         </motion.div>
@@ -115,7 +138,11 @@ const NavigationSection: React.FC<NavigationSectionProps> = ({ language, setLang
         <div className="flex items-center space-x-2">
           <button
             onClick={handleThemeChange}
-            className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            className={`p-2 rounded-full transition-colors ${
+              hasScrolled 
+                ? "hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200" 
+                : "hover:bg-white/10 text-white"
+            }`}
             aria-label="Toggle theme"
           >
             {currentTheme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
@@ -123,14 +150,22 @@ const NavigationSection: React.FC<NavigationSectionProps> = ({ language, setLang
           
           <button
             onClick={() => setLanguage(language === "en" ? "fr" : "en")}
-            className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            className={`p-2 rounded-full transition-colors ${
+              hasScrolled 
+                ? "hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200" 
+                : "hover:bg-white/10 text-white"
+            }`}
             aria-label="Change language"
           >
             <Globe size={20} />
           </button>
 
           <button
-            className="lg:hidden p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors"
+            className={`lg:hidden p-2 rounded-full transition-colors ${
+              hasScrolled 
+                ? "hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200" 
+                : "hover:bg-white/10 text-white"
+            }`}
             onClick={() => setIsOpen(!isOpen)}
             aria-label="Toggle menu"
           >
@@ -160,7 +195,7 @@ const NavigationSection: React.FC<NavigationSectionProps> = ({ language, setLang
                       : "text-gray-600 dark:text-gray-300"
                   }`}
                 >
-                  {t.nav[section]}
+                  {t.nav?.[section] || section}
                 </button>
               ))}
             </div>
@@ -172,3 +207,4 @@ const NavigationSection: React.FC<NavigationSectionProps> = ({ language, setLang
 }
 
 export default NavigationSection
+

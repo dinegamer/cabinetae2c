@@ -43,12 +43,18 @@ const ContactSection = dynamic(() => import('./components/ContactSection'))
       learnMore: "Learn more"
     },
     discover: {
-      firm: "Discover our firm",
-      firmDesc: "Recognized accounting expertise since 2009",
-      services: "Discover our services",
-      servicesDesc: "Concrete solutions and recognized expertise",
-      teams: "Discover our teams",
-      teamsDesc: "Experienced professionals at your service",
+      firm: {
+        title: "Discover our firm",
+        description: "Recognized accounting expertise since 2009"
+      },
+      services: {
+        title: "Discover our services",
+        description: "Concrete solutions and recognized expertise"
+      },
+      teams: {
+        title: "Discover our teams",
+        description: "Experienced professionals at your service"
+      },
       learnMore: "Learn more"
     },
     services: {
@@ -304,13 +310,8 @@ const ContactSection = dynamic(() => import('./components/ContactSection'))
     partners: {
       title: "Our Partners",
       subtitle: "AE2C Mali has developed leading partnerships enabling intervention in various fields and best serving the clients who trust us",
-      usaid: "United States Agency for International Development",
-      tomate: "TomPro integrated management solution",
-      morana: "Accounting and auditing firm",
-      moranaAudit: "Specialized audit firm",
-      enplus: "Engineering and consulting solutions",
-      intecsup: "Higher education institute",
-      description: "AE2C Mali has developed leading partnerships enabling intervention in various fields and best serving the clients who trust us",
+      bankingPartnersTitle: "Our Banking Partners",
+      otherPartnersTitle: "Other Partners",
       partners: [
         {
           name: "USAID",
@@ -411,7 +412,7 @@ const ContactSection = dynamic(() => import('./components/ContactSection'))
       expertise: "Expertise", 
       team: "Équipe", 
       contact: "Contact", 
-      about: "À Propos", 
+      about: "Qui sommes-nous", 
       partners: "Partenaires", 
       certifications: "Certifications", 
       // international: "International", 
@@ -426,12 +427,18 @@ const ContactSection = dynamic(() => import('./components/ContactSection'))
       learnMore: "En savoir plus"
     },
     discover: {
-      firm: "Découvrir le cabinet",
-      firmDesc: "Expertise comptable reconnue depuis 2009",
-      services: "Découvrir nos services",
-      servicesDesc: "Solutions concrètes et expertise reconnue",
-      teams: "Découvrir nos équipes",
-      teamsDesc: "Professionnels expérimentés à votre service",
+      firm: {
+        title: "Découvrez notre cabinet",
+        description: "Expertise comptable reconnue depuis 2009"
+      },
+      services: {
+        title: "Découvrez nos services",
+        description: "Solutions concrètes et expertise reconnue"
+      },
+      teams: {
+        title: "Découvrez nos équipes",
+        description: "Professionnels expérimentés à votre service"
+      },
       learnMore: "En savoir plus"
     },
     services: {
@@ -685,14 +692,9 @@ const ContactSection = dynamic(() => import('./components/ContactSection'))
     },
     partners: {
       title: "Nos Partenaires",
-      subtitle: "Le cabinet AE2C Mali a développé des partenariats de premier plan permettant d'intervenir dans différents domaines et servir au mieux les clients qui lui font confiance",
-      usaid: "Agence des États-Unis pour le développement international",
-      tomate: "Solution de gestion intégrée TomPro",
-      morana: "Cabinet d'expertise comptable et d'audit",
-      moranaAudit: "Cabinet spécialisé en audit",
-      enplus: "Solutions d'ingénierie et de conseil",
-      intecsup: "Institut supérieur de formation",
-      description: "Le cabinet AE2C Mali a développé des partenariats de premier plan permettant d'intervenir dans différents domaines et servir au mieux les clients qui lui font confiance",
+      subtitle: "AE2C Mali a développé des partenariats de premier plan permettant d'intervenir dans divers domaines et de servir au mieux les clients qui nous font confiance",
+      bankingPartnersTitle: "Nos Partenaires Bancaires",
+      otherPartnersTitle: "Autres Partenaires",
       partners: [
         {
           name: "USAID",
@@ -712,7 +714,7 @@ const ContactSection = dynamic(() => import('./components/ContactSection'))
         {
           name: "Morana Audit",
           category: "Cabinet Partenaire",
-          description: "Cabinet spécialisé en audit"
+          description: "Cabinet d'audit spécialisé"
         },
         {
           name: "Enplus",
@@ -722,7 +724,7 @@ const ContactSection = dynamic(() => import('./components/ContactSection'))
         {
           name: "Intecsup",
           category: "Formation",
-          description: "Institut supérieur de formation"
+          description: "Institut d'enseignement supérieur"
         }
       ]
     },

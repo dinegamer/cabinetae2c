@@ -98,3 +98,92 @@ html {
   }
 }
 
+/* Add these custom classes to your globals.css */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll {
+  animation: scroll 40s linear infinite;
+}
+
+.animate-scroll:hover {
+  animation-play-state: paused;
+}
+
+@layer base {
+  :root {
+    --color-gold-50: 255 250 230;
+    --color-gold-100: 255 245 205;
+    --color-gold-200: 255 235 155;
+    --color-gold-300: 255 220 105;
+    --color-gold-400: 255 200 55;
+    --color-gold-500: 255 180 0;
+    --color-gold-600: 230 160 0;
+    --color-gold-700: 190 130 0;
+    --color-gold-800: 155 105 0;
+    --color-gold-900: 125 85 0;
+    --color-gold-950: 80 55 0;
+  }
+}
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll {
+  animation: scroll 40s linear infinite;
+}
+
+.animate-scroll:hover {
+  animation-play-state: paused;
+}
+
+@layer base {
+  :root {
+    --color-primary: 29 153 139;
+    --color-secondary: 60 223 255;
+  }
+}
+
+@layer components {
+  .bg-gradient-primary {
+    @apply bg-gradient-to-r from-[#1B998B] to-[#3CDFFF];
+  }
+  
+  .text-gradient-primary {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#1B998B] to-[#3CDFFF];
+  }
+}
+
+

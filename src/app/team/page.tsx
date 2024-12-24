@@ -1,6 +1,6 @@
 "use client"
 
-import React from 'react'
+import React, { useState  } from 'react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { Mail, Phone } from 'lucide-react'
@@ -8,7 +8,6 @@ import NavigationSection from '../components/NavigationSection'
 import Footer from '../components/Footer'
 import { useTheme } from "next-themes"
 import { translations } from '../../translations/index'
-
 const teamMembers = [
   {
     name: "BOUBACAR KANTE",

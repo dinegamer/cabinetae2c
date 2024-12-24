@@ -7,8 +7,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 interface NavigationSectionProps {
-  language: string;
-  setLanguage: (lang: string) => void;
+  language: 'fr' | 'en';
+  setLanguage: (lang: 'fr' | 'en') => void;
   handleThemeChange: () => void;
   currentTheme: string;
   t: {
@@ -23,13 +23,14 @@ interface NavigationSectionProps {
 
 
 
+
 const NavigationSection: React.FC<NavigationSectionProps> = ({ 
   language, 
   setLanguage, 
   handleThemeChange, 
   currentTheme,
   t
-}) => {
+})  => {
   const [isOpen, setIsOpen] = useState(false)
   const [hasScrolled, setHasScrolled] = useState(false)
 

@@ -8,12 +8,12 @@ import AboutSection from '../components/AboutSection'
 import { translations } from '../../translations/index'
 
 export default function About() {
-  const [language, setLanguage] = React.useState('fr')
-  const { theme, setTheme } = useTheme()
+  const [language, setLanguage] = useState<'fr' | 'en'>('fr');
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
 
   const handleLanguageChange = (newLanguage: 'fr' | 'en') => {
-    setLanguage(newLanguage)
-  }
+    setLanguage(newLanguage);
+  };
 
   const handleThemeChange = () => {
     setTheme(theme === 'dark' ? 'light' : 'dark')

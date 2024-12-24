@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react'
+import React from 'react'
 import { useTheme } from "next-themes"
 import NavigationSection from '../components/NavigationSection'
 import Footer from '../components/Footer'
@@ -8,12 +8,12 @@ import AboutSection from '../components/AboutSection'
 import { translations } from '../../translations/index'
 
 export default function About() {
-  const [language, setLanguage] = useState<'fr' | 'en'>('fr');
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  const [language, setLanguage] = React.useState<'fr' | 'en'>('fr')
+  const { theme, setTheme } = useTheme()
 
   const handleLanguageChange = (newLanguage: 'fr' | 'en') => {
-    setLanguage(newLanguage);
-  };
+    setLanguage(newLanguage)
+  }
 
   const handleThemeChange = () => {
     setTheme(theme === 'dark' ? 'light' : 'dark')
@@ -31,7 +31,7 @@ export default function About() {
         setLanguage={handleLanguageChange}
         handleThemeChange={handleThemeChange}
         currentTheme={theme}
-        t={t}
+        t={t as NavigationSectionProps['t']}
       />
       <main className="pt-24">
         <AboutSection t={t} />

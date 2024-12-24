@@ -32,7 +32,6 @@ interface HeroSectionProps {
   }
   yOffset: number
 }
-
 const HeroSection: React.FC<HeroSectionProps> = ({ t, yOffset }) => {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [direction, setDirection] = useState(0)

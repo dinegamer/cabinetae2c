@@ -27,28 +27,7 @@ interface AboutSectionProps {
   };
 }
 
-const waveFlag = keyframes`
-  0% { transform: translateY(0) rotate(0deg); }
-  20% { transform: translateY(-5px) rotate(5deg); }
-  40% { transform: translateY(0) rotate(0deg); }
-  60% { transform: translateY(-3px) rotate(-3deg); }
-  80% { transform: translateY(0) rotate(0deg); }
-  100% { transform: translateY(-1px) rotate(1deg); }
-`;
 
-const FlagContainer = styled.div`
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  transform-origin: left;
-  animation: ${waveFlag} 6s ease-in-out infinite;
-`;
-
-const FlagImage = styled(Image)`
-  object-fit: cover;
-  object-position: left;
-`;
 
 const AboutSection: React.FC<AboutSectionProps> = ({ t }) => {
   if (!t.about) {

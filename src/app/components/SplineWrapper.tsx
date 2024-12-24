@@ -9,16 +9,38 @@ interface SplineWrapperProps {
   scene: string;
   className?: string;
   fallbackColor?: string;
+  onLoad?: () => void;
+  onError?: (error: Error) => void;
+}
+
+interface SplineRuntime {
+  renderer?: THREE.WebGLRenderer;
+  scene?: THREE.Scene;
+  dispose: () => void;
+}
+
+interface SplineApp {
+  runtime?: SplineRuntime;
+  animation?: {
+    animations: Array<{
+      tracks?: Array<{
+        name: string;
+      }>;
+    }>;
+    stopAllAnimations?: () => void;
+  };
 }
 
 const SplineWrapper: React.FC<SplineWrapperProps> = ({ 
   scene, 
   className = "",
-  fallbackColor = "from-[#1B998B]/10 to-[#3CDFFF]/10"
+  fallbackColor = "from-[#1B998B]/10 to-[#3CDFFF]/10",
+  onLoad,
+  onError
 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState(false);
-  const splineRef = useRef<any>(null);
+  const splineRef = useRef<SplineApp | null>(null);
   const { ref, inView } = useInView({
     triggerOnce: true,
     threshold: 0.1,
@@ -31,7 +53,6 @@ const SplineWrapper: React.FC<SplineWrapperProps> = ({
       const THREE = (window as any).THREE;
       if (!THREE?.PropertyBinding?.prototype) return;
 
-      // Create a proxy for morphTargetInfluences
       const createMorphTargetProxy = () => {
         return new Proxy([], {
           get: (target, prop) => {
@@ -42,15 +63,14 @@ const SplineWrapper: React.FC<SplineWrapperProps> = ({
         });
       };
 
-      // Patch PropertyBinding prototype
       const methods = ['bind', 'getValue', 'setValue'];
       methods.forEach(method => {
         const original = THREE.PropertyBinding.prototype[method];
-        THREE.PropertyBinding.prototype[method] = function(...args: any[]) {
+        THREE.PropertyBinding.prototype[method] = function(...args: unknown[]) {
           try {
             return original.apply(this, args);
-          } catch (error: any) {
-            if (error.message?.includes('morphTargetInfluences')) {
+          } catch (error) {
+            if (error instanceof Error && error.message?.includes('morphTargetInfluences')) {
               if (method === 'bind') return () => {};
               if (method === 'getValue') return createMorphTargetProxy();
               if (method === 'setValue') return true;
@@ -60,10 +80,9 @@ const SplineWrapper: React.FC<SplineWrapperProps> = ({
         };
       });
 
-      // Patch Object3D
       if (THREE.Object3D) {
         const originalAdd = THREE.Object3D.prototype.add;
-        THREE.Object3D.prototype.add = function(...objects: any[]) {
+        THREE.Object3D.prototype.add = function(...objects: THREE.Object3D[]) {
           objects.forEach(object => {
             if (object && !object.morphTargetInfluences) {
               object.morphTargetInfluences = createMorphTargetProxy();
@@ -79,21 +98,18 @@ const SplineWrapper: React.FC<SplineWrapperProps> = ({
     return () => {
       if (splineRef.current?.runtime) {
         try {
-          // Stop all animations
           if (splineRef.current.animation) {
             splineRef.current.animation.stopAllAnimations?.();
           }
           
-          // Clear any ongoing animations
           if (splineRef.current.runtime.scene) {
-            splineRef.current.runtime.scene.traverse((object: any) => {
-              if (object.animation) {
-                object.animation.stop?.();
+            splineRef.current.runtime.scene.traverse((object: THREE.Object3D) => {
+              if ((object as any).animation) {
+                (object as any).animation.stop?.();
               }
             });
           }
 
-          // Dispose of the runtime
           splineRef.current.runtime.dispose();
         } catch (error) {
           console.warn('Cleanup error:', error);
@@ -102,13 +118,12 @@ const SplineWrapper: React.FC<SplineWrapperProps> = ({
     };
   }, []);
 
-  const handleLoad = async (splineApp: any) => {
+  const handleLoad = async (splineApp: SplineApp) => {
     try {
       if (!splineApp) return;
       
       splineRef.current = splineApp;
 
-      // Renderer optimizations
       if (splineApp.runtime?.renderer) {
         const renderer = splineApp.runtime.renderer;
         Object.assign(renderer, {
@@ -120,42 +135,44 @@ const SplineWrapper: React.FC<SplineWrapperProps> = ({
         renderer.setPixelRatio(Math.min(1.5, window.devicePixelRatio));
       }
 
-      // Scene optimizations
       if (splineApp.runtime?.scene) {
         const scene = splineApp.runtime.scene;
         scene.matrixAutoUpdate = false;
         scene.autoUpdate = false;
 
-        scene.traverse((object: any) => {
-          if (object.isMesh) {
+        scene.traverse((object: THREE.Object3D) => {
+          if ((object as any).isMesh) {
             object.matrixAutoUpdate = false;
             object.frustumCulled = true;
             object.castShadow = false;
             object.receiveShadow = false;
             
-            if (object.material) {
-              object.material.precision = 'lowp';
-              object.material.fog = false;
+            if ((object as any).material) {
+              (object as any).material.precision = 'lowp';
+              (object as any).material.fog = false;
             }
           }
         });
       }
 
-      // Handle animations more gracefully
       if (splineApp.animation?.animations) {
         splineApp.animation.animations = splineApp.animation.animations
-          .filter((anim: any) => {
+          .filter((anim) => {
             if (!anim?.tracks) return false;
-            return !anim.tracks.some((track: any) => 
+            return !anim.tracks.some((track) => 
               track.name.includes('morphTarget')
             );
           });
       }
 
       setIsLoaded(true);
+      onLoad?.();
     } catch (err) {
       console.warn('Spline load error:', err);
       setError(true);
+      if (err instanceof Error) {
+        onError?.(err);
+      }
     }
   };
 
@@ -202,3 +219,4 @@ const SplineWrapper: React.FC<SplineWrapperProps> = ({
 };
 
 export default SplineWrapper;
+

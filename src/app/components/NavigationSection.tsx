@@ -7,12 +7,21 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 interface NavigationSectionProps {
-  language: string
-  setLanguage: (lang: string) => void
-  handleThemeChange: () => void
-  currentTheme: string
-  t: any
+  language: string;
+  setLanguage: (lang: string) => void;
+  handleThemeChange: () => void;
+  currentTheme: string;
+  t: {
+    navigation?: {
+      home: string;
+      about: string;
+      services: string;
+      contact: string;
+    };
+  };
 }
+
+
 
 const NavigationSection: React.FC<NavigationSectionProps> = ({ 
   language, 

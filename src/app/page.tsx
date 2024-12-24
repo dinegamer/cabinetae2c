@@ -3,22 +3,13 @@
 import { useEffect, useRef, useState, Suspense  } from "react"
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import { ArrowRight, ChevronDown, ChevronUp, Menu, X, Sun, Moon, Globe, MapPin, QrCode, Brain, MessageSquare, Phone, Mail, Facebook, Twitter, Instagram, Linkedin, Send, MessageCircle, Code } from 'lucide-react'
-import Image from "next/image"
-import Link from "next/link"
+
 import { useTheme } from "next-themes"
 import dynamic from 'next/dynamic'
-const TeamSection = dynamic(() => import('./components/TeamSection'))
-const ServicesSection = dynamic(() => import('./components/ServicesSection'))
-const ExpertiseSection = dynamic(() => import('./components/ExpertiseSection'))
-const AboutSection = dynamic(() => import('./components/AboutSection'))
-const PartnersSection = dynamic(() => import('./components/PartnersSection'))
-const CertificationsSection = dynamic(() => import('./components/CertificationsSection'))
-const CareersSection = dynamic(() => import('./components/CareersSection'))
-const InternationalSection = dynamic(() => import('./components/InternationalSection'))
+
 const HeroSection = dynamic(() => import('./components/HeroSection'))
 const NavigationSection = dynamic(() => import('./components/NavigationSection'))
-const MapSection = dynamic(() => import('./components/MapSection'))
-const ContactSection = dynamic(() => import('./components/ContactSection'))
+
 const Footer = dynamic(() => import('./components/Footer'))
 
 

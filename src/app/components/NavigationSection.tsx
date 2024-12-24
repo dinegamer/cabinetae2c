@@ -1,36 +1,37 @@
-"use client"
-
-import React, { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Sun, Moon, Globe, Menu, X } from 'lucide-react'
-import Image from 'next/image'
-import Link from 'next/link'
+import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Sun, Moon, Globe, Menu, X } from 'lucide-react';
 
 interface NavigationSectionProps {
   language: 'fr' | 'en';
   setLanguage: (lang: 'fr' | 'en') => void;
   handleThemeChange: () => void;
-  currentTheme: string;
+  currentTheme: string | undefined; // Updated to allow undefined
   t: {
-    navigation?: {
-      home: string;
-      about: string;
+    nav: {
       services: string;
+      expertise: string;
+      team: string;
       contact: string;
+      about: string;
+      partners: string;
+      certifications: string;
+      careers: string;
+      "who-we-are": string;
+      "banking-references": string;
     };
   };
 }
-
-
-
 
 const NavigationSection: React.FC<NavigationSectionProps> = ({ 
   language, 
   setLanguage, 
   handleThemeChange, 
-  currentTheme,
+  currentTheme = 'light', // Add default value
   t
-})  => {
+}) => {
   const [isOpen, setIsOpen] = useState(false)
   const [hasScrolled, setHasScrolled] = useState(false)
 

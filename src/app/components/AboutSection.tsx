@@ -26,8 +26,8 @@ interface AboutSectionProps {
     international: {
       title: string;
     };
+    language: 'fr' | 'en'; // Get language from t prop
   };
-  language: 'fr' | 'en';
 }
 
 const countries = [
@@ -62,7 +62,8 @@ const FlagImage = styled(Image)`
   object-position: left;
 `;
 
-const AboutSection: React.FC<AboutSectionProps> = ({ t, language }) => {
+const AboutSection: React.FC<AboutSectionProps> = ({ t }) => {
+  const currentLanguage = t.language;
   const commitments = [
     {
       title: "ACTEUR DE CONFIANCE",
@@ -182,12 +183,12 @@ const AboutSection: React.FC<AboutSectionProps> = ({ t, language }) => {
                   <FlagContainer>
                     <FlagImage
                       src={country.flag}
-                      alt={`Drapeau ${country.name[language]}`}
+                      alt={`Drapeau ${country.name[currentLanguage]}`}
                       layout="fill"
                     />
                   </FlagContainer>
                 </div>
-                <span className="text-sm font-medium text-center text-gray-900 dark:text-white">{country.name[language]}</span>
+                <span className="text-sm font-medium text-center text-gray-900 dark:text-white">{country.name[currentLanguage]}</span>
               </motion.div>
             ))}
           </div>

@@ -21,11 +21,11 @@ export default function About() {
 
   const t = React.useMemo(() => ({
     ...translations[language as keyof typeof translations],
-    language
+    language // Include language in t object
   }), [language])
 
   return (
-    <div className={`${theme} transition-colors duration-300`}>
+    <div className={`${theme || 'light'} transition-colors duration-300`}>
       <NavigationSection 
         language={language}
         setLanguage={handleLanguageChange}

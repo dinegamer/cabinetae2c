@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, Suspense  } from "react"
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
-import { ArrowRight, ChevronDown, ChevronUp, Menu, X, Sun, Moon, Globe, MapPin, QrCode, Brain, MessageSquare, Phone, Mail, Facebook, Twitter, Instagram, Linkedin, Send, MessageCircle, Code } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 
 import { useTheme } from "next-themes"
 import dynamic from 'next/dynamic'

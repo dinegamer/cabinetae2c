@@ -143,9 +143,9 @@ export default function ServicesPage() {
   const { theme, setTheme } = useTheme()
   const [activeSection, setActiveSection] = useState<string | null>(null)
 
-  const handleLanguageChange = (newLanguage: 'fr' | 'en') => {
-    setLanguage(newLanguage)
-  }
+  // const handleLanguageChange = (newLanguage: 'fr' | 'en') => {
+  //   setLanguage(newLanguage)
+  // }
 
   const handleThemeChange = () => {
     setTheme(theme === 'dark' ? 'light' : 'dark')

@@ -14,11 +14,13 @@ const AboutSection = dynamic(() => import('./components/AboutSection'))
 const PartnersSection = dynamic(() => import('./components/PartnersSection'))
 const CertificationsSection = dynamic(() => import('./components/CertificationsSection'))
 const CareersSection = dynamic(() => import('./components/CareersSection'))
-// const InternationalSection = dynamic(() => import('./components/InternationalSection'))
+const InternationalSection = dynamic(() => import('./components/InternationalSection'))
 const HeroSection = dynamic(() => import('./components/HeroSection'))
 const NavigationSection = dynamic(() => import('./components/NavigationSection'))
 const MapSection = dynamic(() => import('./components/MapSection'))
 const ContactSection = dynamic(() => import('./components/ContactSection'))
+const Footer = dynamic(() => import('./components/Footer'))
+
 
  const translations = {
   en: {
@@ -308,10 +310,10 @@ const ContactSection = dynamic(() => import('./components/ContactSection'))
       environmentalActorDesc: "Digital solutions and clean energy (solar panels)",
     },
     partners: {
-      title: "Our Partners",
+      title: "Our References",
       subtitle: "AE2C Mali has developed leading partnerships enabling intervention in various fields and best serving the clients who trust us",
-      bankingPartnersTitle: "Our Banking Partners",
-      otherPartnersTitle: "Other Partners",
+      bankingPartnersTitle: "Our Banking References",
+      otherPartnersTitle: "Other References",
       partners: [
         {
           name: "USAID",
@@ -675,7 +677,7 @@ const ContactSection = dynamic(() => import('./components/ContactSection'))
       phoneValue: "(+223) 20 28 23 81 / (+223) 77 24 17 17"
     },
     about: {
-      title: "À propos d'AE2C",
+      title: "Qui sommes-nous ?",
       description: "AE2C est un cabinet d'audit, d'expertise comptable, de conseil et d'études créé en 2008. Nous sommes devenus un partenaire de confiance pour les entreprises de divers secteurs.",
       point1: "Inscrit au Tableau de l'Ordre National des Experts Comptables et Comptables Agréés du Mali (ONECCAM)",
       point2: "Plus de 15 ans d'expérience dans les services financiers",
@@ -691,10 +693,10 @@ const ContactSection = dynamic(() => import('./components/ContactSection'))
       environmentalActorDesc: "Solutions digitales et énergie propre (panneaux solaires)",
     },
     partners: {
-      title: "Nos Partenaires",
+      title: "Nos Références",
       subtitle: "AE2C Mali a développé des partenariats de premier plan permettant d'intervenir dans divers domaines et de servir au mieux les clients qui nous font confiance",
-      bankingPartnersTitle: "Nos Partenaires Bancaires",
-      otherPartnersTitle: "Autres Partenaires",
+      bankingPartnersTitle: "Nos Références Bancaires",
+      otherPartnersTitle: "Autres Références",
       partners: [
         {
           name: "USAID",
@@ -812,106 +814,106 @@ const LoadingSpinner = () => (
 
 
 // Footer Component
-function Footer({ t }) {
-  return (
-    <footer className="bg-gray-900 text-white pt-20 pb-10">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
-          <div>
-            <Image
-              src="/logo/svg/ae2c.svg"
-              alt="AE2C Logo"
-              width={120}
-              height={48}
-              className="mb-6 dark:invert"
-            />
-            <p className="text-gray-400 mb-6">
-              {t.footer.description}
-            </p>
-            <div className="flex space-x-4">
-              <Link href="https://www.linkedin.com/company/cabinetae2c-mali/?viewAsMember=true" className="text-gray-400 hover:text-[#1B998B] transition-colors">
-                <Facebook size={20} />
-              </Link>
-              <Link href="https://www.linkedin.com/company/cabinetae2c-mali/?viewAsMember=true" className="text-gray-400 hover:text-[#1B998B] transition-colors">
-                <Twitter size={20} />
-              </Link>
-              <Link href="https://www.linkedin.com/company/cabinetae2c-mali/?viewAsMember=true" className="text-gray-400 hover:text-[#1B998B] transition-colors">
-                <Instagram size={20} />
-              </Link>
-              <Link href="https://www.linkedin.com/company/cabinetae2c-mali/?viewAsMember=true" className="text-gray-400 hover:text-[#1B998B] transition-colors">
-                <Linkedin size={20} />
-              </Link>
-            </div>
-          </div>
+// function Footer({ t }) {
+//   return (
+//     <footer className="bg-gray-900 text-white pt-20 pb-10">
+//       <div className="container mx-auto px-4">
+//         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+//           <div>
+//             <Image
+//               src="/logo/svg/ae2c.svg"
+//               alt="AE2C Logo"
+//               width={120}
+//               height={48}
+//               className="mb-6"
+//             />
+//             <p className="text-gray-400 mb-6">
+//               {t.footer.description}
+//             </p>
+//             <div className="flex space-x-4">
+//               <Link href="https://www.linkedin.com/company/cabinetae2c-mali/?viewAsMember=true" className="text-gray-400 hover:text-[#1B998B] transition-colors">
+//                 <Facebook size={20} />
+//               </Link>
+//               <Link href="https://www.linkedin.com/company/cabinetae2c-mali/?viewAsMember=true" className="text-gray-400 hover:text-[#1B998B] transition-colors">
+//                 <Twitter size={20} />
+//               </Link>
+//               <Link href="https://www.linkedin.com/company/cabinetae2c-mali/?viewAsMember=true" className="text-gray-400 hover:text-[#1B998B] transition-colors">
+//                 <Instagram size={20} />
+//               </Link>
+//               <Link href="https://www.linkedin.com/company/cabinetae2c-mali/?viewAsMember=true" className="text-gray-400 hover:text-[#1B998B] transition-colors">
+//                 <Linkedin size={20} />
+//               </Link>
+//             </div>
+//           </div>
           
-          <div>
-            <h3 className="text-lg font-bold mb-6">{t.footer.services}</h3>
-            <ul className="space-y-4">
-              {Object.entries(t.footer.serviceLinks).map(([key, value]) => (
-                <li key={key}>
-                  <Link href="#" className="text-gray-400 hover:text-white transition-colors">
-                    {value}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+//           <div>
+//             <h3 className="text-lg font-bold mb-6">{t.footer.services}</h3>
+//             <ul className="space-y-4">
+//               {Object.entries(t.footer.serviceLinks).map(([key, value]) => (
+//                 <li key={key}>
+//                   <Link href="#" className="text-gray-400 hover:text-white transition-colors">
+//                     {value}
+//                   </Link>
+//                 </li>
+//               ))}
+//             </ul>
+//           </div>
           
-          <div>
-            <h3 className="text-lg font-bold mb-6">{t.footer.company}</h3>
-            <ul className="space-y-4">
-              {Object.entries(t.footer.companyLinks).map(([key, value]) => (
-                <li key={key}>
-                  <Link href={`#${key}`} className="text-gray-400 hover:text-white transition-colors">
-                    {value}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+//           <div>
+//             <h3 className="text-lg font-bold mb-6">{t.footer.company}</h3>
+//             <ul className="space-y-4">
+//               {Object.entries(t.footer.companyLinks).map(([key, value]) => (
+//                 <li key={key}>
+//                   <Link href={`#${key}`} className="text-gray-400 hover:text-white transition-colors">
+//                     {value}
+//                   </Link>
+//                 </li>
+//               ))}
+//             </ul>
+//           </div>
           
-          <div>
-            <h3 className="text-lg font-bold mb-6">{t.footer.contact}</h3>
-            <ul className="space-y-4">
-              <li className="flex items-center space-x-3 text-gray-400">
-                <MapPin size={20} />
-                <span>{t.footer.location}</span>
-              </li>
-              <li className="flex items-center space-x-3 text-gray-400">
-                <Phone size={20} />
-                <span>(+223) 20 28 23 81 / 66 71 57 97</span>
-              </li>
-              <li className="flex items-center space-x-3 text-gray-400">
-                <Mail size={20} />
-                <span>cae2c@ae2cmali.com</span>
-              </li>
-            </ul>
-          </div>
-        </div>
+//           <div>
+//             <h3 className="text-lg font-bold mb-6">{t.footer.contact}</h3>
+//             <ul className="space-y-4">
+//               <li className="flex items-center space-x-3 text-gray-400">
+//                 <MapPin size={20} />
+//                 <span>{t.footer.location}</span>
+//               </li>
+//               <li className="flex items-center space-x-3 text-gray-400">
+//                 <Phone size={20} />
+//                 <span>(+223) 20 28 23 81 / 66 71 57 97</span>
+//               </li>
+//               <li className="flex items-center space-x-3 text-gray-400">
+//                 <Mail size={20} />
+//                 <span>cae2c@ae2cmali.com</span>
+//               </li>
+//             </ul>
+//           </div>
+//         </div>
         
-        <div className="border-t border-gray-800 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <p className="text-gray-400 text-sm">
-              © {new Date().getFullYear()} AE2C. {t.footer.rights}
-            </p>
-            <div className="flex flex-wrap justify-center md:justify-end items-center space-x-6">
-              <Link href="#" className="text-gray-400 hover:text-white text-sm transition-colors">
-                {t.footer.privacy}
-              </Link>
-              <Link href="#" className="text-gray-400 hover:text-white text-sm transition-colors">
-                {t.footer.terms}
-              </Link>
-              <div className="text-gray-500 text-sm flex items-center">
-                <Code size={16} className="mr-1" />
-                {t.footer.developedBy} <a href="mailto:teenagerdine@gmail.com" className="ml-1 hover:text-[#1B998B] transition-colors">ShamsDigital</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </footer>
-  );
-}
+//         <div className="border-t border-gray-800 pt-8">
+//           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+//             <p className="text-gray-400 text-sm">
+//               © {new Date().getFullYear()} AE2C. {t.footer.rights}
+//             </p>
+//             <div className="flex flex-wrap justify-center md:justify-end items-center space-x-6">
+//               <Link href="#" className="text-gray-400 hover:text-white text-sm transition-colors">
+//                 {t.footer.privacy}
+//               </Link>
+//               <Link href="#" className="text-gray-400 hover:text-white text-sm transition-colors">
+//                 {t.footer.terms}
+//               </Link>
+//               <div className="text-gray-500 text-sm flex items-center">
+//                 <Code size={16} className="mr-1" />
+//                 {t.footer.developedBy} <a href="mailto:teenagerdine@gmail.com" className="ml-1 hover:text-[#1B998B] transition-colors">ShamsDigital</a>
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </footer>
+//   );
+// }
 
 // Scroll to Top Button Component
 function ScrollToTopButton({ scrollButtonOpacity }) {
@@ -1017,20 +1019,7 @@ export default function Component() {
             currentTheme={theme}
           />
 
-          <HeroSection t={t} yOffset={yOffset} />
-
-          <Suspense fallback={<LoadingSpinner />}>
-            <TeamSection t={t} />
-            <ExpertiseSection t={t} />
-            <ServicesSection t={t} />
-            <AboutSection t={t} />
-            <PartnersSection t={t} />
-            <CertificationsSection t={t} />
-            <CareersSection t={t} />
-            {/* <InternationalSection t={t} /> */}
-            <MapSection t={t} />
-            <ContactSection t={t} handleSubmit={handleSubmit} handleWhatsAppClick={handleWhatsAppClick} />
-          </Suspense>
+          <HeroSection t={t} yOffset={0} />
 
           <Footer t={t} />
 

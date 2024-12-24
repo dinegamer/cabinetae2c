@@ -3,7 +3,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
-import { Shield, Clock, TrendingUp, Globe2 } from 'lucide-react'
 import styled, { keyframes } from 'styled-components'
 
 interface AboutSectionProps {
@@ -25,59 +24,16 @@ interface AboutSectionProps {
       environmentalActor: string;
       environmentalActorDesc: string;
     };
-    international: {
-      title: string;
-      countries: { fr: string; en: string }[];
-    };
   };
 }
 
-const countries = [
-  {
-    name: { fr: "Mali", en: "Mali" },
-    flag: "/images/flags/flagOfMali.png",
-  },
-  {
-    name: { fr: "Sénégal", en: "Senegal" },
-    flag: "/images/flags/flagOfSenegal.png",
-  },
-  {
-    name: { fr: "Côte d'Ivoire", en: "Ivory Coast" },
-    flag: "/images/flags/flagOfCoteDivoire.jpg",
-  },
-  {
-    name: { fr: "Burkina Faso", en: "Burkina Faso" },
-    flag: "/images/flags/flagOfBurkina.png",
-  },
-  {
-    name: { fr: "Niger", en: "Niger" },
-    flag: "/images/flags/flagOfNiger.jpeg",
-  },
-  {
-    name: { fr: "Guinée", en: "Guinea" },
-    flag: "/images/flags/flagOfGuinea.png",
-  },
-];
-
 const waveFlag = keyframes`
-  0% {
-    transform: translateY(0) rotate(0deg);
-  }
-  20% {
-    transform: translateY(-5px) rotate(5deg);
-  }
-  40% {
-    transform: translateY(0) rotate(0deg);
-  }
-  60% {
-    transform: translateY(-3px) rotate(-3deg);
-  }
-  80% {
-    transform: translateY(0) rotate(0deg);
-  }
-  100% {
-    transform: translateY(-1px) rotate(1deg);
-  }
+  0% { transform: translateY(0) rotate(0deg); }
+  20% { transform: translateY(-5px) rotate(5deg); }
+  40% { transform: translateY(0) rotate(0deg); }
+  60% { transform: translateY(-3px) rotate(-3deg); }
+  80% { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(-1px) rotate(1deg); }
 `;
 
 const FlagContainer = styled.div`
@@ -95,30 +51,74 @@ const FlagImage = styled(Image)`
 `;
 
 const AboutSection: React.FC<AboutSectionProps> = ({ t }) => {
-  const commitments = [
-    {
-      title: t.about.trustedActor,
-      icon: Shield,
-      description: t.about.trustedActorDesc,
-    },
-    {
-      title: t.about.availability,
-      icon: Clock,
-      description: t.about.availabilityDesc,
-    },
-    {
-      title: t.about.skillsDevelopment,
-      icon: TrendingUp,
-      description: t.about.skillsDevelopmentDesc,
-    },
-    {
-      title: t.about.environmentalActor,
-      icon: Globe2,
-      description: t.about.environmentalActorDesc,
-    },
-  ];
+  if (!t.about) {
+    console.error('Missing about section in translations');
+    return null;
+  }
+
+  const frenchContent = {
+    description1: "AE2C est un cabinet d'expertise comptable, de Commissarait aux Comptes, de conseil et d'études et de Formation de droit malien crée en 2009, inscrit à l'Ordre des Expert-Comptable et des comptables agréés du Mali sous le N° B-09-017 et à vocation internationale.",
+    description2: "Le cabinet AE2C a pour ambition d'aider les dirigeants d'entreprise à décider en toute sécurité et d'accompagner les entrepreneurs à chaque étape de leur activité en apportant des solutions concrètes, en identifiant les forces et les faiblesses de votre organisation pour en faire des facteurs clés de succès.",
+    description3: "Le cabinet dispose d'une vingtaine de collaborateurs aux profils variés et complémentaires permettant d'apporter de la valeur ajoutée dans les différentes prestations en expertise comptable, en conseil et pour les missions d'audit confiées par nos clients.",
+    description4: "En outre, Le cabinet s'appuie sur un réseau de parténaires pour élargir sa palette d'interventions, d'analyses et apporter les solutions concrètes aux besoins de ses clients.",
+    title: "QUI SOMMES NOUS ?",
+    commitments: "NOS ENGAGEMENTS",
+    commitmentsList: [
+      {
+        title: "ACTEUR DE CONFIANCE",
+        description: "AE2C agit dans le respect des normes professionnelles internationales et du code de déontologie de l'Ordre des Experts Comptables en particulier en respectant l'indépendance et la confidentialité",
+      },
+      {
+        title: "DISPONIBILITE ET ECHANGES REGULIERS TOUT AU LONG DE LA MISSION",
+        description: "AE2C est au côté de l'ensemble de ses mandants dans le respect des règles en apportant conseils et expertises techniques nécéssaires à la bonne réalisation des missions tout en restant à l'écoute",
+      },
+      {
+        title: "MONTEE EN COMPETENCES POUR NOS SALARIES",
+        description: "AE2C s'assure du développement des compétences, de la qualité de vie agréable dans les relations de travail pour l'ensemble des salariés et des partenaires.",
+      },
+      {
+        title: "ACTEUR SOUCIEUX DE SON ENVIRONNEMENT",
+        description: "AE2C s'engage dans la préservation des ressources de la planète et du respect de l'environnement en adoptant des solutions digitales et une energie propre. Le cabinet fonctionne totalement avec des panneaux solaires.",
+      }
+    ]
+  };
+
+  const englishContent = {
+    description1: t.about.description,
+    description2: t.about.point1,
+    description3: t.about.point2,
+    description4: t.about.point3,
+    title: t.about.title,
+    commitments: t.about.commitments,
+    commitmentsList: [
+      {
+        title: t.about.trustedActor,
+        description: t.about.trustedActorDesc,
+      },
+      {
+        title: t.about.availability,
+        description: t.about.availabilityDesc,
+      },
+      {
+        title: t.about.skillsDevelopment,
+        description: t.about.skillsDevelopmentDesc,
+      },
+      {
+        title: t.about.environmentalActor,
+        description: t.about.environmentalActorDesc,
+      }
+    ]
+  };
+
+  const content = t.language === 'fr' ? frenchContent : englishContent;
+
+  const commitments = content.commitmentsList.map((commitment, index) => ({
+    ...commitment,
+    icon: `/engagements/engagement${index + 1}.jpg`,
+  }));
+
   return (
-    <section id="about" className="py-20 bg-gray-50 dark:bg-gray-800">
+    <section id="about" className="py-16 sm:py-20 bg-gray-50 dark:bg-gray-800">
       <div className="container mx-auto px-4">
         {/* Who We Are Section */}
         <motion.div
@@ -128,30 +128,10 @@ const AboutSection: React.FC<AboutSectionProps> = ({ t }) => {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <h2 className="text-3xl font-bold text-center mb-12 text-gray-900 dark:text-white">{t.about.title}</h2>
-          <div className="grid md:grid-cols-2 gap-8 items-center">
-            <div className="space-y-6">
-              <motion.p
-                className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-              >
-                {t.about.description}
-              </motion.p>
-              <motion.ul
-                className="list-disc list-inside space-y-2 text-gray-600 dark:text-gray-300"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.3 }}
-              >
-                <li>{t.about.point1}</li>
-                <li>{t.about.point2}</li>
-                <li>{t.about.point3}</li>
-              </motion.ul>
-            </div>
+          <h2 className="text-3xl font-bold text-center mb-12 text-gray-900 dark:text-white">
+            {content.title}
+          </h2>
+          <div className="grid md:grid-cols-2 gap-8 items-start">
             <motion.div
               className="relative h-[400px] rounded-xl overflow-hidden shadow-2xl"
               initial={{ opacity: 0, scale: 0.9 }}
@@ -167,40 +147,25 @@ const AboutSection: React.FC<AboutSectionProps> = ({ t }) => {
                 className="rounded-xl"
               />
             </motion.div>
-          </div>
-        </motion.div>
-
-        {/* Countries Section */}
-        <motion.div
-          className="mb-20"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-        >
-          <h2 className="text-3xl font-bold text-center mb-12 text-gray-900 dark:text-white">{t.international.title}</h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-            {countries.map((country, index) => (
-              <motion.div
-                key={country.name.fr}
-                className="flex flex-col items-center justify-center p-4 bg-white dark:bg-gray-700 rounded-xl shadow-md hover:shadow-lg transition-shadow"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-              >
-                <div className="relative w-24 h-16 mb-4 overflow-hidden rounded-md">
-                  <FlagContainer>
-                    <FlagImage
-                      src={country.flag}
-                      alt={`Drapeau ${country.name.fr}`}
-                      layout="fill"
-                    />
-                  </FlagContainer>
-                </div>
-                <span className="text-sm font-medium text-center text-gray-900 dark:text-white">{country.name[t.language]}</span>
-              </motion.div>
-            ))}
+            <div className="space-y-6">
+              {[
+                content.description1,
+                content.description2,
+                content.description3,
+                content.description4
+              ].map((text, index) => (
+                <motion.p
+                  key={index}
+                  className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.2 + (index * 0.1) }}
+                >
+                  {text}
+                </motion.p>
+              ))}
+            </div>
           </div>
         </motion.div>
 
@@ -211,26 +176,36 @@ const AboutSection: React.FC<AboutSectionProps> = ({ t }) => {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <h2 className="text-3xl font-bold text-center mb-12 text-gray-900 dark:text-white">{t.about.commitments}</h2>
-          <div className="grid md:grid-cols-2 gap-8">
+          <h2 className="text-3xl font-bold text-center mb-12 text-gray-900 dark:text-white">
+            {content.commitments}
+          </h2>
+          <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
             {commitments.map((commitment, index) => (
               <motion.div
-                key={commitment.title}
-                className="bg-white dark:bg-gray-700 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow"
+                key={index}
+                className="bg-white dark:bg-gray-700 p-6 sm:p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
               >
-                <div className="flex items-start space-x-4">
+                <div className="flex flex-col sm:flex-row items-start gap-6">
                   <div className="flex-shrink-0">
-                    <commitment.icon className="w-8 h-8 text-[#1B998B] dark:text-[#3CDFFF]" />
+                    <Image
+                      src={commitment.icon}
+                      alt={commitment.title}
+                      width={80}
+                      height={80}
+                      className="rounded-lg"
+                    />
                   </div>
-                  <div className="flex-1">
-                    <h3 className="text-xl font-bold text-[#1B998B] dark:text-[#3CDFFF] mb-2">
+                  <div className="flex-1 space-y-4">
+                    <h3 className="text-lg sm:text-xl font-bold text-[#1B998B] dark:text-[#3CDFFF] leading-tight">
                       {commitment.title}
                     </h3>
-                    <p className="text-gray-600 dark:text-gray-300">{commitment.description}</p>
+                    <p className="text-base text-gray-600 dark:text-gray-300 leading-relaxed">
+                      {commitment.description}
+                    </p>
                   </div>
                 </div>
               </motion.div>

@@ -5,6 +5,8 @@ import { motion, AnimatePresence, useAnimation, useTransform, useScroll } from '
 import { ArrowRight } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import PartnersSection from './PartnersSection'
+import MapSection from './MapSection'
 
 interface HeroSectionProps {
   t: {
@@ -44,22 +46,22 @@ const HeroSection: React.FC<HeroSectionProps> = ({ t, yOffset }) => {
     {
       id: 1,
       image: "/images/ae2c-headquarters.jpg",
-      title: t.discover?.firm?.title || "Découvrez notre cabinet",
-      description: t.discover?.firm?.description || "Expertise comptable reconnue depuis 2009",
+      title: t.discover.firm.title,
+      description: t.discover.firm.description,
       link: "about"
     },
     {
       id: 2,
-      image: "/images/tour-afrique.jpg",
-      title: t.discover?.services?.title || "Découvrez nos services",
-      description: t.discover?.services?.description || "Solutions concrètes et expertise reconnue",
+      image: "/images/tour-afrique1.jpg",
+      title: t.discover.services.title,
+      description: t.discover.services.description,
       link: "services"
     },
     {
       id: 3,
       image: "/images/mosque-djenne.jpeg",
-      title: t.discover?.teams?.title || "Découvrez nos équipes",
-      description: t.discover?.teams?.description || "Professionnels expérimentés à votre service",
+      title: t.discover.teams.title,
+      description: t.discover.teams.description,
       link: "team"
     }
   ]
@@ -107,21 +109,22 @@ const HeroSection: React.FC<HeroSectionProps> = ({ t, yOffset }) => {
     enter: (direction: number) => ({
       opacity: 0,
       scale: 1.2,
+      transition: {
+        duration: 0.5
+      }
     }),
     center: {
       opacity: 1,
       scale: 1,
       transition: {
-        opacity: { duration: 0.5 },
-        scale: { duration: 1 },
+        duration: 0.5
       },
     },
     exit: (direction: number) => ({
       opacity: 0,
       scale: 0.8,
       transition: {
-        opacity: { duration: 0.5 },
-        scale: { duration: 1 },
+        duration: 0.5
       },
     }),
   }
@@ -154,165 +157,158 @@ const HeroSection: React.FC<HeroSectionProps> = ({ t, yOffset }) => {
   const parallaxY = useTransform(scrollY, [0, 500], [0, -100])
 
   return (
-    <section 
-      className="relative h-screen w-full overflow-hidden"
-      style={{ marginTop: `-${yOffset}px` }}
-      ref={containerRef}
-    >
-      <AnimatePresence initial={false} mode="wait">
-        <motion.div
-          key={currentSlide}
-          custom={direction}
-          variants={slideVariants}
-          initial="enter"
-          animate="center"
-          exit="exit"
-          className="absolute inset-0"
-        >
+    <>
+      <section 
+        id="hero"
+        className="relative h-screen w-full overflow-hidden"
+        style={{ marginTop: `-${yOffset}px` }}
+        ref={containerRef}
+      >
+        <AnimatePresence initial={false} mode="wait">
           <motion.div
-            className="relative h-full w-full"
-            style={{ y: parallaxY }}
-          >
-            <Image
-              src={slides[currentSlide].image}
-              alt={slides[currentSlide].title}
-              layout="fill"
-              objectFit="cover"
-              quality={100}
-              className="transform scale-105 filter brightness-75"
-            />
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/60"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 1 }}
-            />
-          </motion.div>
-        </motion.div>
-      </AnimatePresence>
-
-      <AnimatePresence mode="wait">
-        {isTransitioning && (
-          <motion.div
-            key={`split-${currentSlide}`}
-            className="absolute inset-0 grid grid-cols-2 grid-rows-2 pointer-events-none"
-            initial="initial"
+            key={currentSlide}
+            custom={direction}
+            variants={slideVariants}
+            initial="enter"
+            animate="center"
             exit="exit"
+            className="absolute inset-0"
           >
-            {[0, 1, 2, 3].map((index) => (
-              <motion.div
-                key={index}
-                className="relative overflow-hidden"
-                variants={quadrantVariants}
-                custom={index}
-              >
-                <Image
-                  src={slides[currentSlide].image}
-                  alt={slides[currentSlide].title}
-                  layout="fill"
-                  objectFit="cover"
-                  quality={100}
-                  className="transform scale-105 filter brightness-75"
-                  style={{
-                    objectPosition: `${index % 2 === 0 ? 'left' : 'right'} ${index < 2 ? 'top' : 'bottom'}`
-                  }}
-                />
-              </motion.div>
-            ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      <div className="relative z-10 flex h-full items-center justify-center px-4 pt-20">
-        <div className="container mx-auto max-w-4xl">
-          <AnimatePresence mode="wait">
             <motion.div
-              key={currentSlide}
-              initial="hidden"
-              animate="visible"
-              exit="hidden"
-              variants={textVariants}
-              className="text-center text-white"
+              className="relative h-full w-full"
+              style={{ y: parallaxY }}
             >
-              <motion.h2
-                className="mb-4 text-2xl font-bold md:text-4xl"
-                variants={textVariants}
-              >
-                {t.hero.title}
-              </motion.h2>
-              <motion.p
-                className="mb-6 text-lg md:text-xl"
-                variants={textVariants}
-              >
-                {t.hero.subtitle}
-              </motion.p>
-              <motion.h1
-                className="mb-6 text-4xl font-bold md:text-6xl"
-                variants={textVariants}
-              >
-                {slides[currentSlide].title}
-              </motion.h1>
-              <motion.p
-                className="mb-8 text-lg md:text-xl"
-                variants={textVariants}
-              >
-                {slides[currentSlide].description}
-              </motion.p>
-              <motion.div variants={textVariants}>
-                <Link
-                  href={`#${slides[currentSlide].link}`}
-                  className="group inline-flex items-center gap-2 rounded-full bg-white/90 px-6 py-3 text-base font-semibold text-black transition-all hover:bg-white"
-                >
-                  {t.discover?.learnMore || "En savoir plus"}
-                  <ArrowRight className="transition-transform group-hover:translate-x-1" />
-                </Link>
-              </motion.div>
+              <Image
+                src={slides[currentSlide].image}
+                alt={slides[currentSlide].title}
+                layout="fill"
+                objectFit="cover"
+                quality={100}
+                className="transform scale-105 filter brightness-75"
+              />
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/60"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 1 }}
+              />
             </motion.div>
-          </AnimatePresence>
+          </motion.div>
+        </AnimatePresence>
+
+        <AnimatePresence mode="wait">
+          {isTransitioning && (
+            <motion.div
+              key={`split-${currentSlide}`}
+              className="absolute inset-0 grid grid-cols-2 grid-rows-2 pointer-events-none"
+              initial="initial"
+              exit="exit"
+            >
+              {[0, 1, 2, 3].map((index) => (
+                <motion.div
+                  key={index}
+                  className="relative overflow-hidden"
+                  variants={quadrantVariants}
+                  custom={index}
+                >
+                  <Image
+                    src={slides[currentSlide].image}
+                    alt={slides[currentSlide].title}
+                    layout="fill"
+                    objectFit="cover"
+                    quality={100}
+                    className="transform scale-105 filter brightness-75"
+                    style={{
+                      objectPosition: `${index % 2 === 0 ? 'left' : 'right'} ${index < 2 ? 'top' : 'bottom'}`
+                    }}
+                  />
+                </motion.div>
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        <div className="relative z-10 flex h-full items-center justify-center px-4 pt-20">
+          <div className="container mx-auto max-w-4xl">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentSlide}
+                initial="hidden"
+                animate="visible"
+                exit="hidden"
+                variants={textVariants}
+                className="text-center text-white"
+              >
+                <motion.h1
+                  className="mb-6 text-4xl font-bold md:text-6xl"
+                  variants={textVariants}
+                >
+                  {slides[currentSlide].title}
+                </motion.h1>
+                <motion.p
+                  className="mb-8 text-lg md:text-xl"
+                  variants={textVariants}
+                >
+                  {slides[currentSlide].description}
+                </motion.p>
+                <motion.div variants={textVariants}>
+                  <Link
+                    href={`#${slides[currentSlide].link}`}
+                    className="group inline-flex items-center gap-2 rounded-full bg-white/90 px-6 py-3 text-base font-semibold text-black transition-all hover:bg-white"
+                  >
+                    {t.discover.learnMore}
+                    <ArrowRight className="transition-transform group-hover:translate-x-1" />
+                  </Link>
+                </motion.div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
         </div>
-      </div>
 
-      <div className="absolute bottom-8 left-0 right-0 z-10 flex justify-center gap-2">
-        {slides.map((_, index) => (
-          <motion.button
-            key={index}
-            onClick={() => {
-              stopAutoSlide();
-              handleSlideChange(index - currentSlide);
-            }}
-            className={`h-2 rounded-full transition-all ${
-              index === currentSlide ? 'bg-white w-8' : 'bg-white/50 w-2'
-            }`}
-            whileHover={{ scale: 1.2 }}
-            whileTap={{ scale: 0.9 }}
-          />
-        ))}
-      </div>
+        <div className="absolute bottom-8 left-0 right-0 z-10 flex justify-center gap-2">
+          {slides.map((_, index) => (
+            <motion.button
+              key={index}
+              onClick={() => {
+                stopAutoSlide();
+                handleSlideChange(index - currentSlide);
+              }}
+              className={`h-2 rounded-full transition-all ${
+                index === currentSlide ? 'bg-white w-8' : 'bg-white/50 w-2'
+              }`}
+              whileHover={{ scale: 1.2 }}
+              whileTap={{ scale: 0.9 }}
+            />
+          ))}
+        </div>
 
-      <motion.button
-        onClick={() => {
-          stopAutoSlide();
-          handleSlideChange(-1);
-        }}
-        className="absolute left-4 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white/10 p-3 text-white backdrop-blur-sm transition-all hover:bg-white/20"
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
-      >
-        <ArrowRight className="h-6 w-6 rotate-180" />
-      </motion.button>
-      <motion.button
-        onClick={() => {
-          stopAutoSlide();
-          handleSlideChange(1);
-        }}
-        className="absolute right-4 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white/10 p-3 text-white backdrop-blur-sm transition-all hover:bg-white/20"
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
-      >
-        <ArrowRight className="h-6 w-6" />
-      </motion.button>
-    </section>
+        <motion.button
+          onClick={() => {
+            stopAutoSlide();
+            handleSlideChange(-1);
+          }}
+          className="absolute left-4 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white/10 p-3 text-white backdrop-blur-sm transition-all hover:bg-white/20"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+        >
+          <ArrowRight className="h-6 w-6 rotate-180" />
+        </motion.button>
+        <motion.button
+          onClick={() => {
+            stopAutoSlide();
+            handleSlideChange(1);
+          }}
+          className="absolute right-4 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white/10 p-3 text-white backdrop-blur-sm transition-all hover:bg-white/20"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+        >
+          <ArrowRight className="h-6 w-6" />
+        </motion.button>
+      </section>
+      <PartnersSection t={t} />
+      <MapSection t={t} />
+    </>
   )
 }
 

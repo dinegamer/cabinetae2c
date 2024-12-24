@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { useTheme } from "next-themes"
-import NavigationSection from '../components/NavigationSection'
+import NavigationSection, { NavigationSectionProps } from '../components/NavigationSection'
 import Footer from '../components/Footer'
 import AboutSection from '../components/AboutSection'
 import { translations } from '../../translations/index'
@@ -21,7 +21,7 @@ export default function About() {
 
   const t = React.useMemo(() => ({
     ...translations[language as keyof typeof translations],
-    language // Include language in t object
+    language
   }), [language])
 
   return (

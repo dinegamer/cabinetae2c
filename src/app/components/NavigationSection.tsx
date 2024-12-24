@@ -4,11 +4,11 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sun, Moon, Globe, Menu, X } from 'lucide-react';
 
-interface NavigationSectionProps {
+export interface NavigationSectionProps {
   language: 'fr' | 'en';
   setLanguage: (lang: 'fr' | 'en') => void;
   handleThemeChange: () => void;
-  currentTheme: string | undefined; // Updated to allow undefined
+  currentTheme: string | undefined;
   t: {
     nav: {
       services: string;
@@ -29,9 +29,9 @@ const NavigationSection: React.FC<NavigationSectionProps> = ({
   language, 
   setLanguage, 
   handleThemeChange, 
-  currentTheme = 'light', // Add default value
+  currentTheme = 'light',
   t
-}) => {
+})  => {
   const [isOpen, setIsOpen] = useState(false)
   const [hasScrolled, setHasScrolled] = useState(false)
 

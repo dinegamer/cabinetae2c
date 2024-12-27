@@ -1001,21 +1001,28 @@ export default function Component() {
       </AnimatePresence>
 
       {showContent && (
-        <main className="min-h-screen bg-white dark:bg-gray-900">
-          <NavigationSection 
+        <div className="relative flex flex-col min-h-screen">
+          <div className="w-full bg-white dark:bg-gray-900">
+            <div className="max-w-[1200px] mx-auto relative">
+            <NavigationSection 
             language={language}
             setLanguage={setLanguage}
             t={t}
             handleThemeChange={handleThemeChange}
             currentTheme={theme}
           />
+            </div>
+          </div>
 
-          <HeroSection t={t} yOffset={0} />
+          <main className="flex-grow">
+          <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+              <HeroSection t={t} yOffset={0} />
+            </div>
+          </main>
 
           <Footer t={t} />
-
           <ScrollToTopButton scrollButtonOpacity={scrollButtonOpacity} />
-        </main>
+        </div>
       )}
     </div>
   );

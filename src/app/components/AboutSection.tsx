@@ -32,11 +32,17 @@ interface AboutSectionProps {
 
 const countries = [
   { name: { fr: "Mali", en: "Mali" }, flag: "/images/flags/flagOfMali.png" },
+  { name: { fr: "Mauritanie", en: "Mauritania" }, flag: "/images/flags/flagOfMauritanie.jpg" },
+  { name: { fr: "France", en: "France" }, flag: "/images/flags/flagOfFrance.png" },
   { name: { fr: "Sénégal", en: "Senegal" }, flag: "/images/flags/flagOfSenegal.png" },
-  { name: { fr: "Côte d'Ivoire", en: "Ivory Coast" }, flag: "/images/flags/flagOfCoteDivoire.jpg" },
   { name: { fr: "Burkina Faso", en: "Burkina Faso" }, flag: "/images/flags/flagOfBurkina.png" },
-  { name: { fr: "Niger", en: "Niger" }, flag: "/images/flags/flagOfNiger.jpeg" },
   { name: { fr: "Guinée", en: "Guinea" }, flag: "/images/flags/flagOfGuinea.png" },
+  { name: { fr: "Niger", en: "Niger" }, flag: "/images/flags/flagOfNiger.jpeg" },
+  { name: { fr: "Congo Brazzaville", en: "Congo Brazzaville" }, flag: "/images/flags/flagOfCongoBrazzaville.png" },
+  { name: { fr: "Centrafrique", en: "Central African Republic" }, flag: "/images/flags/flagOfCentrafrique.jpeg" },
+  { name: { fr: "Ghana", en: "Ghana" }, flag: "/images/flags/flagOfGhana.png" },
+  { name: { fr: "Côte d'Ivoire", en: "Ivory Coast" }, flag: "/images/flags/flagOfCoteDivoire.jpg" },
+  { name: { fr: "Bénin", en: "Benin" }, flag: "/images/flags/flagOfBenin.png" }
 ];
 
 const waveFlag = keyframes`

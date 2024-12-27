@@ -1,28 +1,30 @@
-import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Sun, Moon, Globe, Menu, X } from 'lucide-react';
+"use client"
+
+import React, { useState, useEffect } from 'react'
+import Link from 'next/link'
+import Image from 'next/image'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Sun, Moon, Globe, Menu, X } from 'lucide-react'
 
 export interface NavigationSectionProps {
-  language: 'fr' | 'en';
-  setLanguage: (lang: 'fr' | 'en') => void;
-  handleThemeChange: () => void;
-  currentTheme: string | undefined;
+  language: 'fr' | 'en'
+  setLanguage: (lang: 'fr' | 'en') => void
+  handleThemeChange: () => void
+  currentTheme: string | undefined
   t: {
     nav: {
-      services: string;
-      expertise: string;
-      team: string;
-      contact: string;
-      about: string;
-      partners: string;
-      certifications: string;
-      careers: string;
-      "who-we-are": string;
-      "banking-references": string;
-    };
-  };
+      services: string
+      expertise: string
+      team: string
+      contact: string
+      about: string
+      partners: string
+      certifications: string
+      careers: string
+      "who-we-are": string
+      "banking-references": string
+    }
+  }
 }
 
 const NavigationSection: React.FC<NavigationSectionProps> = ({ 
@@ -31,7 +33,7 @@ const NavigationSection: React.FC<NavigationSectionProps> = ({
   handleThemeChange, 
   currentTheme = 'light',
   t
-})  => {
+}) => {
   const [isOpen, setIsOpen] = useState(false)
   const [hasScrolled, setHasScrolled] = useState(false)
 
@@ -44,135 +46,95 @@ const NavigationSection: React.FC<NavigationSectionProps> = ({
   }, [])
 
   const navItems = [
-    { 
-      key: 'home', 
-      fr: 'Accueil', 
-      en: 'Home',
-      href: '/'
-    },
-    { 
-      key: 'about', 
-      fr: 'À propos', 
-      en: 'About',
-      href: '/about'
-    },
-    { 
-      key: 'services', 
-      fr: 'Nos services', 
-      en: 'Our Services',
-      href: '/services'
-    },
-    { 
-      key: 'team', 
-      fr: 'Nos équipes', 
-      en: 'Our Team',
-      href: '/team'
-    },
-    { 
-      key: 'partners', 
-      fr: 'Nos partenaires', 
-      en: 'Our Partners',
-      href: '/partners'
-    },
-    { 
-      key: 'contact', 
-      fr: 'Contactez-nous', 
-      en: 'Contact Us',
-      href: '/contact'
-    }
+    { key: 'home', fr: 'Accueil', en: 'Home', href: '/' },
+    { key: 'about', fr: 'À propos', en: 'About', href: '/about' },
+    { key: 'services', fr: 'Nos services', en: 'Our Services', href: '/services' },
+    { key: 'team', fr: 'Nos équipes', en: 'Our Team', href: '/team' },
+    { key: 'partners', fr: 'Nos partenaires', en: 'Our Partners', href: '/partners' },
+    { key: 'contact', fr: 'Contactez-nous', en: 'Contact Us', href: '/contact' }
   ]
 
   return (
-    <motion.header 
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        hasScrolled 
-          ? "bg-white/95 dark:bg-gray-900/95 shadow-md backdrop-blur-sm" 
-          : "bg-black/20 backdrop-blur-sm"
-      }`}
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
-    >
-      <nav className="container mx-auto px-4 h-28 sm:h-32 md:h-36 flex items-center justify-between">
-        <motion.div 
-          className="flex items-center cursor-pointer"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
+    <div className="fixed top-4 left-0 right-0 z-50 w-full">
+      <div className="w-full max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+        <motion.nav 
+          className={`flex items-center justify-between h-16 transition-all duration-300 ${
+            hasScrolled 
+              ? "bg-white/95 dark:bg-gray-900/95 shadow-md backdrop-blur-sm" 
+              : "bg-black/20 backdrop-blur-sm"
+          }`}
+          initial={{ y: -100 }}
+          animate={{ y: 0 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
         >
           <Link href="/">
-            <div className="relative w-[280px] h-[140px] sm:w-[360px] sm:h-[180px] md:w-[400px] md:h-[200px] lg:w-[440px] lg:h-[220px] -ml-4">
+            <div className="relative w-[180px] h-[45px] sm:w-[200px] sm:h-[50px] md:w-[220px] md:h-[55px] lg:w-[240px] lg:h-[60px]">
               <Image
                 src="/logo/svg/ae2c.svg"
                 alt="AE2C Logo"
                 fill
                 className="object-contain"
                 priority
-                sizes="(max-width: 640px) 280px, (max-width: 768px) 360px, (max-width: 1024px) 400px, 440px"
+                sizes="(max-width: 640px) 180px, (max-width: 768px) 200px, (max-width: 1024px) 220px, 240px"
               />
             </div>
           </Link>
-        </motion.div>
 
-        <motion.div 
-          className="hidden lg:flex items-center space-x-6"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3 }}
-        >
-          {navItems.map((item) => (
-            <Link
-              key={item.key}
-              href={item.href}
-              className={`text-sm font-medium transition-colors ${
-                hasScrolled
-                  ? "text-gray-600 dark:text-gray-300 hover:text-[#1B998B] dark:hover:text-[#3CDFFF]"
-                  : "text-white hover:text-[#3CDFFF]"
+          <div className="hidden lg:flex items-center space-x-6">
+            {navItems.map((item) => (
+              <Link
+                key={item.key}
+                href={item.href}
+                className={`text-sm font-medium transition-colors ${
+                  hasScrolled
+                    ? "text-gray-800 dark:text-gray-200 hover:text-[#F4B223]"
+                    : "text-white hover:text-[#F4B223]"
+                }`}
+              >
+                {item[language as keyof typeof item]}
+              </Link>
+            ))}
+          </div>
+
+          <div className="flex items-center space-x-2">
+            <button
+              onClick={handleThemeChange}
+              className={`p-2 rounded-full transition-colors ${
+                hasScrolled 
+                  ? "hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200" 
+                  : "hover:bg-white/20 text-white"
               }`}
+              aria-label="Toggle theme"
             >
-              {item[language as keyof typeof item]}
-            </Link>
-          ))}
-        </motion.div>
+              {currentTheme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+            </button>
+            
+            <button
+              onClick={() => setLanguage(language === "en" ? "fr" : "en")}
+              className={`p-2 rounded-full transition-colors ${
+                hasScrolled 
+                  ? "hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200" 
+                  : "hover:bg-white/20 text-white"
+              }`}
+              aria-label="Change language"
+            >
+              <Globe size={18} />
+            </button>
 
-        <div className="flex items-center space-x-2">
-          <button
-            onClick={handleThemeChange}
-            className={`p-2 rounded-full transition-colors ${
-              hasScrolled 
-                ? "hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200" 
-                : "hover:bg-white/10 text-white"
-            }`}
-            aria-label="Toggle theme"
-          >
-            {currentTheme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
-          </button>
-          
-          <button
-            onClick={() => setLanguage(language === "en" ? "fr" : "en")}
-            className={`p-2 rounded-full transition-colors ${
-              hasScrolled 
-                ? "hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200" 
-                : "hover:bg-white/10 text-white"
-            }`}
-            aria-label="Change language"
-          >
-            <Globe size={20} />
-          </button>
-
-          <button
-            className={`lg:hidden p-2 rounded-full transition-colors ${
-              hasScrolled 
-                ? "hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200" 
-                : "hover:bg-white/10 text-white"
-            }`}
-            onClick={() => setIsOpen(!isOpen)}
-            aria-label="Toggle menu"
-          >
-            {isOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
-        </div>
-      </nav>
+            <button
+              className={`lg:hidden p-2 rounded-full transition-colors ${
+                hasScrolled 
+                  ? "hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200" 
+                  : "hover:bg-white/20 text-white"
+              }`}
+              onClick={() => setIsOpen(!isOpen)}
+              aria-label="Toggle menu"
+            >
+              {isOpen ? <X size={18} /> : <Menu size={18} />}
+            </button>
+          </div>
+        </motion.nav>
+      </div>
 
       <AnimatePresence>
         {isOpen && (
@@ -183,14 +145,12 @@ const NavigationSection: React.FC<NavigationSectionProps> = ({
             transition={{ duration: 0.2 }}
             className="lg:hidden bg-white/95 dark:bg-gray-900/95 border-t dark:border-gray-800 shadow-lg"
           >
-            <div className="container mx-auto px-4 py-2">
+            <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-2">
               {navItems.map((item) => (
                 <Link
                   key={item.key}
                   href={item.href}
-                  className={`block w-full text-left px-4 py-2 rounded-lg text-sm font-medium transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 ${
-                    "text-gray-600 dark:text-gray-300"
-                  }`}
+                  className="block w-full text-left px-4 py-2 rounded-lg text-sm font-medium transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-300"
                   onClick={() => setIsOpen(false)}
                 >
                   {item[language as keyof typeof item]}
@@ -200,7 +160,7 @@ const NavigationSection: React.FC<NavigationSectionProps> = ({
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.header>
+    </div>
   )
 }
 

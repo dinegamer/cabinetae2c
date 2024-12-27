@@ -329,10 +329,11 @@ export const translations = {
         description: "AE2C is proud to be recognized by the leading professional organizations in the sector."
       },
       international: { 
-        title: "International Presence",
-        description: "Our international presence allows us to offer services tailored to local needs while benefiting from global expertise.",
+        title: "Countries of Operation",
+        description: "Our expertise extends to several countries where we regularly operate, allowing us to offer services tailored to specific local contexts.",
         countries: [
-          "Mali", "Senegal", "Ivory Coast", "Burkina Faso", "Niger", "Guinea"
+          "Mali", "Mauritania", "France", "Senegal", "Burkina Faso", "Guinea",
+          "Niger", "Congo Brazzaville", "Central African Republic", "Ghana", "Ivory Coast", "Benin"
         ]
       },
       careers: { 
@@ -712,11 +713,12 @@ export const translations = {
         description: "AE2C est fier d'être reconnu par les principales organisations professionnelles du secteur."
       },
       international: { 
-        title: "Présence Internationale",
-        description: "Notre présence internationale nous permet d'offrir des services adaptés aux besoins locaux tout en bénéficiant d'une expertise globale.",
-        countries: [
-          "Mali", "Sénégal", "Côte d'Ivoire", "Burkina Faso", "Niger", "Guinée"
-        ]
+       title: "Pays d'intervention",
+  description: "Notre expertise s'étend à plusieurs pays où nous intervenons régulièrement, nous permettant d'offrir des services adaptés aux contextes locaux spécifiques.",
+  countries: [
+    "Mali", "Mauritanie", "France", "Sénégal", "Burkina Faso", "Guinée Conakry",
+    "Niger", "Congo Brazzaville", "Centrafrique", "Ghana", "Côte d'Ivoire", "Bénin"
+  ]
       },
       careers: { 
         title: "Carrières et Formation",

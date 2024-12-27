@@ -1,7 +1,7 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
 
-const SplineWrapper = dynamic(() => import('@/components/SplineWrapper'), {
+const SplineWrapper = dynamic(() => import('./SplineWrapper'), {
   ssr: false,
   loading: () => (
     <div className="w-full h-full bg-gradient-to-br from-[#1B998B]/10 to-[#3CDFFF]/10 rounded-xl animate-pulse" />

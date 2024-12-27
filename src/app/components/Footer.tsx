@@ -3,9 +3,27 @@ import Image from "next/image"
 import Link from "next/link"
 import { Facebook, Twitter, Instagram, Linkedin, MapPin, Phone, Mail, Code } from 'lucide-react'
 
-export default function Footer({ t }) {
+interface FooterProps {
+  t: {
+    footer: {
+      description: string;
+      services: string;
+      company: string;
+      contact: string;
+      location: string;
+      rights: string;
+      privacy: string;
+      terms: string;
+      developedBy: string;
+      serviceLinks: Record<string, string>;
+      companyLinks: Record<string, string>;
+    }
+  }
+}
+
+export default function Footer({ t }: FooterProps) {
   return (
-         <footer className="bg-gray-900 text-white pt-20 pb-10">
+    <footer className="bg-gray-900 text-white pt-20 pb-10">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           <div>
@@ -101,7 +119,6 @@ export default function Footer({ t }) {
         </div>
       </div>
     </footer>
-
   )
 }
 

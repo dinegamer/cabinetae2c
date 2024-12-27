@@ -94,6 +94,18 @@ const ContactForm: React.FC<ContactFormProps> = ({ t, handleSubmit, handleWhatsA
       </div>
 
       <div>
+        <label htmlFor="needs" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          {t.contact.needs}
+        </label>
+        <input 
+          type="text" 
+          id="needs" 
+          name="needs" 
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1B998B] focus:ring-[#1B998B] dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+        />
+      </div>
+
+      <div>
         <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
           {t.contact.message}
         </label>

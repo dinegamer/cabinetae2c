@@ -7,16 +7,16 @@ import { Mail, Phone, MapPin, Clock } from 'lucide-react'
 interface ContactInfoProps {
   t: {
     contact: {
-      title: string
-      description: string
-      phone: string
-      phoneValue: string
-      email: string
-      emailValue: string
-      address: string
-      addressValue: string
-      hours: string
-      hoursValue: string
+      title: string;
+      description: string;
+      phone: string;
+      phoneValue: string;
+      email: string;
+      emailValue: string;
+      address: string;
+      addressValue: string;
+      hours: string;
+      hoursValue: string;
     }
   }
 }

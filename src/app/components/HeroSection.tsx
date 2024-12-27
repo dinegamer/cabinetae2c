@@ -34,6 +34,7 @@ interface HeroSectionProps {
 
 const HeroSection: React.FC<HeroSectionProps> = ({ t }) => {
   const [currentSlide, setCurrentSlide] = useState(0)
+  const [nextSlide, setNextSlide] = useState(1)
   const [isTransitioning, setIsTransitioning] = useState(false)
   const autoSlideInterval = useRef<NodeJS.Timeout | null>(null)
   const [mounted, setMounted] = useState(false)
@@ -70,10 +71,18 @@ const HeroSection: React.FC<HeroSectionProps> = ({ t }) => {
     'Niger', 'Congo Brazzaville', 'Centrafrique', 'Ghana', 'Côte d\'Ivoire', 'Bénin'
   ]
 
-  useEffect(() => {
-    setMounted(true)
-    return () => setMounted(false)
-  }, [])
+  const handleSlideChange = useCallback((direction: number) => {
+    if (isTransitioning || !mounted) return
+    setIsTransitioning(true)
+    
+    const newNextSlide = (currentSlide + direction + slides.length) % slides.length
+    setNextSlide(newNextSlide)
+    
+    setTimeout(() => {
+      setCurrentSlide(newNextSlide)
+      setIsTransitioning(false)
+    }, 1500) // Adjust this timing to match your animation duration
+  }, [isTransitioning, mounted, currentSlide, slides.length])
 
   const startAutoSlide = useCallback(() => {
     if (autoSlideInterval.current) {
@@ -81,77 +90,55 @@ const HeroSection: React.FC<HeroSectionProps> = ({ t }) => {
     }
     autoSlideInterval.current = setInterval(() => {
       handleSlideChange(1)
-    }, 5000)
-  }, [])
-
-  const stopAutoSlide = useCallback(() => {
-    if (autoSlideInterval.current) {
-      clearInterval(autoSlideInterval.current)
-    }
-  }, [])
-
-  const handleSlideChange = useCallback((direction: number) => {
-    if (isTransitioning || !mounted) return
-    setIsTransitioning(true)
-    
-    stopAutoSlide()
-    
-    setCurrentSlide((prev) => (prev + direction + slides.length) % slides.length)
-    
-    setTimeout(() => {
-      setIsTransitioning(false)
-      startAutoSlide()
-    }, 500)
-  }, [isTransitioning, mounted, slides.length, startAutoSlide, stopAutoSlide])
+    }, 6000)
+  }, [handleSlideChange])
 
   useEffect(() => {
-    if (mounted) {
-      startAutoSlide()
+    setMounted(true)
+    startAutoSlide()
+    return () => {
+      setMounted(false)
+      if (autoSlideInterval.current) {
+        clearInterval(autoSlideInterval.current)
+      }
     }
-    return () => stopAutoSlide()
-  }, [mounted, startAutoSlide, stopAutoSlide])
-
-  const slideVariants = {
-    enter: (direction: number) => ({
-      x: direction > 0 ? '100%' : '-100%',
-      opacity: 0,
-    }),
-    center: {
-      x: 0,
-      opacity: 1,
-    },
-    exit: (direction: number) => ({
-      x: direction < 0 ? '100%' : '-100%',
-      opacity: 0,
-    }),
-  }
+  }, [startAutoSlide])
 
   const quadrantVariants = {
-    initial: { opacity: 1, x: 0, y: 0 },
-    exit: (index: number) => ({
+    initial: { opacity: 1, scale: 1, x: 0, y: 0 },
+    exitCurrent: (index: number) => ({
       opacity: 0,
-      x: (index % 2 === 0 ? -1 : 1) * 100,
-      y: (index < 2 ? -1 : 1) * 100,
-      transition: {
-        duration: 0.8,
-        ease: [0.43, 0.13, 0.23, 0.96],
-      },
+      scale: 0,
+      x: index % 2 === 0 ? '-100%' : '100%',
+      y: index < 2 ? '-100%' : '100%',
+      transition: { duration: 0.7, ease: [0.43, 0.13, 0.23, 0.96] },
     }),
+    enterNext: (index: number) => ({
+      opacity: 0,
+      scale: 0,
+      x: index % 2 === 0 ? '-100%' : '100%',
+      y: index < 2 ? '-100%' : '100%',
+    }),
+    centerNext: {
+      opacity: 1,
+      scale: 1,
+      x: 0,
+      y: 0,
+      transition: { duration: 0.7, ease: [0.43, 0.13, 0.23, 0.96] },
+    },
   }
 
   return (
     <div className="relative w-full font-inter">
       <section className="relative h-[calc(100vh-80px)] overflow-hidden">
-        <AnimatePresence initial={false} custom={currentSlide}>
+        <AnimatePresence initial={false}>
           <motion.div
-            key={currentSlide}
-            custom={currentSlide}
-            variants={slideVariants}
-            initial="enter"
-            animate="center"
-            exit="exit"
-            transition={{ duration: 0.5 }}
+            key={`full-${currentSlide}`}
             className="absolute inset-0"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
           >
             <Image
               src={slides[currentSlide].image}
@@ -161,75 +148,117 @@ const HeroSection: React.FC<HeroSectionProps> = ({ t }) => {
               priority
             />
             <div className="absolute inset-0 bg-black/30" />
-
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-full max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="max-w-xl mx-auto text-center">
-                  <motion.h1
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.2 }}
-                    className="text-4xl font-bold text-[#F4B223] mb-4"
-                  >
-                    {slides[currentSlide].title}
-                  </motion.h1>
-                  
-                  <motion.p
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.3 }}
-                    className="text-white text-lg mb-8"
-                  >
-                    {slides[currentSlide].description}
-                  </motion.p>
-                  
-                  <motion.div
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.4 }}
-                  >
-                    <Link
-                      href={slides[currentSlide].buttonLink}
-                      className="inline-flex items-center px-6 py-3 bg-[#1B998B] text-white rounded hover:bg-[#168577] transition-colors"
-                    >
-                      {slides[currentSlide].buttonText}
-                    </Link>
-                  </motion.div>
-                </div>
-              </div>
-            </div>
           </motion.div>
         </AnimatePresence>
 
         <AnimatePresence>
           {isTransitioning && (
-            <motion.div
-              key={`split-${currentSlide}`}
-              className="absolute inset-0 grid grid-cols-2 grid-rows-2 pointer-events-none"
-              initial="initial"
-              exit="exit"
-            >
-              {[0, 1, 2, 3].map((index) => (
-                <motion.div
-                  key={index}
-                  className="relative overflow-hidden"
-                  variants={quadrantVariants}
-                  custom={index}
-                >
-                  <Image
-                    src={slides[currentSlide].image}
-                    alt={slides[currentSlide].title}
-                    fill
-                    className="object-cover"
-                    style={{
-                      objectPosition: `${index % 2 === 0 ? 'left' : 'right'} ${index < 2 ? 'top' : 'bottom'}`
-                    }}
-                  />
-                </motion.div>
-              ))}
-            </motion.div>
+            <>
+              <motion.div
+                key={`split-current-${currentSlide}`}
+                className="absolute inset-0 grid grid-cols-2 grid-rows-2 pointer-events-none"
+                initial="initial"
+                animate="exitCurrent"
+                transition={{ staggerChildren: 0.1 }}
+              >
+                {[0, 1, 2, 3].map((index) => (
+                  <motion.div
+                    key={index}
+                    className="relative overflow-hidden"
+                    variants={quadrantVariants}
+                    custom={index}
+                  >
+                    <Image
+                      src={slides[currentSlide].image}
+                      alt={slides[currentSlide].title}
+                      fill
+                      className="object-cover"
+                      style={{
+                        objectPosition: `${index % 2 === 0 ? 'left' : 'right'} ${index < 2 ? 'top' : 'bottom'}`
+                      }}
+                    />
+                  </motion.div>
+                ))}
+              </motion.div>
+
+              <motion.div
+                key={`split-next-${nextSlide}`}
+                className="absolute inset-0 grid grid-cols-2 grid-rows-2 pointer-events-none"
+                initial="enterNext"
+                animate="centerNext"
+                transition={{ staggerChildren: 0.1, delayChildren: 0.7 }}
+              >
+                {[0, 1, 2, 3].map((index) => (
+                  <motion.div
+                    key={index}
+                    className="relative overflow-hidden"
+                    variants={quadrantVariants}
+                    custom={index}
+                  >
+                    <Image
+                      src={slides[nextSlide].image}
+                      alt={slides[nextSlide].title}
+                      fill
+                      className="object-cover"
+                      style={{
+                        objectPosition: `${index % 2 === 0 ? 'left' : 'right'} ${index < 2 ? 'top' : 'bottom'}`
+                      }}
+                    />
+                  </motion.div>
+                ))}
+              </motion.div>
+            </>
           )}
         </AnimatePresence>
+
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="w-full max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-xl mx-auto text-center">
+              <AnimatePresence mode="wait">
+                <motion.h1
+                  key={`title-${currentSlide}`}
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: -20, opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                  className="text-4xl font-bold text-[#F4B223] mb-4"
+                >
+                  {slides[currentSlide].title}
+                </motion.h1>
+              </AnimatePresence>
+              
+              <AnimatePresence mode="wait">
+                <motion.p
+                  key={`description-${currentSlide}`}
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: -20, opacity: 0 }}
+                  transition={{ duration: 0.5, delay: 0.1 }}
+                  className="text-white text-lg mb-8"
+                >
+                  {slides[currentSlide].description}
+                </motion.p>
+              </AnimatePresence>
+              
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={`button-${currentSlide}`}
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: -20, opacity: 0 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                >
+                  <Link
+                    href={slides[currentSlide].buttonLink}
+                    className="inline-flex items-center px-6 py-3 bg-[#1B998B] text-white rounded hover:bg-[#168577] transition-colors"
+                  >
+                    {slides[currentSlide].buttonText}
+                  </Link>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </div>
+        </div>
 
         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
           {slides.map((_, index) => (

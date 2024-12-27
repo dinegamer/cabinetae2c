@@ -5,12 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronRight, Plus, Minus } from 'lucide-react'
 import dynamic from 'next/dynamic'
 
-const LargeScene3D = dynamic(() => import('./LargeScene3D'), {
-  ssr: false,
-  loading: () => (
-    <div className="w-full h-full min-h-[400px] bg-gradient-to-br from-[#1B998B]/10 to-[#3CDFFF]/10 rounded-xl animate-pulse" />
-  )
-})
+
 
 interface SubsectionProps {
   title: string;
@@ -193,7 +188,7 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ t }) => {
               <Suspense fallback={
                 <div className="w-full h-full bg-gradient-to-br from-[#1B998B]/10 to-[#3CDFFF]/10 rounded-xl animate-pulse" />
               }>
-                <LargeScene3D />
+               
               </Suspense>
             </div>
           </motion.div>

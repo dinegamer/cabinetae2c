@@ -2,84 +2,63 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
-import { Mail, Phone, MapPin, Clock } from 'lucide-react'
+import { MapPin, Phone, Mail } from 'lucide-react'
 
 interface ContactInfoProps {
   t: {
     contact: {
-      title: string
-      description: string
-      phone: string
-      phoneValue: string
-      email: string
-      emailValue: string
-      address: string
-      addressValue: string
-      hours: string
-      hoursValue: string
+      title: string;
     }
   }
 }
 
 const ContactInfo: React.FC<ContactInfoProps> = ({ t }) => {
   return (
-    <motion.div 
-      className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm p-6 sm:p-8 rounded-lg shadow-xl space-y-6"
+    <motion.div
+      className="space-y-6 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm p-6 sm:p-8 rounded-lg shadow-xl"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.4, delay: 0.1 }}
+      transition={{ duration: 0.4, delay: 0.2 }}
     >
-      <div>
-        <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-4">
-          {t.contact.title}
-        </h3>
-        <p className="text-gray-600 dark:text-gray-300 mb-8">
-          {t.contact.description}
-        </p>
-      </div>
-      
-      <div className="space-y-6">
+      <div className="space-y-4">
         <div className="flex items-start gap-4">
-          <Phone className="w-5 h-5 mt-1 text-[#1B998B] dark:text-[#3CDFFF]" />
+          <MapPin className="w-6 h-6 text-[#1B998B]" />
           <div>
-            <p className="text-gray-700 dark:text-gray-300">{t.contact.phone}</p>
-            <p className="text-gray-900 dark:text-white">{t.contact.phoneValue}</p>
+            <h3 className="font-medium text-gray-900 dark:text-white">Adresse</h3>
+            <p className="text-gray-600 dark:text-gray-300">
+              123 Rue Example<br />
+              75000 Paris, France
+            </p>
           </div>
         </div>
 
         <div className="flex items-start gap-4">
-          <Mail className="w-5 h-5 mt-1 text-[#1B998B] dark:text-[#3CDFFF]" />
+          <Phone className="w-6 h-6 text-[#1B998B]" />
           <div>
-            <p className="text-gray-700 dark:text-gray-300">{t.contact.email}</p>
-            <a 
-              href={`mailto:${t.contact.emailValue}`}
-              className="text-[#1B998B] dark:text-[#3CDFFF] hover:underline transition-colors"
-            >
-              {t.contact.emailValue}
-            </a>
+            <h3 className="font-medium text-gray-900 dark:text-white">Téléphone</h3>
+            <p className="text-gray-600 dark:text-gray-300">+33 1 23 45 67 89</p>
           </div>
         </div>
 
         <div className="flex items-start gap-4">
-          <MapPin className="w-5 h-5 mt-1 text-[#1B998B] dark:text-[#3CDFFF]" />
+          <Mail className="w-6 h-6 text-[#1B998B]" />
           <div>
-            <p className="text-gray-700 dark:text-gray-300">{t.contact.address}</p>
-            <p className="text-gray-900 dark:text-white">{t.contact.addressValue}</p>
-          </div>
-        </div>
-
-        <div className="flex items-start gap-4">
-          <Clock className="w-5 h-5 mt-1 text-[#1B998B] dark:text-[#3CDFFF]" />
-          <div>
-            <p className="text-gray-700 dark:text-gray-300">{t.contact.hours}</p>
-            <p className="text-gray-900 dark:text-white">{t.contact.hoursValue}</p>
+            <h3 className="font-medium text-gray-900 dark:text-white">Email</h3>
+            <p className="text-gray-600 dark:text-gray-300">contact@example.com</p>
           </div>
         </div>
       </div>
+
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2624.9916256937586!2d2.292292615509614!3d48.858373079287475!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66e2964e34e2d%3A0x8ddca9ee380ef7e0!2sTour%20Eiffel!5e0!3m2!1sfr!2sfr!4v1647856687320!5m2!1sfr!2sfr"
+        className="w-full h-64 rounded-lg"
+        style={{ border: 0 }}
+        allowFullScreen
+        loading="lazy"
+      />
     </motion.div>
   )
 }
 
 export default ContactInfo
-

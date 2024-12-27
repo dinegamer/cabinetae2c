@@ -31,6 +31,17 @@ interface ContactSectionProps {
 }
 
 const ContactSection: React.FC<ContactSectionProps> = ({ t }) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    // Logique de soumission du formulaire
+    console.log('Form submitted')
+  }
+
+  const handleWhatsAppClick = () => {
+    // Logique pour WhatsApp
+    console.log('WhatsApp clicked')
+  }
+
   return (
     <section id="contact" className="relative min-h-screen py-16 sm:py-20">
       <div className="absolute inset-0">
@@ -49,7 +60,11 @@ const ContactSection: React.FC<ContactSectionProps> = ({ t }) => {
         </motion.h2>
         
         <div className="max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
-          <ContactForm t={t} />
+          <ContactForm 
+            t={t} 
+            handleSubmit={handleSubmit}
+            handleWhatsAppClick={handleWhatsAppClick}
+          />
           <ContactInfo t={t} />
         </div>
       </div>

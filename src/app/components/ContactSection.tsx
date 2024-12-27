@@ -1,16 +1,17 @@
 "use client"
 
-import React, { useState, Suspense, lazy } from 'react'
+import React, { Suspense } from 'react'
 import { motion } from 'framer-motion'
 import ContactForm from './ContactForm'
 import ContactInfo from './ContactInfo'
-import { type Wave3DProps } from './Wave3D'
+import dynamic from 'next/dynamic'
 
-const Wave3D = lazy(() => import('./Wave3D'))
-
-const LoadingFallback = () => (
-  <div className="w-full h-full bg-gradient-to-br from-[#1B998B]/10 to-[#3CDFFF]/10 animate-pulse" />
-)
+const Wave3D = dynamic(() => import('./Wave3D'), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-full bg-gradient-to-br from-[#1B998B]/10 to-[#3CDFFF]/10 animate-pulse" />
+  )
+})
 
 interface ContactSectionProps {
   t: {
@@ -24,9 +25,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({ t }) => {
   return (
     <section id="contact" className="relative min-h-screen py-16 sm:py-20">
       <div className="absolute inset-0">
-        <Suspense fallback={<LoadingFallback />}>
-          <Wave3D />
-        </Suspense>
+        <Wave3D />
       </div>
       
       <div className="relative container mx-auto px-4 z-10">

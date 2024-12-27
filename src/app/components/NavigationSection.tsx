@@ -67,8 +67,8 @@ const NavigationSection: React.FC<NavigationSectionProps> = ({
           animate={{ y: 0 }}
           transition={{ duration: 0.5, ease: "easeOut" }}
         >
-          <Link href="/">
-            <div className="relative w-[180px] h-[45px] sm:w-[200px] sm:h-[50px] md:w-[220px] md:h-[55px] lg:w-[240px] lg:h-[60px]">
+        <Link href="/">
+            <div className="relative w-[220px] h-[110px] sm:w-[260px] sm:h-[130px] md:w-[300px] md:h-[150px] lg:w-[340px] lg:h-[170px] -ml-4">
               <Image
                 src="/logo/svg/ae2c.svg"
                 alt="AE2C Logo"
@@ -79,7 +79,6 @@ const NavigationSection: React.FC<NavigationSectionProps> = ({
               />
             </div>
           </Link>
-
           <div className="hidden lg:flex items-center space-x-6">
             {navItems.map((item) => (
               <Link

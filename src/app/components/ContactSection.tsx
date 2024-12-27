@@ -1,6 +1,6 @@
 "use client"
 
-import React, { Suspense } from 'react'
+import React from 'react'
 import { motion } from 'framer-motion'
 import ContactForm from './ContactForm'
 import ContactInfo from './ContactInfo'
@@ -16,7 +16,16 @@ const Wave3D = dynamic(() => import('./Wave3D'), {
 interface ContactSectionProps {
   t: {
     contact: {
-      title: string
+      title: string;
+      name: string;
+      firstName: string;
+      email: string;
+      phone: string;
+      postalCode: string;
+      company: string;
+      needs: string;
+      message: string;
+      send: string;
     }
   }
 }

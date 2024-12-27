@@ -81,7 +81,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ t }) => {
     setTimeout(() => {
       setCurrentSlide(newNextSlide)
       setIsTransitioning(false)
-    }, 1500) // Adjust this timing to match your animation duration
+    }, 3000) 
   }, [isTransitioning, mounted, currentSlide, slides.length])
 
   const startAutoSlide = useCallback(() => {
@@ -111,20 +111,19 @@ const HeroSection: React.FC<HeroSectionProps> = ({ t }) => {
       scale: 0,
       x: index % 2 === 0 ? '-100%' : '100%',
       y: index < 2 ? '-100%' : '100%',
-      transition: { duration: 0.7, ease: [0.43, 0.13, 0.23, 0.96] },
+      transition: { duration: 1, ease: [0.43, 0.13, 0.23, 0.96] },
     }),
-    enterNext: (index: number) => ({
+    enterNext: {
       opacity: 0,
-      scale: 0,
-      x: index % 2 === 0 ? '-100%' : '100%',
-      y: index < 2 ? '-100%' : '100%',
-    }),
+      scale: 1.2, 
+    },
     centerNext: {
       opacity: 1,
       scale: 1,
-      x: 0,
-      y: 0,
-      transition: { duration: 0.7, ease: [0.43, 0.13, 0.23, 0.96] },
+      transition: { 
+        duration: 2.5, 
+        ease: [0.43, 0.13, 0.23, 0.96],
+      },
     },
   }
 
@@ -159,7 +158,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ t }) => {
                 className="absolute inset-0 grid grid-cols-2 grid-rows-2 pointer-events-none"
                 initial="initial"
                 animate="exitCurrent"
-                transition={{ staggerChildren: 0.1 }}
+                transition={{ staggerChildren: 0.15 }} 
               >
                 {[0, 1, 2, 3].map((index) => (
                   <motion.div
@@ -182,30 +181,23 @@ const HeroSection: React.FC<HeroSectionProps> = ({ t }) => {
               </motion.div>
 
               <motion.div
-                key={`split-next-${nextSlide}`}
-                className="absolute inset-0 grid grid-cols-2 grid-rows-2 pointer-events-none"
+                key={`next-${nextSlide}`}
+                className="absolute inset-0 pointer-events-none"
                 initial="enterNext"
                 animate="centerNext"
-                transition={{ staggerChildren: 0.1, delayChildren: 0.7 }}
+                transition={{ delay: 0.5 }} 
               >
-                {[0, 1, 2, 3].map((index) => (
-                  <motion.div
-                    key={index}
-                    className="relative overflow-hidden"
-                    variants={quadrantVariants}
-                    custom={index}
-                  >
-                    <Image
-                      src={slides[nextSlide].image}
-                      alt={slides[nextSlide].title}
-                      fill
-                      className="object-cover"
-                      style={{
-                        objectPosition: `${index % 2 === 0 ? 'left' : 'right'} ${index < 2 ? 'top' : 'bottom'}`
-                      }}
-                    />
-                  </motion.div>
-                ))}
+                <motion.div
+                  className="relative w-full h-full"
+                  variants={quadrantVariants}
+                >
+                  <Image
+                    src={slides[nextSlide].image}
+                    alt={slides[nextSlide].title}
+                    fill
+                    className="object-cover"
+                  />
+                </motion.div>
               </motion.div>
             </>
           )}

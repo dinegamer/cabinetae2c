@@ -7,6 +7,9 @@ import { ArrowRight } from 'lucide-react'
 import { useTheme } from "next-themes"
 import dynamic from 'next/dynamic'
 
+import { MotionValue } from 'framer-motion'
+
+
 const HeroSection = dynamic(() => import('./components/HeroSection'))
 const NavigationSection = dynamic(() => import('./components/NavigationSection'))
 
@@ -907,7 +910,7 @@ const LoadingSpinner = () => (
 // }
 
 // Scroll to Top Button Component
-function ScrollToTopButton({ scrollButtonOpacity }) {
+function ScrollToTopButton({ scrollButtonOpacity }: { scrollButtonOpacity: MotionValue<number> }) {
   return (
     <motion.div
       className="fixed bottom-4 right-4 w-16 h-16 bg-[#1B998B] dark:bg-[#3CDFFF] rounded-full flex items-center justify-center cursor-pointer"
@@ -959,16 +962,7 @@ export default function Component() {
     requestAnimationFrame(() => setIsLoading(false));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    const mailtoLink = `mailto:cae2c@ae2cmali.com?subject=Contact de ${formData.get('name')}&body=Message de: ${formData.get('name')}%0D%0AEmail: ${formData.get('email')}%0D%0A%0D%0A${formData.get('message')}`;
-    window.location.href = mailtoLink;
-  };
-
-  const handleWhatsAppClick = () => {
-    window.open(`https://wa.me/22366715797`, '_blank');
-  };
+ 
 
   if (!mounted) return null;
 

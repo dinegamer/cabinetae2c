@@ -9,15 +9,15 @@ import Footer from '../components/Footer'
 import { useTheme } from "next-themes"
 import { translations } from '../../translations/index'
 
-const Wave3D = lazy(() => 
-  import('../components/Wave3D').then(mod => {
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(mod)
-      }, 100)
-    })
-  })
-)
+// const Wave3D = lazy(() => 
+//   import('../components/Wave3D').then(mod => {
+//     return new Promise(resolve => {
+//       setTimeout(() => {
+//         resolve(mod)
+//       }, 100)
+//     })
+//   })
+// )
 
 const LoadingFallback = () => (
   <div className="w-full h-full bg-gradient-to-br from-[#1B998B]/10 to-[#3CDFFF]/10 animate-pulse" />
@@ -61,9 +61,9 @@ export default function ContactPage() {
       <main className="min-h-screen bg-gray-100 dark:bg-gray-900 pt-24">
         <section id="contact" className="relative min-h-screen py-16 sm:py-20">
           <div className="absolute inset-0">
-            <Suspense fallback={<LoadingFallback />}>
+            {/* <Suspense fallback={<LoadingFallback />}>
               <Wave3D />
-            </Suspense>
+            </Suspense> */}
           </div>
           
           <div className="relative container mx-auto px-4 z-10">

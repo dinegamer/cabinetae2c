@@ -55,7 +55,16 @@ const teamMembers = [
   }
 ]
 
-const TeamMember: React.FC<typeof teamMembers[0] & { language: string }> = ({ name, roles, email, phone, image, language }) => {
+interface TeamMemberProps {
+  name: string;
+  roles: string[];
+  email: string;
+  phone: string;
+  image: string;
+  language: 'fr' | 'en';
+}
+
+const TeamMember: React.FC<TeamMemberProps> = ({ name, roles, email, phone, image, language }) => {
   return (
     <motion.div
       className="flex flex-col lg:flex-row bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden"
@@ -99,7 +108,7 @@ const TeamMember: React.FC<typeof teamMembers[0] & { language: string }> = ({ na
 }
 
 export default function TeamPage() {
-  const [language, setLanguage] = React.useState('fr')
+  const [language, setLanguage] = React.useState<'fr' | 'en'>('fr')
   const { theme, setTheme } = useTheme()
 
   const handleLanguageChange = (newLanguage: 'fr' | 'en') => {
@@ -110,7 +119,7 @@ export default function TeamPage() {
     setTheme(theme === 'dark' ? 'light' : 'dark')
   }
 
-  const t = translations[language as keyof typeof translations]
+  const t = translations[language]
 
   return (
     <div className={`${theme} transition-colors duration-300`}>

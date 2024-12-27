@@ -139,19 +139,15 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
 }
 
 export default function ServicesPage() {
-  const [language, setLanguage] = useState('fr')
+  const [language, setLanguage] = useState<'fr' | 'en'>('fr')
   const { theme, setTheme } = useTheme()
   const [activeSection, setActiveSection] = useState<string | null>(null)
-
-  // const handleLanguageChange = (newLanguage: 'fr' | 'en') => {
-  //   setLanguage(newLanguage)
-  // }
 
   const handleThemeChange = () => {
     setTheme(theme === 'dark' ? 'light' : 'dark')
   }
 
-  const t = translations[language as keyof typeof translations]
+  const t = translations[language]
   const sections = t.services?.sections || {}
 
   return (
@@ -179,7 +175,6 @@ export default function ServicesPage() {
             </motion.div>
 
             <div className="flex flex-col lg:flex-row items-start gap-12">
-              {/* Services Image */}
               <motion.div 
                 className="w-full lg:w-1/2 lg:sticky lg:top-24"
                 initial={{ opacity: 0 }}
@@ -198,7 +193,6 @@ export default function ServicesPage() {
                 </div>
               </motion.div>
 
-              {/* Service Cards */}
               <motion.div 
                 className="w-full lg:w-1/2"
                 initial={{ opacity: 0 }}
@@ -212,8 +206,8 @@ export default function ServicesPage() {
                       key={key}
                       title={section.title}
                       description={section.description}
-                      subsections={section.subsections}
-                      services={section.services}
+                      subsections={'subsections' in section ? section.subsections : undefined}
+                      services={'services' in section ? section.services : undefined}
                       isActive={key === activeSection}
                       onClick={() => setActiveSection(key === activeSection ? null : key)}
                     />
@@ -229,3 +223,4 @@ export default function ServicesPage() {
     </div>
   )
 }
+

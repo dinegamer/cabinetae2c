@@ -4,7 +4,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import Spline from '@splinetool/react-spline';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import * as THREE from 'three';
 
+// Use PascalCase for type names
 interface SplineWrapperProps {
   scene: string;
   className?: string;
@@ -13,6 +15,7 @@ interface SplineWrapperProps {
   onError?: (error: Error) => void;
 }
 
+// Separate interfaces into their own files or group at top
 interface SplineRuntime {
   renderer?: THREE.WebGLRenderer;
   scene?: THREE.Scene;
@@ -31,13 +34,14 @@ interface SplineApp {
   };
 }
 
-const SplineWrapper: React.FC<SplineWrapperProps> = ({ 
+// Use named function instead of anonymous arrow function
+function SplineWrapper({ 
   scene, 
   className = "",
   fallbackColor = "from-[#1B998B]/10 to-[#3CDFFF]/10",
   onLoad,
   onError
-}) => {
+}: SplineWrapperProps) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState(false);
   const splineRef = useRef<SplineApp | null>(null);
@@ -141,15 +145,15 @@ const SplineWrapper: React.FC<SplineWrapperProps> = ({
         scene.autoUpdate = false;
 
         scene.traverse((object: THREE.Object3D) => {
-          if ((object as any).isMesh) {
+          if ((object as THREE.Mesh).isMesh) {
             object.matrixAutoUpdate = false;
             object.frustumCulled = true;
-            object.castShadow = false;
-            object.receiveShadow = false;
+            (object as THREE.Mesh).castShadow = false;
+            (object as THREE.Mesh).receiveShadow = false;
             
-            if ((object as any).material) {
-              (object as any).material.precision = 'lowp';
-              (object as any).material.fog = false;
+            if ((object as THREE.Mesh).material) {
+              ((object as THREE.Mesh).material as THREE.Material).precision = 'lowp';
+              ((object as THREE.Mesh).material as THREE.Material).fog = false;
             }
           }
         });
@@ -216,7 +220,8 @@ const SplineWrapper: React.FC<SplineWrapperProps> = ({
       )}
     </motion.div>
   );
-};
+}
 
+// Single default export at the end
 export default SplineWrapper;
 

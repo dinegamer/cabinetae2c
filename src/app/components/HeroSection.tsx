@@ -29,6 +29,16 @@ interface HeroSectionProps {
       }
       learnMore: string
     }
+    partners: {
+      title: string
+      subtitle: string
+      bankingPartnersTitle: string
+      otherPartnersTitle: string
+    }
+    map: {
+      title: string
+      openInMaps: string
+    }
   }
 }
 

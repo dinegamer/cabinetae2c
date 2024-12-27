@@ -18,7 +18,7 @@ const partners = [
 ]
 
 export default function PartnersPage() {
-  const [language, setLanguage] = useState('fr')
+  const [language, setLanguage] = useState<'fr' | 'en'>('fr')
   const { theme, setTheme } = useTheme()
 
   const handleLanguageChange = (newLanguage: 'fr' | 'en') => {
@@ -29,7 +29,7 @@ export default function PartnersPage() {
     setTheme(theme === 'dark' ? 'light' : 'dark')
   }
 
-  const t = translations[language as keyof typeof translations]
+  const t = translations[language]
 
   return (
     <div className={`${theme} transition-colors duration-300`}>

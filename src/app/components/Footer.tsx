@@ -5,7 +5,7 @@ import { Facebook, Twitter, Instagram, Linkedin, MapPin, Phone, Mail, Code } fro
 import { TranslationType } from '@/types'
 
 interface FooterProps {
-  t: TranslationType
+  t: TranslationType;
 }
 
 export default function Footer({ t }: FooterProps) {

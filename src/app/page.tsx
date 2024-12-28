@@ -54,7 +54,7 @@ const translations = {
       learnMore: "Learn more"
     },
     services: {
-      title: "Our Services",
+      title: "Our areas of intervention",
       sections: {
         expertiseComptable: {
           title: "ACCOUNTING AND FINANCIAL EXPERTISE",
@@ -438,7 +438,7 @@ const translations = {
       learnMore: "En savoir plus"
     },
     services: {
-      title: "Nos Services",
+      title: "Nos domaines d'intervention",
       sections: {
         expertiseComptable: {
           title: "EXPERTISE COMPTABLE ET FINANCIÈRE",

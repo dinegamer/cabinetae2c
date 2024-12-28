@@ -67,15 +67,15 @@ const NavigationSection: React.FC<NavigationSectionProps> = ({
           animate={{ y: 0 }}
           transition={{ duration: 0.5, ease: "easeOut" }}
         >
-        <Link href="/">
-            <div className="relative w-[220px] h-[110px] sm:w-[260px] sm:h-[130px] md:w-[300px] md:h-[150px] lg:w-[340px] lg:h-[170px] -ml-4">
+          <Link href="/">
+            <div className="relative w-[280px] h-[140px] sm:w-[320px] sm:h-[160px] md:w-[360px] md:h-[180px] lg:w-[400px] lg:h-[200px] -ml-4">
               <Image
                 src="/logo/svg/ae2c.svg"
                 alt="AE2C Logo"
                 fill
                 className="object-contain"
                 priority
-                sizes="(max-width: 640px) 180px, (max-width: 768px) 200px, (max-width: 1024px) 220px, 240px"
+                sizes="(max-width: 640px) 280px, (max-width: 768px) 320px, (max-width: 1024px) 360px, 400px"
               />
             </div>
           </Link>

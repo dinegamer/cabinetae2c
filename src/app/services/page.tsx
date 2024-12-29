@@ -15,6 +15,7 @@ interface ServiceSectionProps {
   subsections?: {
     [key: string]: {
       title: string;
+      description?: string;
       services: string[];
     };
   };
@@ -55,6 +56,11 @@ const ServiceSection: React.FC<ServiceSectionProps> = ({
                 <h4 className="font-medium text-gray-900 dark:text-white mb-4 text-sm">
                   {subsection.title}
                 </h4>
+                {subsection.description && (
+                  <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
+                    {subsection.description}
+                  </p>
+                )}
                 <ul className="space-y-3">
                   {subsection.services.map((service, index) => (
                     <li 
@@ -141,12 +147,12 @@ export default function ServicesPage() {
                   transition={{ duration: 0.5 }}
                 >
                   <div className="relative py-3 bg-[#FCD0B1] rounded-lg">
-                    <div className="absolute inset-y-0 left-6 right-6 flex items-center">
-                      <div className="h-px bg-gray-600 flex-1" />
-                      <h2 className="text-2xl font-bold text-gray-900 px-4">
-                        Nos domaines d'intervention
+                    <div className="flex items-center justify-center px-4 sm:px-0">
+                      <div className="hidden sm:block h-px bg-gray-600 flex-grow" />
+                      <h2 className="text-xl sm:text-2xl font-bold text-gray-900 px-4 text-center">
+                        {t.services.title}
                       </h2>
-                      <div className="h-px bg-gray-600 flex-1" />
+                      <div className="hidden sm:block h-px bg-gray-600 flex-grow" />
                     </div>
                   </div>
                 </motion.div>

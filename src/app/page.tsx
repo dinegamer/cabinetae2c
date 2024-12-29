@@ -38,6 +38,18 @@ const translations = {
       trustText: "100 companies trust us!",
       learnMore: "Learn more"
     },
+    heroAbout: {
+      international: {
+        title: "AE2C International",
+        description: "Our accounting and auditing firm operates across 12 countries: Mali, Mauritania, France, Senegal, Burkina Faso, Guinea Conakry, Niger, Congo Brazzaville, Central African Republic, Ghana, Ivory Coast, Benin. Our local expertise and international network make us your preferred partner for your development in Africa and Europe."
+      }
+    },
+    heroContact: {
+      title: "Your",
+      quoteTitle: "free accounting quote without commitment!",
+      quoteDescription: "Would you like to get an accounting quote? Fill out the form and we will respond within 48 hours.",
+      requestQuote: "Request a quote"
+    },
     discover: {
       firm: {
         title: "Discover our firm",
@@ -390,7 +402,7 @@ const translations = {
       },
       companyLinks: {
         about: "About",
-        careers: "Careers",
+        // careers: "Careers",
         partners: "Partners",
         contact: "Contact"
       },
@@ -421,6 +433,18 @@ const translations = {
       subtitle: "Cabinet d'Expertise Comptable",
       trustText: "100 entreprises nous font confiance !",
       learnMore: "En savoir plus"
+    },
+    heroAbout: {
+      international: {
+        title: "AE2C International",
+        description: "Notre cabinet d'expertise comptable et d'audit rayonne à travers 12 pays : Mali, Mauritanie, France, Sénégal, Burkina Faso, Guinée Conakry, Niger, Congo Brazzaville, Centrafrique, Ghana, Côte d'Ivoire, Bénin. Notre expertise locale et notre réseau international font de nous votre partenaire privilégié pour votre développement en Afrique et en Europe."
+      }
+    },
+    heroContact: {
+      title: "Votre",
+      quoteTitle: "devis comptable gratuit et sans engagement !",
+      quoteDescription: "Vous souhaitez obtenir un devis comptable ? Remplissez le formulaire et nous vous répondrons sous 48h.",
+      requestQuote: "Demander un devis"
     },
     discover: {
       firm: {
@@ -773,7 +797,7 @@ const translations = {
       },
       companyLinks: {
         about: "À propos",
-        careers: "Carrières",
+        // careers: "Carrières",
         partners: "Partenaires",
         contact: "Contact"
       },

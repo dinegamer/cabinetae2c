@@ -270,20 +270,31 @@ export const translations = {
         phoneValue: "(+223) 20 28 23 81 / (+223) 77 24 17 17"
       },
       about: {
-        title: "About AE2C",
-        description: "AE2C is an audit, accounting, consulting and studies firm established in 2008. We have grown to become a trusted partner for businesses across various sectors.",
-        point1: "Registered with the National Order of Chartered Accountants and Certified Accountants of Mali (ONECCAM)",
-        point2: "Over 15 years of experience in financial services",
-        point3: "International presence across multiple African countries",
-        commitments: "Our Commitments",
-        trustedActor: "TRUSTED ACTOR",
-        trustedActorDesc: "Respect for professional and ethical standards",
-        availability: "AVAILABILITY AND REGULAR EXCHANGES",
-        availabilityDesc: "Constant support and technical expertise",
-        skillsDevelopment: "SKILLS DEVELOPMENT",
-        skillsDevelopmentDesc: "Professional development and quality of work life",
-        environmentalActor: "ENVIRONMENTAL ACTOR",
-        environmentalActorDesc: "Digital solutions and clean energy (solar panels)",
+        whoWeAre: "WHO WE ARE",
+        facadeAE2C: "AE2C Facade",
+        description: "AE2C is an accounting, auditing, consulting, and training firm established under Malian law in 2009, registered with the Order of Chartered Accountants and Certified Public Accountants of Mali under No. B-09-017 and with an international vocation.",
+        ambition: "AE2C's ambition is to help business leaders make decisions with confidence and to support entrepreneurs at every stage of their activity by providing concrete solutions, identifying the strengths and weaknesses of your organization to turn them into key success factors.",
+        team: "The firm has about twenty employees with varied and complementary profiles, allowing us to add value in the various services in accounting expertise, consulting, and for the audit missions entrusted by our clients.",
+        partners: "In addition, the firm relies on a network of partners to expand its range of interventions, analyses, and provide concrete solutions to the needs of its clients.",
+        commitments: {
+          title: "OUR COMMITMENTS",
+          trustedActor: {
+            title: "TRUSTED ACTOR",
+            description: "AE2C acts in compliance with international professional standards and the code of ethics of the Order of Chartered Accountants, particularly by respecting independence and confidentiality"
+          },
+          availability: {
+            title: "AVAILABILITY AND REGULAR EXCHANGES THROUGHOUT THE MISSION",
+            description: "AE2C is alongside all of its clients in compliance with the rules, providing advice and technical expertise necessary for the successful completion of missions while remaining attentive"
+          },
+          skillsDevelopment: {
+            title: "SKILLS DEVELOPMENT FOR OUR EMPLOYEES",
+            description: "AE2C ensures the development of skills and a pleasant quality of life in working relationships for all employees and partners."
+          },
+          environmentalActor: {
+            title: "ENVIRONMENTALLY CONSCIOUS ACTOR",
+            description: "AE2C is committed to preserving the planet's resources and respecting the environment by adopting digital solutions and clean energy. The firm operates entirely on solar panels."
+          }
+        }
       },
       partners: {
         title: "Our References",
@@ -373,7 +384,7 @@ export const translations = {
         },
         companyLinks: {
           about: "About",
-          careers: "Careers",
+          // careers: "Careers",
           partners: "Partners",
           contact: "Contact"
         },
@@ -654,21 +665,32 @@ export const translations = {
         phoneValue: "(+223) 20 28 23 81 / (+223) 77 24 17 17"
       },
       about: {
-        title: "Qui sommes-nous ?",
-        description: "AE2C est un cabinet d'audit, d'expertise comptable, de conseil et d'études créé en 2008. Nous sommes devenus un partenaire de confiance pour les entreprises de divers secteurs.",
-        point1: "Inscrit au Tableau de l'Ordre National des Experts Comptables et Comptables Agréés du Mali (ONECCAM)",
-        point2: "Plus de 15 ans d'expérience dans les services financiers",
-        point3: "Présence internationale dans plusieurs pays africains",
-        commitments: "Nos Engagements",
-        trustedActor: "ACTEUR DE CONFIANCE",
-        trustedActorDesc: "Respect des normes professionnelles et déontologiques",
-        availability: "DISPONIBILITE ET ECHANGES REGULIERS",
-        availabilityDesc: "Accompagnement constant et expertise technique",
-        skillsDevelopment: "MONTEE EN COMPETENCES",
-        skillsDevelopmentDesc: "Développement professionnel et qualité de vie au travail",
-        environmentalActor: "ACTEUR ENVIRONNEMENTAL",
-        environmentalActorDesc: "Solutions digitales et énergie propre (panneaux solaires)",
-      },
+        whoWeAre: "QUI SOMMES NOUS ?",
+        facadeAE2C: "Façade AE2C",
+        description: "AE2C est un cabinet d'expertise comptable, de Commissarait aux Comptes, de conseil et d'études et de Formation de droit malien crée en 2009, inscrit à l'Ordre des Expert-Comptable et des comptables agréés du Mali sous le N° B-09-017 et à vocation internationale.",
+        ambition: "Le cabinet AE2C a pour ambition d'aider les dirigeants d'entreprise à décider en toute sécurité et d'accompagner les entrepreneurs à chaque étape de leur activité en apportant des solutions concrètes, en identifiant les forces et les faiblesses de votre organisation pour en faire des facteurs clés de succès.",
+        team: "Le cabinet dispose d'une vingtaine de collaborateurs aux profils variés et complémentaires permettant d'apporter de la valeur ajoutée dans les différentes prestations en expertise comptable, en conseil et pour les missions d'audit confiées par nos clients.",
+        partners: "En outre, Le cabinet s'appuie sur un réseau de parténaires pour élargir sa palette d'interventions, d'analyses et apporter les solutions concrètes aux besoins de ses clients.",
+        commitments: {
+          title: "NOS ENGAGEMENTS",
+          trustedActor: {
+            title: "ACTEUR DE CONFIANCE",
+            description: "AE2C agit dans le respect des normes professionnelles internationales et du code de déontologie de l'Ordre des Experts Comptables en particulier en respectant l'indépendance et la confidentialité"
+          },
+          availability: {
+            title: "DISPONIBILITE ET ECHANGES REGULIERS TOUT AU LONG DE LA MISSION",
+            description: "AE2C est au côté de l'ensemble de ses mandants dans le respect des règles en apportant conseils et expertises techniques nécéssaires à la bonne réalisation des missions tout en restant à l'écoute"
+          },
+          skillsDevelopment: {
+            title: "MONTEE EN COMPETENCES POUR NOS SALARIES",
+            description: "AE2C s'assure du développement des compétences, de la qualité de vie agréable dans les relations de travail pour l'ensemble des salariés et des partenaires."
+          },
+          environmentalActor: {
+            title: "ACTEUR SOUCIEUX DE SON ENVIRONNEMENT",
+            description: "AE2C s'engage dans la préservation des ressources de la planète et du respect de l'environnement en adoptant des solutions digitales et une energie propre. Le cabinet fonctionne totalement avec des panneaux solaires."
+          }
+            }
+        },
       partners: {
         title: "Nos partenaires",
         subtitle: "AE2C Mali a développé des partenariats de premier plan permettant d'intervenir dans divers domaines et de servir au mieux les clients qui nous font confiance",
@@ -757,7 +779,7 @@ export const translations = {
         },
         companyLinks: {
           about: "À propos",
-          careers: "Carrières",
+          // careers: "Carrières",
           partners: "Partenaires",
           contact: "Contact"
         },

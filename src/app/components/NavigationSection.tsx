@@ -55,10 +55,10 @@ const NavigationSection: React.FC<NavigationSectionProps> = ({
   ]
 
   return (
-    <div className="fixed top-4 left-0 right-0 z-50 w-full">
+    <div className="fixed top-0 left-0 right-0 z-50 w-full">
       <div className="w-full max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
         <motion.nav 
-          className={`flex items-center justify-between h-16 transition-all duration-300 ${
+          className={`flex items-center justify-between h-20 w-full transition-all duration-300 ${
             hasScrolled 
               ? "bg-white/95 dark:bg-gray-900/95 shadow-md backdrop-blur-sm" 
               : "bg-black/20 backdrop-blur-sm"
@@ -68,7 +68,7 @@ const NavigationSection: React.FC<NavigationSectionProps> = ({
           transition={{ duration: 0.5, ease: "easeOut" }}
         >
           <Link href="/">
-            <div className="relative w-[280px] h-[140px] sm:w-[320px] sm:h-[160px] md:w-[360px] md:h-[180px] lg:w-[400px] lg:h-[200px] -ml-4">
+            <div className="relative w-[200px] h-[80px] sm:w-[240px] sm:h-[100px] md:w-[280px] md:h-[120px] lg:w-[320px] lg:h-[140px] -ml-4">
               <Image
                 src="/logo/svg/ae2c.svg"
                 alt="AE2C Logo"
@@ -142,7 +142,7 @@ const NavigationSection: React.FC<NavigationSectionProps> = ({
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.2 }}
-            className="lg:hidden bg-white/95 dark:bg-gray-900/95 border-t dark:border-gray-800 shadow-lg"
+            className="lg:hidden bg-white/95 dark:bg-gray-900/95 border-t dark:border-gray-800 shadow-lg absolute top-20 left-0 right-0"
           >
             <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-2">
               {navItems.map((item) => (

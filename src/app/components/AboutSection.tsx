@@ -8,25 +8,36 @@ import styled, { keyframes } from 'styled-components'
 interface AboutSectionProps {
   t: {
     about: {
-      title: string;
+      whoWeAre: string;
+      facadeAE2C: string;
       description: string;
-      point1: string;
-      point2: string;
-      point3: string;
-      commitments: string;
-      trustedActor: string;
-      trustedActorDesc: string;
-      availability: string;
-      availabilityDesc: string;
-      skillsDevelopment: string;
-      skillsDevelopmentDesc: string;
-      environmentalActor: string;
-      environmentalActorDesc: string;
+      ambition: string;
+      team: string;
+      partners: string;
+      commitments: {
+        title: string;
+        trustedActor: {
+          title: string;
+          description: string;
+        };
+        availability: {
+          title: string;
+          description: string;
+        };
+        skillsDevelopment: {
+          title: string;
+          description: string;
+        };
+        environmentalActor: {
+          title: string;
+          description: string;
+        };
+      };
     };
     international: {
       title: string;
     };
-    language: 'fr' | 'en'; // Get language from t prop
+    language: 'fr' | 'en';
   };
 }
 
@@ -72,23 +83,23 @@ const AboutSection: React.FC<AboutSectionProps> = ({ t }) => {
   const currentLanguage = t.language;
   const commitments = [
     {
-      title: "ACTEUR DE CONFIANCE",
-      description: "AE2C agit dans le respect des normes professionnelles internationales et du code de déontologie de l'Ordre des Experts Comptables en particulier en respectant l'indépendance et la confidentialité",
+      title: t.about.commitments.trustedActor.title,
+      description: t.about.commitments.trustedActor.description,
       icon: "/engagements/engagement1.jpg",
     },
     {
-      title: "DISPONIBILITE ET ECHANGES REGULIERS TOUT AU LONG DE LA MISSION",
-      description: "AE2C est au côté de l'ensemble de ses mandants dans le respect des règles en apportant conseils et expertises techniques nécéssaires à la bonne réalisation des missions tout en restant à l'écoute",
+      title: t.about.commitments.availability.title,
+      description: t.about.commitments.availability.description,
       icon: "/engagements/engagement2.jpg",
     },
     {
-      title: "MONTEE EN COMPETENCES POUR NOS SALARIES",
-      description: "AE2C s'assure du développement des compétences, de la qualité de vie agréable dans les relations de travail pour l'ensemble des salariés et des partenaires.",
+      title: t.about.commitments.skillsDevelopment.title,
+      description: t.about.commitments.skillsDevelopment.description,
       icon: "/engagements/engagement3.jpg",
     },
     {
-      title: "ACTEUR SOUCIEUX DE SON ENVIRONNEMENT",
-      description: "AE2C s'engage dans la préservation des ressources de la planète et du respect de l'environnement en adoptant des solutions digitales et une energie propre. Le cabinet fonctionne totalement avec des panneaux solaires.",
+      title: t.about.commitments.environmentalActor.title,
+      description: t.about.commitments.environmentalActor.description,
       icon: "/engagements/engagement4.jpg",
     },
   ];
@@ -105,7 +116,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ t }) => {
           transition={{ duration: 0.5 }}
         >
           <h2 className="text-3xl font-bold text-center mb-12 text-gray-900 dark:text-white">
-            QUI SOMMES NOUS ?
+            {t.about.whoWeAre}
           </h2>
           <div className="grid md:grid-cols-2 gap-8 items-start">
             <motion.div
@@ -117,7 +128,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ t }) => {
             >
               <Image
                 src="/images/local.jpg"
-                alt="Façade AE2C"
+                alt={t.about.facadeAE2C}
                 layout="fill"
                 objectFit="cover"
                 className="rounded-xl"
@@ -131,7 +142,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ t }) => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.2 }}
               >
-                AE2C est un cabinet d'expertise comptable, de Commissarait aux Comptes, de conseil et d'études et de Formation de droit malien crée en 2009, inscrit à l'Ordre des Expert-Comptable et des comptables agréés du Mali sous le N° B-09-017 et à vocation internationale.
+                {t.about.description}
               </motion.p>
               <motion.p
                 className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed"
@@ -140,7 +151,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ t }) => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.3 }}
               >
-                Le cabinet AE2C a pour ambition d'aider les dirigeants d'entreprise à décider en toute sécurité et d'accompagner les entrepreneurs à chaque étape de leur activité en apportant des solutions concrètes, en identifiant les forces et les faiblesses de votre organisation pour en faire des facteurs clés de succès.
+                {t.about.ambition}
               </motion.p>
               <motion.p
                 className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed"
@@ -149,7 +160,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ t }) => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.4 }}
               >
-                Le cabinet dispose d'une vingtaine de collaborateurs aux profils variés et complémentaires permettant d'apporter de la valeur ajoutée dans les différentes prestations en expertise comptable, en conseil et pour les missions d'audit confiées par nos clients.
+                {t.about.team}
               </motion.p>
               <motion.p
                 className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed"
@@ -158,7 +169,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ t }) => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.5 }}
               >
-                En outre, Le cabinet s'appuie sur un réseau de parténaires pour élargir sa palette d'interventions, d'analyses et apporter les solutions concrètes aux besoins de ses clients.
+                {t.about.partners}
               </motion.p>
             </div>
           </div>
@@ -208,7 +219,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ t }) => {
           transition={{ duration: 0.5 }}
         >
           <h2 className="text-3xl font-bold text-center mb-12 text-gray-900 dark:text-white">
-            NOS ENGAGEMENTS
+            {t.about.commitments.title}
           </h2>
           <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
             {commitments.map((commitment, index) => (

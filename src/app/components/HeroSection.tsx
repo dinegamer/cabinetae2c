@@ -13,6 +13,8 @@ interface HeroSectionProps {
     hero: {
       title: string
       subtitle: string
+      trustText: string
+      learnMore: string
     }
     discover: {
       firm: {
@@ -39,6 +41,18 @@ interface HeroSectionProps {
       title: string
       openInMaps: string
     }
+    heroAbout: {
+      international: {
+        title: string;
+        description: string;
+      }
+    },
+    heroContact: {
+      title: string;
+      quoteTitle: string;
+      quoteDescription: string;
+      requestQuote: string;
+    }
   }
 }
 
@@ -53,25 +67,25 @@ const HeroSection: React.FC<HeroSectionProps> = ({ t }) => {
     {
       id: 1,
       image: "/images/ae2c-headquarters.jpg",
-      title: "Découvrez notre cabinet",
-      description: "Expertise comptable reconnue depuis 2009",
-      buttonText: "Plus d'info →",
+      title: t.discover.firm.title,
+      description: t.discover.firm.description,
+      buttonText: `${t.discover.learnMore} →`,
       buttonLink: "/about"
     },
     {
       id: 2,
       image: "/images/tour-afrique1.jpg",
-      title: "Découvrez nos services",
-      description: "Le cabinet AE2C vous accompagne dans les différents stades de nos projets ou missions afin d'apporter des solutions concrètes et une expértise reconnue",
-      buttonText: "Nos services →",
+      title: t.discover.services.title,
+      description: t.discover.services.description,
+      buttonText: `${t.discover.learnMore} →`,
       buttonLink: "/services"
     },
     {
       id: 3,
       image: "/images/mosque-djenne.jpeg",
-      title: "Découvrez nos équipes",
-      description: "AE2C Mali s'appuie sur une équipe d'une vingtaine de collaborateurs expérimentés et au profil varié",
-      buttonText: "Notre équipe →",
+      title: t.discover.teams.title,
+      description: t.discover.teams.description,
+      buttonText: `${t.discover.learnMore} →`,
       buttonLink: "/team"
     }
   ]
@@ -304,33 +318,31 @@ const HeroSection: React.FC<HeroSectionProps> = ({ t }) => {
             </div>
             <div className="w-full md:w-1/3 bg-[#F4B223] p-8">
               <h2 className="text-2xl font-bold text-white mb-4">
-                AE2C International
+                {t.heroAbout.international.title}
               </h2>
               <p className="text-white text-base leading-relaxed mb-4">
-                Notre cabinet d'expertise comptable et d'audit rayonne à travers 12 pays : 
-                {countries.join(', ')}. Notre expertise locale et notre réseau international 
-                font de nous votre partenaire privilégié pour votre développement en Afrique et en Europe.
+                {t.heroAbout.international.description}
               </p>
               <Link
                 href="/about"
                 className="inline-flex items-center text-white hover:underline"
               >
-                En savoir plus
+                {t.discover.learnMore}
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </div>
             <div className="w-full md:w-1/3 p-8 bg-white shadow-lg">
               <h3 className="text-xl font-bold mb-4">
-                <span className="text-[#1B998B]">Votre</span> devis comptable gratuit et sans engagement !
+                <span className="text-[#1B998B]">{t.heroContact.title}</span> {t.heroContact.quoteTitle}
               </h3>
               <p className="text-gray-600 text-sm mb-4">
-                Vous souhaitez obtenir un devis comptable ? Remplissez le formulaire et nous vous répondrons sous 48h.
+                {t.heroContact.quoteDescription}
               </p>
               <Link
                 href="/contact"
                 className="inline-flex items-center text-sm px-4 py-2 bg-[#1B998B] text-white rounded hover:bg-[#168577] transition-colors"
               >
-                Demander un devis
+                {t.heroContact.requestQuote}
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </div>

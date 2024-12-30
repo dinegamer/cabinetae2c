@@ -1,27 +1,38 @@
 import React from 'react'
-import Image from "next/image"
-import Link from "next/link"
-import { Facebook, Twitter, Instagram, Linkedin, MapPin, Phone, Mail, Code } from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { Facebook, Twitter, Instagram, Linkedin, MapPin, Phone, Mail, Code, ExternalLink } from 'lucide-react'
 
 interface FooterProps {
+  language: 'fr' | 'en'
+  setLanguage: (lang: 'fr' | 'en') => void
   t: {
     footer: {
-      description: string;
-      services: string;
-      company: string;
-      contact: string;
-      location: string;
-      rights: string;
-      privacy: string;
-      terms: string;
-      developedBy: string;
-      serviceLinks: Record<string, string>;
-      companyLinks: Record<string, string>;
+      description: string
+      services: string
+      company: string
+      contact: string
+      location: string
+      rights: string
+      privacy: string
+      terms: string
+      developedBy: string
+      serviceLinks: Record<string, string>
+      companyLinks: Record<string, string>
     }
   }
 }
 
-export default function Footer({ t }: FooterProps) {
+const Footer: React.FC<FooterProps> = ({ language, setLanguage, t }) => {
+  const currentYear = new Date().getFullYear()
+
+  const socialLinks = [
+    { icon: Facebook, href: "https://www.facebook.com/cabinetae2cmali" },
+    { icon: Twitter, href: "https://twitter.com/cabinetae2cmali" },
+    { icon: Instagram, href: "https://www.instagram.com/cabinetae2cmali" },
+    { icon: Linkedin, href: "https://www.linkedin.com/company/cabinetae2c-mali" },
+  ]
+
   return (
     <footer className="bg-gray-900 text-white pt-20 pb-10">
       <div className="container mx-auto px-4">
@@ -38,18 +49,11 @@ export default function Footer({ t }: FooterProps) {
               {t.footer.description}
             </p>
             <div className="flex space-x-4">
-              <Link href="https://www.linkedin.com/company/cabinetae2c-mali/?viewAsMember=true" className="text-gray-400 hover:text-[#1B998B] transition-colors">
-                <Facebook size={20} />
-              </Link>
-              <Link href="https://www.linkedin.com/company/cabinetae2c-mali/?viewAsMember=true" className="text-gray-400 hover:text-[#1B998B] transition-colors">
-                <Twitter size={20} />
-              </Link>
-              <Link href="https://www.linkedin.com/company/cabinetae2c-mali/?viewAsMember=true" className="text-gray-400 hover:text-[#1B998B] transition-colors">
-                <Instagram size={20} />
-              </Link>
-              <Link href="https://www.linkedin.com/company/cabinetae2c-mali/?viewAsMember=true" className="text-gray-400 hover:text-[#1B998B] transition-colors">
-                <Linkedin size={20} />
-              </Link>
+              {socialLinks.map((link, index) => (
+                <Link key={index} href={link.href} className="text-gray-400 hover:text-[#1B998B] transition-colors">
+                  <link.icon size={20} />
+                </Link>
+              ))}
             </div>
           </div>
           
@@ -58,7 +62,7 @@ export default function Footer({ t }: FooterProps) {
             <ul className="space-y-4">
               {Object.entries(t.footer.serviceLinks).map(([key, value]) => (
                 <li key={key}>
-                  <Link href="#" className="text-gray-400 hover:text-white transition-colors">
+                  <Link href={`/${key}`} className="text-gray-400 hover:text-white transition-colors">
                     {value}
                   </Link>
                 </li>
@@ -71,7 +75,7 @@ export default function Footer({ t }: FooterProps) {
             <ul className="space-y-4">
               {Object.entries(t.footer.companyLinks).map(([key, value]) => (
                 <li key={key}>
-                  <Link href={`#${key}`} className="text-gray-400 hover:text-white transition-colors">
+                  <Link href={`/${key}`} className="text-gray-400 hover:text-white transition-colors">
                     {value}
                   </Link>
                 </li>
@@ -94,6 +98,12 @@ export default function Footer({ t }: FooterProps) {
                 <Mail size={20} />
                 <span>cae2c@ae2cmali.com</span>
               </li>
+              <li>
+                <Link href="https://mail.ae2cmali.com/roundcube/" className="flex items-center space-x-3 text-gray-400 hover:text-white transition-colors">
+                  <ExternalLink size={20} />
+                  <span>Webmail</span>
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
@@ -101,18 +111,20 @@ export default function Footer({ t }: FooterProps) {
         <div className="border-t border-gray-800 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <p className="text-gray-400 text-sm">
-              © {new Date().getFullYear()} AE2C. {t.footer.rights}
+              © {currentYear} AE2C. {t.footer.rights}
             </p>
             <div className="flex flex-wrap justify-center md:justify-end items-center space-x-6">
-              <Link href="#" className="text-gray-400 hover:text-white text-sm transition-colors">
+              <Link href="/privacy-policy" className="text-gray-400 hover:text-white text-sm transition-colors">
                 {t.footer.privacy}
               </Link>
-              <Link href="#" className="text-gray-400 hover:text-white text-sm transition-colors">
+              <Link href="/terms-of-service" className="text-gray-400 hover:text-white text-sm transition-colors">
                 {t.footer.terms}
               </Link>
               <div className="text-gray-500 text-sm flex items-center">
-                <Code size={16} className="mr-1" />
-                {t.footer.developedBy} <a href="mailto:teenagerdine@gmail.com" className="ml-1 hover:text-[#1B998B] transition-colors">ShamsDigital</a>
+                <Link href="mailto:teenagerdine@gmail.com" className="flex items-center hover:text-[#1B998B] transition-colors">
+                  <Code size={16} className="mr-1" />
+                  <span>{language === 'fr' ? 'Contacter le développeur' : 'Contact the developer'}</span>
+                </Link>
               </div>
             </div>
           </div>
@@ -121,4 +133,6 @@ export default function Footer({ t }: FooterProps) {
     </footer>
   )
 }
+
+export default Footer
 

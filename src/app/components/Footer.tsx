@@ -62,7 +62,7 @@ const Footer: React.FC<FooterProps> = ({ language, setLanguage, t }) => {
             <ul className="space-y-4">
               {Object.entries(t.footer.serviceLinks).map(([key, value]) => (
                 <li key={key}>
-                  <Link href={`/${key}`} className="text-gray-400 hover:text-white transition-colors">
+                  <Link href="/services" className="text-gray-400 hover:text-white transition-colors">
                     {value}
                   </Link>
                 </li>

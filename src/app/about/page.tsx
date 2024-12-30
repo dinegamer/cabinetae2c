@@ -36,7 +36,11 @@ export default function About() {
       <main className="pt-24">
         <AboutSection t={t} />
       </main>
-      <Footer t={t} />
+      <Footer 
+            language={language} 
+            setLanguage={setLanguage} 
+            t={t} 
+          />
     </div>
   )
 }

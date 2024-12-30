@@ -89,7 +89,11 @@ export default function ContactPage() {
         </section>
       </main>
 
-      <Footer t={t} />
+      <Footer 
+            language={language} 
+            setLanguage={setLanguage} 
+            t={t} 
+          />
     </div>
   )
 }

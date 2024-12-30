@@ -931,7 +931,11 @@ export default function Component() {
             </div>
           </main>
 
-          <Footer t={t} />
+          <Footer 
+            language={language} 
+            setLanguage={setLanguage} 
+            t={t} 
+          />
           <ScrollToTopButton scrollButtonOpacity={scrollButtonOpacity} />
         </div>
       )}

@@ -181,7 +181,11 @@ export default function ServicesPage() {
         </section>
       </main>
 
-      <Footer t={t} />
+      <Footer 
+            language={language} 
+            setLanguage={setLanguage} 
+            t={t} 
+          />
     </div>
   )
 }
